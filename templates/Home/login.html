@@ -3,36 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', path='login.css') }}">
-    <script src="{{ url_for('static', path='login.js') }}"></script>
-    <title>Document</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', path='login.css') }}">
+    <script src="{{ url_for('static', path='login.js') }}"></script> -->
+    <link rel="stylesheet" href="assets/css/login.css">
+    <script src="assets/js/login.js"></script>
+    <link rel="shortcut icon" type="image/icon" href="assets/logo/tech.png"/>
+    <title>Login</title>
 </head>
 <body>
     <center>
         <form method="post" action="/login">
             <div class="container">
                 <div class="login">
-                    <img src="{{ url_for('static', path='images/TTE.png') }}" class="logo">
+                    <img src="assets/images/loginimg/The Third eye.png" class="logo">
                     <h2>Log in</h2>
                     
                     <!-- Improved email input with validation -->
                     <input class="user" placeholder="Username" type="email" name="email" required>
 
                     <input class="pswd" placeholder="Password" type="password" name="password" id="passwordField" required>
-                    
-                    <button type="button" id="togglePasswordBtn" onclick="togglePasswordVisibility()">Show Password</button>
-
-                    <div class="v"></div>
-                    <div class="v1"></div>
+                    <span class="toggle-btn" onclick="togglePasswordVisibility()">👁️</span>
 
                     <a href="style.css" class="forgetpass">Forgot password ?</a>
                     <button type="submit" class="btn">Login</button>
-                    {% if pop_up_message %}
+                    <!-- {% if pop_up_message %}
                         <script>
                             alert("{{ pop_up_message }}");
                             window.location.href = "/login";
                         </script>
-                    {% endif %}
+                    {% endif %} -->
                 </div>
             </div>
         </form>

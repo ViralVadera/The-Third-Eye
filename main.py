@@ -1,34 +1,38 @@
-import asyncio
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
+import os
 import uvicorn
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import ssdb
+import hash.py
+from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table, Boolean, Date, ForeignKey, ForeignKeyConstraint
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
 
-database=ssdb.database
+
 
 @app.on_event("startup")
 async def startup_db():
-    await database.connect()
+    await ssdb.database.connect()
 
 @app.on_event("shutdown")
 async def shutdown_db():
-    await database.disconnect()
+    await ssdb.database.disconnect()
+
+
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def read_root(request: Request):
     query = ssdb.user_master.select()
-    result = await database.fetch_all(query)
-    return templates.TemplateResponse("home.html", {"request": request, "data": result})
+    result = await ssdb.database.fetch_all(query)
+    return templates.TemplateResponse("home/index.html", {"request": request, "data": result})
 
-@app.get("/home")
-def read_home(request: Request):
-    return templates.TemplateResponse("home.html", {"request": request})
+@app.get("/hello")
+def read_hm(request: Request):
+    return templates.TemplateResponse("home/index.html", {"request": request})
 
 @app.route("/login", methods=["GET", "POST"])
 async def login(request: Request, email: str = Form(...), password: str = Form(...)):
@@ -42,7 +46,7 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
 
         # Perform login verification logic here
         query = ssdb.user_master.select().where(ssdb.user_master.c.email == email, ssdb.user_master.c.password == password)
-        result = await database.fetch_one(query)
+        result = await ssdb.database.fetch_one(query)
 
         if result:
             
@@ -52,7 +56,7 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
                 return templates.TemplateResponse("admin_dashboard.html", {"request": request, "user": result})
             
             elif user_type == "chairman":
-                return templates.TemplateResponse("user_dashboard.html", {"request": request, "user": result})
+                return templates.TemplateResponse("chairman_dashboard.html", {"request": request, "user": result})
             
             else:
                 return templates.TemplateResponse("user_dashboard.html", {"request": request, "user": result})
@@ -61,7 +65,7 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
             # Failed login
             return templates.TemplateResponse(
                 "login.html",
-                {"request": request, "pop_up_message": "Login failed. Invalid login credentials."}
+                {"request": request, "pop_up_message": "Login failed. Please try again."}
             )    
     # Handle GET request (render login form)
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse("home/login.html", {"request": request})
