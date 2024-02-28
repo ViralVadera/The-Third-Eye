@@ -1,11 +1,10 @@
-from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Form, Request, Depends
+from fastapi.responses import HTMLResponse, RedirectResponse
 import os
 import uvicorn
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import ssdb
-import hash.py
 from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table, Boolean, Date, ForeignKey, ForeignKeyConstraint
 
 app = FastAPI()
@@ -23,6 +22,7 @@ async def shutdown_db():
 
 
 templates = Jinja2Templates(directory="templates")
+
 
 @app.get("/")
 async def read_root(request: Request):
@@ -64,8 +64,9 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
         else:
             # Failed login
             return templates.TemplateResponse(
-                "login.html",
+                "home/login.html",
                 {"request": request, "pop_up_message": "Login failed. Please try again."}
             )    
     # Handle GET request (render login form)
+
     return templates.TemplateResponse("home/login.html", {"request": request})

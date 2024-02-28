@@ -1,3 +1,4 @@
+
 function togglePasswordVisibility() {
   var passwordField = document.getElementById("passwordField");
   var toggleBtn = document.getElementById("togglePasswordBtn");

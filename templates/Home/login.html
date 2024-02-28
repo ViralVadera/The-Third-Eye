@@ -26,12 +26,12 @@
 
                     <a href="style.css" class="forgetpass">Forgot password ?</a>
                     <button type="submit" class="btn">Login</button>
-                    <!-- {% if pop_up_message %}
-                        <script>
-                            alert("{{ pop_up_message }}");
-                            window.location.href = "/login";
-                        </script>
-                    {% endif %} -->
+                    {% if pop_up_message %}
+                    <script>
+                        alert("{{ pop_up_message }}");
+                        window.location.href = "/login";
+                    </script>
+                    {% endif %}
                 </div>
             </div>
         </form>
