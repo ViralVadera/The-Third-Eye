@@ -2,6 +2,7 @@ from fastapi import FastAPI, Form, Request, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 import os
 import uvicorn
+from passlib.context import CryptContext
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import ssdb
@@ -10,7 +11,8 @@ from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table, 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
+# Initialize Passlib's CryptContext
+bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 @app.on_event("startup")
 async def startup_db():
@@ -45,27 +47,31 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
         password = form_data.get("password", "")
 
         # Perform login verification logic here
-        query = ssdb.user_master.select().where(ssdb.user_master.c.email == email, ssdb.user_master.c.password == password)
+        query = ssdb.user_master.select().where(ssdb.user_master.c.email == email)
         result = await ssdb.database.fetch_one(query)
 
         if result:
+            hashed_password = result["password"]
+            if bcrypt_context.verify(password, hashed_password):
+                user_type = result["user_type"]
             
-            user_type = result["user_type"]
+                if user_type == "admin":
+                    return templates.TemplateResponse("admin_dashboard.html", {"request": request, "user": result})
             
-            if user_type == "admin":
-                return templates.TemplateResponse("admin_dashboard.html", {"request": request, "user": result})
-            
-            elif user_type == "chairman":
-                return templates.TemplateResponse("chairman_dashboard.html", {"request": request, "user": result})
+                elif user_type == "chairman":
+                    return templates.TemplateResponse("chairman_dashboard.html", {"request": request, "user": result})
             
             else:
-                return templates.TemplateResponse("user_dashboard.html", {"request": request, "user": result})
+                 return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Login failed. Invalid Password."}
+            ) 
 
         else:
             # Failed login
             return templates.TemplateResponse(
                 "home/login.html",
-                {"request": request, "pop_up_message": "Login failed. Please try again."}
+                {"request": request, "pop_up_message": "Login failed. User Not Found."}
             )    
     # Handle GET request (render login form)
 

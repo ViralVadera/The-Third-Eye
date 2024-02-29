@@ -9,13 +9,6 @@ database = Database(DATABASE_URL)
 metadata = MetaData()
 
 
-def get_db():
-    db = database.session()
-    try:
-        yield db
-    finally:
-        db.close()
-
 country_master = Table(
     "Country_Master",
     metadata,
