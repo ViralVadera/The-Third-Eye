@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form, Request, Depends
+from fastapi import FastAPI, Form, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 import os
 import uvicorn
@@ -6,6 +6,7 @@ from passlib.context import CryptContext
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import ssdb
+import auth
 from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table, Boolean, Date, ForeignKey, ForeignKeyConstraint
 
 app = FastAPI()
@@ -13,6 +14,9 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Initialize Passlib's CryptContext
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+
+auth.key='TheThirdEye'
+
 
 @app.on_event("startup")
 async def startup_db():
@@ -36,9 +40,34 @@ async def read_root(request: Request):
 def read_hm(request: Request):
     return templates.TemplateResponse("home/index.html", {"request": request})
 
+
+# Dummy function to check the key (you'll need to implement this logic)
+
+
+
+@app.route("/admin", methods=['GET', 'POST'])
+def admin(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("admin_dashboard.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+
+@app.route("/chairman", methods=['GET', 'POST'])
+def admin(request: Request):
+    authorized=auth.key
+    if authorized=='chairman':
+        return templates.TemplateResponse("user_dashboard.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+   
+
 @app.route("/login", methods=["GET", "POST"])
 async def login(request: Request, email: str = Form(...), password: str = Form(...)):
+    auth.key='TheThirdEye'
+    
     if request.method == "POST":
+        auth.key='TheThirdEye'
         # Retrieve form data
         form_data = await request.form()
 
@@ -56,11 +85,12 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
                 user_type = result["user_type"]
             
                 if user_type == "admin":
-                    return templates.TemplateResponse("admin_dashboard.html", {"request": request, "user": result})
+                    auth.key='admin'
+                    return RedirectResponse('/admin')
             
                 elif user_type == "chairman":
-                    return templates.TemplateResponse("chairman_dashboard.html", {"request": request, "user": result})
-            
+                    auth.key='chairman'
+                    return RedirectResponse('/chairman')            
             else:
                  return templates.TemplateResponse(
                 "home/login.html",
