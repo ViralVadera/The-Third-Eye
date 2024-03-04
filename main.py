@@ -40,21 +40,89 @@ async def read_root(request: Request):
 def read_hm(request: Request):
     return templates.TemplateResponse("home/index.html", {"request": request})
 
-
-# Dummy function to check the key (you'll need to implement this logic)
-
+@app.get("/logout/")
+async def logout(request: Request):
+    auth.key='TheThirdEye'
+    return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "You are logged out."}
+            )
 
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin(request: Request):
     authorized=auth.key
     if authorized=='admin':
-        return templates.TemplateResponse("admin_dashboard.html", {"request": request})
+        return templates.TemplateResponse("AdminDashboard/index.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+
+@app.route("/auser", methods=['GET', 'POST'])
+def auser(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/user-profile.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+@app.route("/asocieties", methods=['GET', 'POST'])
+def asocieties(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/societies.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+@app.route("/asecurityagency", methods=['GET', 'POST'])
+def asecurityagency(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/security_agency.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+@app.route("/asecurityguard", methods=['GET', 'POST'])
+def asecurityguard(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/security_guard.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+@app.route("/achairmanbuilder", methods=['GET', 'POST'])
+def achairmanbuilder(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/chairman_builder.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+@app.route("/amember", methods=['GET', 'POST'])
+def amember(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/member.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+@app.route("/acaretaker", methods=['GET', 'POST'])
+def acaretaker(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/caretaker.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+@app.route("/aguest", methods=['GET', 'POST'])
+def aguest(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/guest.html", {"request": request})
+    else:
+         return templates.TemplateResponse("home/login.html", {"request": request})
+@app.route("/ausers-profile", methods=['GET', 'POST'])
+def ausers_profile(request: Request):
+    authorized=auth.key
+    if authorized=='admin':
+        return templates.TemplateResponse("AdminDashboard/users-profile.html", {"request": request})
     else:
          return templates.TemplateResponse("home/login.html", {"request": request})
 
 @app.route("/chairman", methods=['GET', 'POST'])
-def admin(request: Request):
+def chairman(request: Request):
     authorized=auth.key
     if authorized=='chairman':
         return templates.TemplateResponse("user_dashboard.html", {"request": request})
