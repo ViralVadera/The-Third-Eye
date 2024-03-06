@@ -28,6 +28,17 @@
   <!-- Template Main CSS File -->
   <link href="/static/admin_assets/css/style.css" rel="stylesheet">
 
+  <style>
+    .drp{
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+    .lists{
+    width: 500px;
+    background-color: #0056b3;
+    }</style>
 
 </head>
 
@@ -218,7 +229,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/auser">
+              <a class="dropdown-item d-flex align-items-center" href="/admin/auser">
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </a>
@@ -232,7 +243,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/logout/">
+              <a class="dropdown-item d-flex align-items-center" href="/admin/logout/">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -251,49 +262,49 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item active">
-        <a class="nav-link " data-bs-target="#components-nav" href="/asocieties">
+        <a class="nav-link " data-bs-target="#components-nav" href="/admin/asocieties">
           <img src="/static/admin_assets/img/society.png" class="nicon"><span class="ntext nspan">Societies</span>
         </a>
       </li><!-- End Family Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#forms-nav" href="/asecurityagency">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/asecurityagency">
           <img src="/static/admin_assets/img/agancy.png" class="caricon"><span class="ntext vspan">Security Agancy</span>
         </a>
       </li><!-- End security agancy Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#forms-nav" href="/asecurityguard">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/asecurityguard">
           <img src="/static/admin_assets/img/guard.png" class="caricon"><span class="ntext vspan">Security Guard</span>
         </a>
       </li><!-- End security guard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#forms-nav" href="/achairmanbuilder">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/achairmanbuilder">
           <img src="/static/admin_assets/img/chairman.png" class="caricon"><span class="ntext vspan">Chairman | Builder</span>
         </a>
       </li><!-- End security guard Nav -->
 
       <li class="nav-item" style="background: #f6f9ff;">
-        <a class="nav-link" data-bs-target="#forms-nav" href="/amember">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/amember">
           <img src="/static/admin_assets/img/member.png" class="caricon"><span class="ntext vspan" style="color: #4154f1;">Members</span>
         </a>
       </li><!-- End security guard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#forms-nav" href="/acaretaker">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/acaretaker">
           <img src="/static/admin_assets/img/nanny.png" class="caricon"><span class="ntext vspan">Caretaker</span>
         </a>
       </li><!-- End security guard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#forms-nav" href="/aguest">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/aguest">
           <img src="/static/admin_assets/img/guest.png" class="caricon"><span class="ntext vspan">Guests</span>
         </a>
       </li><!-- End security guard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#forms-nav" href="/ausers-profile">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/ausers-profile">
           <img src="/static/admin_assets/img/user.png" class="caricon"><span class="ntext vspan">Profile</span>
         </a>
       </li><!-- End profile Nav -->
@@ -315,6 +326,17 @@
 
     <div class="select-menu" style="display: none;"><div class="select-btnnn"></div></div>
 
+    <form action="">
+      <input list="magicHouses" id="myHouse" name="myHouse" placeholder="Enter Your Society...." class="drp"/>
+      <datalist id="magicHouses" class="lists">
+          <option >Github</option>
+          <option >facebook</option>
+          <option >whatsapp</option>
+          <option >youtube</option>
+          <option >instagram</option>
+      </datalist>
+    </form>
+
       <section class="section">
         <div class="table-container"> 
 					
@@ -326,10 +348,10 @@
 						<thead>
 							<tr>
 								<th> Action </th>
-								<th>Id</th>
+								<th>Security Id</th>
 								<th> UserName</th>
-								<th>Added by</th>
-								<th>Unit Name</th>
+								<th>Agency Name</th>
+								<th>Join Date</th>
                                 <th>Created By</th>
                                 <th>Updated By </th>
 								<th>Created Date</th>
@@ -522,7 +544,7 @@
         </div>
         <div class="download-buttons">
           <button id="csv-download">Download CSV</button>
-          <button onclick="printTable();">Download PDF</button>
+          <button id="pdf-download" onclick="printTable();">Download PDF</button>
       </div>
         <div class="insert-btn-containerins">
           <a href="#"><button class="buplod">Upload</button></a>
@@ -534,6 +556,7 @@
 		    </div>
 	     </div>
       </section>      
+      
 
     </main><!-- End #main -->
  

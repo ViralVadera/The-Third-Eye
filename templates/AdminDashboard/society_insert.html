@@ -22,9 +22,9 @@
       background-color: aliceblue;
     }
     .container {
-      width: 90%;
-      max-width: 400px;
-      padding: 20px;
+      width: 40%;     
+      padding:  20px;
+      margin-top: 30px;
       box-shadow: 0px 0px 20px #00000020;
       border-radius: 8px;
       background-color: white;
@@ -37,10 +37,11 @@
       flex-wrap: wrap;
     }
     .form-group {
-      flex: 0 0 50%;
-      padding: 0 10px;
-      box-sizing: border-box;
-    }
+  flex: 1 0 100%; /* Change from 50% to 100% to display in one column */
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
     .error-msg{
       color: red;
     }
@@ -55,6 +56,13 @@
       border-radius: 4px;
       box-sizing: border-box;
       margin-bottom: 10px;
+      transition: 0.3s ease;
+      box-shadow: 0 0 0 2px rgba(49, 65, 70, 0.1);
+    }
+    .form-group input:hover{
+      border: 2px solid #4A9DEC;
+      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
+      background-color: white;
     }
     .button-group {
       width: 100%;
@@ -68,10 +76,13 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition:  0.3s ease;
     }
     .next-btn:hover, .previous-btn:hover ,.submit-btn:hover{
       background-color: #0056b3;
+      border: 2px solid #4A9DEC;
+      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
+
     }
     .logo {
     position: relative;
@@ -92,17 +103,11 @@
     .logo {
         height: 120px; /* Adjust pixel value as needed */
         width: 120px; /* Adjust pixel value as needed */
-        left: 90px; /* Adjust pixel value as needed */
+        left: 100px; /* Adjust pixel value as needed */
     }
 }
 
-@media screen and (max-width: 768px) {
-  .next-btn ,.previous-btn {
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 3px;
-  }
-}
+
 
 @media screen and (max-width: 576px) {
   .next-btn ,.previous-btn,.submit-btn{
@@ -144,116 +149,127 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.pagename{
+  color: #007bff;
+  position: relative;
+  left: 65px;
+  bottom: 20px;
+  font-weight: bolder;
+  font-size: larger;
+  font-family: 'Times New Roman', serif;
+}
+
+/* Full media query for all devices */
+@media screen and (max-width: 576px) {
+  .container {
+    padding: 10px;
+  }
+
+  .logo {
+    height: 80px; /* Adjust pixel value as needed */
+    width: 80px; /* Adjust pixel value as needed */
+    left: 60px; /* Adjust pixel value as needed */
+  }
+
+  .next-btn,
+  .previous-btn,
+  .submit-btn {
+    width: 100%; /* Make button full width */
+    margin: 3px;
+  }
+
+  .pagename {
+    left: 100px; /* Adjust pixel value as needed */
+    bottom: 10px; /* Adjust pixel value as needed */
+    font-size: medium; /* Adjust font size */
+  }
+}
   </style>
 </head>
 <body>
   <section>
     <div class="container">
-      <form id="myForm" method="post">
+      <form method="post" action="/adminsocinsert" enctype="application/x-www-form-urlencoded">
         <div>
-           <a href="index.html"><img src="assets/img/TTE.png" alt="" class="logo"></a>
+           <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
+        </div>
+        <div class="pagename">
+          <span>
+            <h3 class="pgname">Society Registration</h3>
+          </span>
         </div>
         <div class="step step-1 active">
+
           <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="first-name" required minlength="2" maxlength="30"/>
+            <label for="SocietyName">Society Name</label>
+            <input type="text" id="SocietyName" name="Society_name" required minlength="2" maxlength="30"/>
             <div class="error-msg"></div>
           </div>
           <div class="form-group">
-            <label for="lastName">Middle Name</label>
-            <input type="text" id="lastName" name="last-name"  minlength="2" maxlength="30"/>
-          </div>
-          <div class="form-group">
-            <label for="nickName">Last Name</label>
-            <input type="text" id="nickName" name="nick-name" required minlength="2" maxlength="30"/>
-          </div>
-          <div class="form-group">
-            <label for="dob">DOB</label>
-            <input type="date" id="dob" name="dob" required   />
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')"/>
-            <div class="error-msg" id="email-error-msg"></div>
-          </div>
-          <div class="form-group">
-            <label for="alt-email">Alternate Email</label>
-            <input type="email" id="alt-email" name="alt-email" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'alt-email')"/>
-            <div class="error-msg" id="alt-email-error-msg"></div>
-          </div>
-          <div class="form-group">
-            <label for="pswd">Password</label>
-            <input type="password" id="pswd" name="pswd" required/>
-          </div>
-          <div class="form-group">
-            <label for="usertype">User Type</label>
-            <input type="text" id="usertype" name="usertype" />
-          </div>
-          <div class="form-group">
-            <label for="mobile">Mobile</label>
-            <input type="number" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required/>
-          </div>
-          <div class="form-group">
-            <label for="alt-mobile">Alternate Mobile</label>
-            <input type="number" id="alt-mobile" name="alt-mobile" inputmode="numeric" pattern="[0-9]{10}"/>
-          </div>
-          <div class="button-group">
-            <button type="button" class="next-btn">Next</button>
-          </div>
-        </div>
-        <div class="step step-2">
-          <div class="form-group">
-            <label for="address-1">Address-1</label>
-            <input type="text" id="address-1" name="address-1" required minlength="5" />
-          </div>
-          <div class="form-group">
-            <label for="address-2">Address-2</label>
-            <input type="text" id="address-2" name="address-2" required minlength="5" />
-          </div>
-          <div class="form-group">
-            <label for="landmark">Landmark</label>
-            <input type="text" id="landmark" name="landmark" />
-          </div>
-          <div class="form-group">
-            <label for="road">Road</label>
-            <input type="text" id="road" name="road" />
-          </div>
-          <div class="form-group">
-            <label for="area">Area</label>
-            <input type="text" id="area" name="areaname" required />
-          </div>
-          <div class="button-group">
-            <button type="button" class="previous-btn">Prev</button>
-            <button type="button" class="next-btn">Next</button>
-          </div>
-        </div>
-        <div class="step step-3">
-          <div class="form-group">
-            <label for="country">Country</label>
-            <input type="text" id="country" name="country" required  />
-          </div>
-          
-          <div class="form-group">
-            <label for="state">State</label>
-            <input type="text" id="state" name="state" required />
-          </div>
-          <div class="form-group">
-            <label for="city">City</label>
-            <input type="text" id="city" name="city" required  />
+            
+            <div class="form-group">
+                <label for="builderName">Builder Name</label>
+                <input list="builderList" id="builderNameInput" name="builderName" class="drp" />                  
+            </div>
           </div>
 
           <div class="form-group">
-            <label for="postCode">Pin Code</label>
-            <input type="number" id="postCode" name="post-code" required inputmode="numeric" />
+            <label for="builderfirmName">Builder's Firm Name</label>
+            <input type="text" id="builderfirmName" name="builderfirm_name" required minlength="2" maxlength="30"/>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="regnumber">Regestration Number</label>
+            <input type="number" id="regnumber" name="regnumber" inputmode="numeric"  required/>
+          </div>
+
+          <div class="form-group">
+            <label for="regdate">Regestration Date</label>
+            <input type="date" id="regdate" name="regdate"   required/>
+          </div>
+
+       
+         
+          <div class="form-group">
+            <label for="address-1">Address-1</label>
+            <input type="text" id="address-1" name="address_1" required minlength="5" />
+          </div>
+          <div class="form-group">
+            <label for="address-2">Address-2</label>
+            <input type="text" id="address-2" name="address_2" required minlength="5" />
+          </div>
+          <div class="form-group">
+            <label for="landmark">Landmark</label>
+            <input type="text" id="landmark" name="landmarks" />
+          </div>
+          <div class="form-group">
+            <label for="road">Road</label>
+            <input type="text" id="road" name="Road" />
+          </div>
+          
+          <div class="form-group">
+             <label for="cityInput">City</label>  
+             
+                <input list="cities" id="cityInput" name="citys" placeholder="Enter Your Society...." class="drp"/>
+              <datalist id="cities" class="ct-lists">
+                  <option >Ahnedabad</option>
+                  <option >Bhavnager</option>
+                  <option >Rajkot</option>
+                  <option >Junagadh</option>
+                  <option >Gandhinger</option>
+              </datalist>  
+               
           </div>
           <div class="button-group">
-            <button type="button" class="previous-btn">Prev</button>
-            <button type="submit" class="submit-btn">Submit</button>
+         
+            <button type="submit" class="submit-btn" value="submit" >Submit</button>
           </div>
         </div>
       </form>
     </div>
   </section>
+ 
   <script>
     // prev next button js
     const steps = Array.from(document.querySelectorAll("form .step"));
@@ -301,7 +317,7 @@ input::-webkit-inner-spin-button {
       }
       steps[index].classList.add("active");
     }
-  
+//   //validatations
     function validateFields() {
       const activeStep = document.querySelector(".active");
       const inputs = activeStep.querySelectorAll("input[required]");
@@ -337,5 +353,6 @@ input::-webkit-inner-spin-button {
   </script>
   
   
+
 </body>
 </html>

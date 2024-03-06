@@ -51,20 +51,6 @@ city_master = Table(
 )
 
 
-area_master = Table(
-    "Area_Master",
-    metadata,
-    Column("area_id" , Integer , primary_key=True,autoincrement=True,index=True),
-    Column( "area_name" ,String,index=True,nullable=False),
-    Column( "city_id" ,Integer,index=True,nullable=False),
-    Column( "created_by" ,Integer,index=True,nullable=False),
-    Column( "updated_by" ,Integer,index=True,nullable=False),
-    Column( "created_date" ,Date,index=True,nullable=False),
-    Column( "updated_date" ,Date,index=True,nullable=False),
-    Column( "is_active" ,Boolean,index=True,nullable=False),                                                                                   
-    ForeignKeyConstraint(["city_id"], ["City_Master.city_id"], name="fk_area_city_city_id"),
-)
-
 user_master = Table(
     "User_Master",
     metadata,
@@ -82,7 +68,6 @@ user_master = Table(
     Column("address_line2",String,index=True,nullable=False),
     Column("landmark",String,index=True,nullable=False),
     Column("road",String,index=True,nullable=True),
-    Column("area_id", Integer, index=True, nullable=False),
     Column("city_id", Integer, index=True, nullable=False),
     Column("password",String,index=True,nullable=False),
     Column("user_type",String,index=True,nullable=False),
@@ -90,8 +75,7 @@ user_master = Table(
     Column( "updated_by" ,Integer,index=True,nullable=False),
     Column( "created_date" ,Date,index=True,nullable=False),
     Column( "updated_date" ,Date,index=True,nullable=False),
-    Column( "is_active" ,Boolean,index=True,nullable=False), 
-    ForeignKeyConstraint(["area_id"], ["Area_Master.area_id"], name="fk_user_area_area_id"),      
+    Column( "is_active" ,Boolean,index=True,nullable=False),    
     ForeignKeyConstraint(["city_id"], ["City_Master.city_id"], name="fk_user_city_city_id"),  
 )
 
@@ -100,12 +84,12 @@ society_master = Table(
     metadata,
     Column("society_id" , Integer , primary_key=True,autoincrement=True,index=True),
     Column("society_name" , String ,index=True,nullable=False),
+    Column("builder_firm" , String ,index=True,nullable=False),
     Column("address_line1",String,index=True,nullable=False),
     Column("address_line2",String,index=True,nullable=False),
-    Column("landmark",String,index=True,nullable=False),
+    Column("landmark",String,index=True,nullable=True),
     Column("road",String,index=True,nullable=True),
-    Column( "area_id" ,Integer,index=True,nullable=False),
-    Column( "city_id" ,Integer,index=True,nullable=False),
+    Column( "city" ,String,index=True,nullable=False),
     Column( "build_by" ,Integer,index=True,nullable=False),
     Column("registration_no",String,index=True,nullable=False),
     Column("registration_year",Date,index=True,nullable=False),
@@ -113,9 +97,7 @@ society_master = Table(
     Column( "updated_by" ,Integer,index=True,nullable=False),
     Column( "created_date" ,Date,index=True,nullable=False),
     Column( "updated_date" ,Date,index=True,nullable=False),
-    Column( "is_active" ,Boolean,index=True,nullable=False),
-    ForeignKeyConstraint(["area_id"], ["Area_Master.area_id"], name="fk_society_area_area_id"),  
-    ForeignKeyConstraint(["city_id"], ["City_Master.city_id"], name="fk_society_city_city_id"),  
+    Column( "is_active" ,Boolean,index=True,nullable=False), 
     ForeignKeyConstraint(["build_by"], ["User_Master.user_id"], name="fk_society_user_build_by"), 
 )
 
@@ -181,7 +163,7 @@ security_agency_master = Table(
     Column("agency_address_line2",String,index=True,nullable=False),
     Column("landmark",String,index=True,nullable=False),
     Column("road",String,index=True,nullable=True),
-    Column( "area_id" ,Integer,index=True,nullable=False),
+    Column( "city_id" ,Integer,index=True,nullable=False),
     Column("contact_no",Integer,index=True,nullable=False),
     Column("email",String,index=True,nullable=False),
     Column("agency_type",String,index=True,nullable=True),
@@ -189,8 +171,8 @@ security_agency_master = Table(
     Column( "updated_by" ,Integer,index=True,nullable=False),
     Column( "created_date" ,Date,index=True,nullable=False),
     Column( "updated_date" ,Date,index=True,nullable=False),
-    Column( "is_active" ,Boolean,index=True,nullable=False), 
-    ForeignKeyConstraint(["area_id"], ["Area_Master.area_id"], name="fk_security_agency_area_area_id"),
+    Column( "is_active" ,Boolean,index=True,nullable=False),
+    ForeignKeyConstraint(["city_id"], ["City_Master.city_id"], name="fk_security_agency_city_city_id"),  
 )
 
 security_master = Table(

@@ -1,3 +1,20 @@
+// search in table
+function searchTable() {
+  const searchInput = document.getElementById('searchInput');
+  const searchText = searchInput.value.toLowerCase();
+  const tableRows = Array.from(document.querySelectorAll('#myTable tbody tr'));
+
+  tableRows.forEach(row => {
+    row.style.display = 'none';
+
+    const cells = Array.from(row.querySelectorAll('td'));
+    const found = cells.some(cell => cell.textContent.toLowerCase().includes(searchText));
+
+    if (found) {
+      row.style.display = '';
+    }
+  });
+}
 
 
 document.querySelectorAll('.sidebar-nav .nav-link').forEach(function(link) {
@@ -385,23 +402,7 @@ function downloadCSV() {
 
 //end of download buttons /
 
-// search in table
-function searchTable() {
-  const searchInput = document.getElementById('searchInput');
-  const searchText = searchInput.value.toLowerCase();
-  const tableRows = Array.from(document.querySelectorAll('#myTable tbody tr'));
 
-  tableRows.forEach(row => {
-    row.style.display = 'none';
-
-    const cells = Array.from(row.querySelectorAll('td'));
-    const found = cells.some(cell => cell.textContent.toLowerCase().includes(searchText));
-
-    if (found) {
-      row.style.display = '';
-    }
-  });
-}
 
 function prevPage() {
   if (currentPage > 1) {
