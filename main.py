@@ -1,5 +1,7 @@
-from fastapi import FastAPI, Form, Request, Depends, HTTPException, status
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import FastAPI, Form, Request, Depends, HTTPException, status,File, UploadFile
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
+import csv
+import io
 import uvicorn
 from typing import Any
 from datetime import datetime, date
@@ -15,12 +17,6 @@ from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table, 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-def get_db():
-    db=get_data.session()
-    try:
-        yield db
-    finally:
-        db.close()
 
 # Initialize Passlib's CryptContext
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
@@ -39,9 +35,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def read_root(request: Request):
-    query = ssdb.user_master.select()
-    result = await ssdb.database.fetch_all(query)
-    return templates.TemplateResponse("home/index.html", {"request": request, "data": result})
+    return templates.TemplateResponse("home/index.html", {"request": request})
 
 @app.get("/hello")
 def read_hm(request: Request):
@@ -57,15 +51,16 @@ async def logout(request: Request):
 
 
 @app.route("/admin", methods=['GET', 'POST'])
-def admin(request: Request):
+async def admin(request: Request):
     current_user = auth.verify_session(request)
     if current_user is None:
         return templates.TemplateResponse(
                 "home/login.html",
                 {"request": request, "pop_up_message": "Invalid Attempt"}
             )
-
-    return templates.TemplateResponse("AdminDashboard/index.html", {"request": request})
+    email = current_user["email"]
+    use=await get_data.select_tableuname(ssdb.user_master,email)
+    return templates.TemplateResponse("AdminDashboard/index.html", {"request": request, "user": use})
     
 
 @app.route("/admin/ausers-profile", methods=['GET', 'POST'])
@@ -86,9 +81,13 @@ async def asocieties(request: Request):
                 "home/login.html",
                 {"request": request, "pop_up_message": "Invalid Attempt"}
             )
+    email = current_user["email"]
     society=await get_data.select_table('society_master')
-    user=await get_data.select_table('user_master')
-    return templates.TemplateResponse("AdminDashboard/societies.html", {"request": request,"society": society,"user": user})
+    use=await get_data.select_tableuname(ssdb.user_master,email)
+
+    return templates.TemplateResponse("AdminDashboard/societies.html", {"request": request,"society": society,"user": use})
+
+  
 @app.route("/admin/asocieties_insert", methods=['GET', 'POST'])
 def asocieties_insert(request: Request):
     current_user = auth.verify_session(request)
@@ -98,20 +97,74 @@ def asocieties_insert(request: Request):
                 {"request": request, "pop_up_message": "Invalid Attempt"}
             )
     return templates.TemplateResponse("AdminDashboard/society_insert.html", {"request": request})
-@app.post("/adminsocinsert")
+
+@app.route("/admin/asocieties_upload", methods=['GET', 'POST'])
+def asocieties_upload(request: Request):
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    return templates.TemplateResponse("AdminDashboard/soc_upload.html", {"request": request})
+@app.post("/societiesupload")
+async def asocieties_upload(request: Request, csvfile: UploadFile = File(...)):
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    email = current_user["email"]
+    if not csvfile.filename.endswith('.csv'):
+        return templates.TemplateResponse(
+                "AdminDashboard/soc_upload.html",
+                {"request": request, "pop_up_message": "Please upload .CSV file."}
+            )
+    # Read and parse the CSV file
+    contents = await csvfile.read()
+    csv_data = io.StringIO(contents.decode('utf-8'))
+    csv_reader = csv.reader(csv_data)
+    createdby=await get_data.select_tableemail(ssdb.user_master,email)
+    next(csv_reader, None) #removing header
+    for row in csv_reader:
+        try:
+            registration_date_str = row[10]
+            registration_date = datetime.strptime(registration_date_str, '%d-%m-%Y').date()
+            date=registration_date.strftime('%Y-%m-%d')
+            date=datetime.strptime(date, "%Y-%m-%d").date()
+            buildername=row[7]
+            user=await get_data.select_tablename(ssdb.user_master,buildername)
+            society = ssdb.society_master.insert().values(
+                society_name=row[1],
+                builder_firm=row[7],
+                address_line1=row[2],
+                address_line2=row[3],
+                road=row[5],
+                city=row[6],
+                landmark=row[4],
+                build_by=user,
+                registration_no=row[9],
+                registration_year=date,
+                created_by=createdby,
+                updated_by=createdby
+            )
+            await ssdb.database.execute(society)
+        except ValueError as e:
+            print(f"Error converting date for row {row}: {e}")
+
+    return RedirectResponse('/admin/asocieties')
+
+@app.post("/admin/socinsert")
 async def adminsocinsert(request: Request, Society_name : str = Form(...), builderName : str = Form(...), builderfirm_name: str = Form(...), regnumber: str = Form(...), regdate: str = Form(...), address_1: str = Form(...), address_2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...)):
+  try:
     current_user = auth.verify_session(request)
     email = current_user["email"]
-    
     user=await get_data.select_tablename(ssdb.user_master,builderName)
     createdby=await get_data.select_tableemail(ssdb.user_master,email)
-
-    
     date =datetime.strptime(regdate, '%Y-%m-%d')
     registration_years = date.strftime('%d-%m-%Y')
     registration_years = date.date()
-
-
     society = ssdb.society_master.insert().values(
         society_name=Society_name,
         builder_firm=builderfirm_name,
@@ -126,11 +179,85 @@ async def adminsocinsert(request: Request, Society_name : str = Form(...), build
         created_by=createdby,
         updated_by=createdby
     )
-    
-# Pass the string value to the fetch_all method
     result =await ssdb.database.fetch_one(society)
     
     return RedirectResponse('/admin/asocieties')
+  
+  except Exception as e:
+        # Handle database-related errors
+        return templates.TemplateResponse(
+                "AdminDashboard/society_insert.html",
+                {"request": request, "pop_up_message": "Error occurred, Please Verify all Input"})
+  
+@app.get("/admin/socedit/{soc_id}")
+async def adminsocedit(request: Request, soc_id: int):
+ 
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    
+    query=ssdb.society_master.select().where(ssdb.society_master.c.society_id == soc_id)
+    socc = await ssdb.database.fetch_one(query)
+    bname=await get_data.select_tableid(ssdb.user_master,socc[7])
+    
+    return templates.TemplateResponse("AdminDashboard/society_edit.html", {"request": request, "soc": socc, "bname": bname})
+
+
+@app.post("/admin/socupd/{soc_id}")
+async def adminsocedit(request: Request, soc_id: int, Society_name : str = Form(...), builderName : str = Form(...), builderfirm_name: str = Form(...), regnumber: str = Form(...), regdate: str = Form(...), address_1: str = Form(...), address_2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...)):
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    email = current_user["email"]
+    
+    user=await get_data.select_tablename(ssdb.user_master,builderName)
+    updby=await get_data.select_tableemail(ssdb.user_master,email)
+
+    
+    date =datetime.strptime(regdate, '%Y-%m-%d')
+    registration_years = date.strftime('%d-%m-%Y')
+    registration_years = date.date()
+    udate=datetime.today().date()
+    
+    query = ssdb.society_master.update().where(ssdb.society_master.c.society_id == soc_id).values(
+        society_name=Society_name,
+        builder_firm=builderfirm_name,
+        address_line1=address_1,
+        address_line2=address_2,
+        road=Road,
+        city=citys,
+        landmark=landmarks,
+        build_by=user,
+        registration_no=regnumber,
+        registration_year=registration_years,
+        updated_by=updby,
+        updated_date=udate
+    )
+    dresult=await ssdb.database.fetch_one(query)
+    if dresult is None:
+        return RedirectResponse(url="/admin/asocieties")
+
+@app.get("/admin/socdel/{soc_id}")
+async def adminsocdel(request: Request, soc_id: int):
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    query=ssdb.society_master.delete().where(ssdb.society_master.c.society_id == soc_id)
+    result = await ssdb.database.fetch_one(query)
+    get_data.delete_sequence_value('Society/Appartment_Master')
+    if result is None:
+        return RedirectResponse(url="/admin/asocieties")
+    
+
 
 @app.route("/admin/asecurityagency", methods=['GET', 'POST'])
 def asecurityagency(request: Request):
@@ -208,6 +335,7 @@ def chairman(request: Request):
 async def login(request: Request, email: str = Form(...), password: str = Form(...)):
    
     if request.method == "POST":
+    
         # Retrieve form data
         form_data = await request.form()
 

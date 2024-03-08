@@ -184,69 +184,66 @@ input::-webkit-inner-spin-button {
 <body>
   <section>
     <div class="container">
-      <form method="post" action="/admin/socinsert" enctype="application/x-www-form-urlencoded">
+      <form method="post" action="/admin/socupd/{{soc.society_id}}" enctype="application/x-www-form-urlencoded">
         <div>
            <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
-        <div class="pagename">
-          <span>
-            <h3 class="pgname">Society Registration</h3>
+        <div class="pgname">
+          <span class="pgname">
+            Society Update
           </span>
         </div>
-        <div class="step step-1 active">
+        
 
           <div class="form-group">
             <label for="SocietyName">Society Name</label>
-            <input type="text" id="SocietyName" name="Society_name" minlength="2" maxlength="30"/>
+            <input type="text" id="SocietyName" name="Society_name" required minlength="2" maxlength="30" value="{{ soc.society_name }}"/>
             <div class="error-msg"></div>
           </div>
-      
-            
-            <div class="form-group">
+          <div class="form-group">
                 <label for="builderName">Builder Name</label>
-                <input list="builderList" id="builderNameInput" name="builderName" class="drp" />                  
-            </div>
+                <input id="builderNameInput" name="builderName" type="text" value="{{ bname }}"/>                  
           </div>
 
           <div class="form-group">
             <label for="builderfirmName">Builder's Firm Name</label>
-            <input type="text" id="builderfirmName" name="builderfirm_name" required minlength="2" maxlength="30"/>
+            <input type="text" id="builderfirmName" name="builderfirm_name" required minlength="2" maxlength="30" value="{{ soc.builder_firm }}"/>
             <div class="error-msg"></div>
           </div>
 
           <div class="form-group">
             <label for="regnumber">Regestration Number</label>
-            <input type="number" id="regnumber" name="regnumber" inputmode="numeric"  required/>
+            <input type="number" id="regnumber" name="regnumber" inputmode="numeric"  required value="{{ soc.registration_no }}"/>
           </div>
 
           <div class="form-group">
             <label for="regdate">Regestration Date</label>
-            <input type="date" id="regdate" name="regdate"   required/>
+            <input type="date" id="regdate" name="regdate"   required value="{{ soc.registration_year }}"/>
           </div>
 
        
          
           <div class="form-group">
             <label for="address-1">Address-1</label>
-            <input type="text" id="address-1" name="address_1" required minlength="5" />
+            <input type="text" id="address-1" name="address_1" required minlength="5" value="{{ soc.address_line1 }}"/>
           </div>
           <div class="form-group">
             <label for="address-2">Address-2</label>
-            <input type="text" id="address-2" name="address_2" required minlength="5" />
+            <input type="text" id="address-2" name="address_2" minlength="5" value="{{ soc.address_line2 }}"/>
           </div>
           <div class="form-group">
             <label for="landmark">Landmark</label>
-            <input type="text" id="landmark" name="landmarks" />
+            <input type="text" id="landmark" name="landmarks" value="{{ soc.landmark }}"/>
           </div>
           <div class="form-group">
             <label for="road">Road</label>
-            <input type="text" id="road" name="Road" />
+            <input type="text" id="road" name="Road" value="{{ soc.road }}"/>
           </div>
           
           <div class="form-group">
              <label for="cityInput">City</label>  
              
-                <input list="cities" id="cityInput" name="citys" placeholder="Enter Your Society...." class="drp"/>
+                <input list="cities" id="cityInput" name="citys" placeholder="Enter Your Society...." class="drp" value="{{ soc.city }}"/>
               <datalist id="cities" class="ct-lists">
                   <option >Ahnedabad</option>
                   <option >Bhavnager</option>
@@ -264,9 +261,9 @@ input::-webkit-inner-spin-button {
         {% endif %}
           <div class="button-group">
          
-            <input type="submit" class="submit-btn" value="Submit" />
+            <input type="submit" class="submit-btn" value="Update" />
           </div>
-        </div>
+        
       </form>
     </div>
   </section>

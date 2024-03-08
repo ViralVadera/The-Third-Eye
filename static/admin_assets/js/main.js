@@ -461,3 +461,4 @@ function printTable() {
   newWin.document.close();
   newWin.print();
 }
+

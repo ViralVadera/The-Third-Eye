@@ -1,0 +1,87 @@
+body {
+    height: max-content;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    padding: 1500px;    
+}
+
+.upload-container {
+    background-color: #fff;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(37, 22, 22, 0.918);
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+   
+}
+
+.upload-container h2 {
+    text-align: center;
+    
+}
+
+.upload-form {
+    margin-top: 20px;
+}
+
+.upload-form input[type="file"] {
+    display: none;
+}
+
+.upload-form label, .upload-form input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    width: 50%; /* Set width to 50% of the container */
+    box-sizing: border-box; /* Ensure padding and border are included in width calculation */
+    margin-bottom: 10px; /* Add margin below the buttons */
+}
+
+.upload-form input[type="submit"] {
+    background-color: #008CBA;
+    margin-left: -3px; /* Adjust for border width */
+    position: relative;
+    left: 3px;
+}
+
+.upload-form label:hover {
+    background-color: #45a049;
+}
+
+.upload-form input[type="submit"]:hover {
+    background-color: #3189a7;
+}
+
+.drag-drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.drag-drop-area.highlight {
+    border-color: #4CAF50;
+}
+
+#fileName {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.delete-button {
+    background-color: #ff0000;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: none; /* Initially hidden */
+}
