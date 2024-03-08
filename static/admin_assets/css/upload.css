@@ -1,8 +1,7 @@
 body {
-    height: max-content;
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
-    padding: 1500px;    
+    padding: 10px;
 }
 
 .upload-container {
@@ -11,14 +10,12 @@ body {
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(37, 22, 22, 0.918);
     padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-   
+    width: 95%;
+    
 }
 
 .upload-container h2 {
     text-align: center;
-    
 }
 
 .upload-form {
@@ -37,14 +34,14 @@ body {
     cursor: pointer;
     display: inline-block;
     text-align: center;
-    width: 50%; /* Set width to 50% of the container */
-    box-sizing: border-box; /* Ensure padding and border are included in width calculation */
-    margin-bottom: 10px; /* Add margin below the buttons */
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 .upload-form input[type="submit"] {
     background-color: #008CBA;
-    margin-left: -3px; /* Adjust for border width */
+    margin-left: -3px;
     position: relative;
     left: 3px;
 }
@@ -83,5 +80,84 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-    display: none; /* Initially hidden */
+    display: none;
 }
+.footer{
+    position: relative;
+    top: 120px;
+}
+.table-container{
+    position: relative;
+}
+@media (max-width: 768px) {
+  /* Make upload container take up full width */
+    .upload-container {
+      width: 100%;
+      left: 0px; /* Remove left positioning */
+      margin: 0 auto;
+      top: 100px;
+    }
+.table-container{
+    top: 2cm;
+}
+    /* Stack form elements vertically on mobiles */
+    .upload-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Adjust label and input styles for better alignment */
+    .upload-form label,
+    .upload-form input[type="file"],
+    .upload-form input[type="submit"] {
+      margin-bottom: 10px;
+      width: 100%; /* Make elements take full width */
+    }
+
+    /* Reduce button size for mobiles */
+    .upload-form input[type="submit"] {
+      padding: 8px 16px;
+    }
+
+    /* Adjust drag-drop area styles */
+    .drag-drop-area {
+      font-size: 0.8rem; /* Reduce font size */
+    }
+  }
+  
+@media (max-width: 1024px) {
+ 
+    /* Make upload container take up full width */
+    .upload-container {
+      width: 100%;
+      left: 0; /* Remove left positioning */
+      margin: 0 auto;
+      top: 100px;
+    }
+
+    /* Stack form elements vertically on mobiles */
+    .upload-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Adjust label and input styles for better alignment */
+    .upload-form label,
+    .upload-form input[type="file"],
+    .upload-form input[type="submit"] {
+      margin-bottom: 10px;
+      width: 100%; /* Make elements take full width */
+    }
+
+    /* Reduce button size for mobiles */
+    .upload-form input[type="submit"] {
+      padding: 8px 16px;
+    }
+
+    /* Adjust drag-drop area styles */
+    .drag-drop-area {
+      font-size: 0.8rem; /* Reduce font size */
+    }
+  }

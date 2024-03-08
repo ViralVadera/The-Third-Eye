@@ -4,182 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <style>
-    * {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: "Montserrat";
-    }
-    section {
-      min-height: 100vh;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: aliceblue;
-    }
-    .container {
-      width: 40%;     
-      padding:  20px;
-      margin-top: 30px;
-      box-shadow: 0px 0px 20px #00000020;
-      border-radius: 8px;
-      background-color: white;
-    }
-    .step {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .form-group {
-  flex: 1 0 100%; /* Change from 50% to 100% to display in one column */
-  padding: 0 10px;
-  box-sizing: border-box;
-}
-
-    .error-msg{
-      color: red;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    .form-group input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      margin-bottom: 10px;
-      transition: 0.3s ease;
-      box-shadow: 0 0 0 2px rgba(49, 65, 70, 0.1);
-    }
-    .form-group input:hover{
-      border: 2px solid #4A9DEC;
-      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
-      background-color: white;
-    }
-    .button-group {
-      width: 100%;
-      text-align: center;
-      margin-top: 20px;
-    }
-     .submit-btn{
-      padding: 10px 50px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition:  0.3s ease;
-    }
-  .submit-btn:hover{
-      background-color: #0056b3;
-      border: 2px solid #4A9DEC;
-      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
-
-    }
-    .logo {
-    position: relative;
-    height: 120px; /* Adjust pixel value as needed */
-    width: 120px; /* Adjust pixel value as needed */
-    left: 180px; /* Adjust pixel value as needed */
-    
-}
-
-@media screen and (max-width: 576px) {
-    .container {
-        width: 90%; /* Adjust width as needed */
-        padding: 10px; /* Adjust padding as needed */
-    }
-
-    .logo {
-        height: 60px; /* Adjust pixel value as needed */
-        width: 60px; /* Adjust pixel value as needed */
-        left: 20px; /* Adjust pixel value as needed */
-    }
-
-    .pgname {
-      left: 50%; /* Center horizontally */
-    bottom: 10px; /* Adjust bottom position */
-    transform: translateX(-50%); /* Center horizontally */
-    font-size: small; /* Decrease font size */
-    position: relative; /* Ensure position relative for left and bottom to work */
-    }
-    .submit-btn{
-    left: initial; /* Reset left property */
-    transform: none; /* Reset transform property */
-    width: 100%; /* Make button full width */
-    margin: 3px;
-  }
-}
-@media screen and (max-width: 768px) {
-    .container {
-        width: 80%; /* Adjust width as needed */
-        padding: 15px; /* Adjust padding as needed */
-    }
-
-    .logo {
-        height: 80px; /* Adjust pixel value as needed */
-        width: 80px; /* Adjust pixel value as needed */
-        left: calc(50% - 40px); /* Center the logo horizontally */
-        margin-bottom: 20px; /* Add space between logo and .pgname */
-    }
-
-    .pgname {
-      text-align: center; /* Center the text */
-    left: 50%; /* Center horizontally */
-    bottom: 20px; /* Adjust bottom position */
-    transform: translateX(-50%); /* Center horizontally */
-    font-size: medium; /* Adjust font size */
-    position: relative; 
-    }
-}
-
-.custom-select {
-  position: relative;
-}
-
-.select-menu {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  cursor: pointer;
-}
-
-.search-input {
-  width: calc(100% - 16px);
-  padding: 8px;
-  margin-bottom: 8px;
-}
-
-.select-menu option {
-  display: none;
-}
-
-.select-menu option[selected] {
-  display: block;
-}
-/* for disappear input number up-down arrow */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.pgname{
-  color: #007bffa9;
-  position: relative;
-  left: 65px;
-  bottom: 20px;
-  font-weight: bolder;
-  font-size: larger;
-  font-family: 'Times New Roman', serif;
-}
-</style>
+  <link rel="stylesheet" href="/static/admin_assets/css/insert.css">
 </head>
 <body>
   <section>
@@ -189,8 +14,8 @@ input::-webkit-inner-spin-button {
            <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
         <div class="pagename">
-          <span>
-            <h3 class="pgname">Society Registration</h3>
+          <span class="pgname">
+           Society Registration
           </span>
         </div>
         <div class="step step-1 active">
@@ -210,7 +35,12 @@ input::-webkit-inner-spin-button {
 
           <div class="form-group">
             <label for="builderfirmName">Builder's Firm Name</label>
-            <input type="text" id="builderfirmName" name="builderfirm_name" required minlength="2" maxlength="30"/>
+            <input type="text" id="builderfirmName" name="builderfirm_name" class="drp" required minlength="2" maxlength="30"/>
+            <datalist id="buikder" class="ct-lists">
+              {% for u in users %}
+              <option >{{ u.f_name }}</option>
+              {% endfor %}
+          </datalist>  
             <div class="error-msg"></div>
           </div>
 
@@ -246,20 +76,18 @@ input::-webkit-inner-spin-button {
           <div class="form-group">
              <label for="cityInput">City</label>  
              
-                <input list="cities" id="cityInput" name="citys" placeholder="Enter Your Society...." class="drp"/>
+                <input list="cities" id="cityInput" name="citys" class="drp"/>
               <datalist id="cities" class="ct-lists">
-                  <option >Ahnedabad</option>
-                  <option >Bhavnager</option>
-                  <option >Rajkot</option>
-                  <option >Junagadh</option>
-                  <option >Gandhinger</option>
+                {% for c in cityy %}
+                <option >{{ c.city_name }}</option>
+                {% endfor %}
               </datalist>  
                
           </div>
           {% if pop_up_message %}
                     <script>
                         alert("{{ pop_up_message }}");
-                        window.location.href = "/login";
+                        window.location.href = "/admin/socinsert";
                     </script>
         {% endif %}
           <div class="button-group">

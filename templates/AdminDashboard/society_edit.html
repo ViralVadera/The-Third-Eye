@@ -188,7 +188,7 @@ input::-webkit-inner-spin-button {
         <div>
            <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
-        <div class="pgname">
+        <div class="pagename" style="margin-left: 3cm;">
           <span class="pgname">
             Society Update
           </span>
@@ -202,7 +202,12 @@ input::-webkit-inner-spin-button {
           </div>
           <div class="form-group">
                 <label for="builderName">Builder Name</label>
-                <input id="builderNameInput" name="builderName" type="text" value="{{ bname }}"/>                  
+                <input id="builderNameInput" name="builderName" type="text" value="{{ bname }}"/>
+                <datalist id="cities" class="ct-lists">
+                  {% for c in cityy %}
+                  <option >{{ c.city_name }}</option>
+                  {% endfor %}
+                </datalist>                   
           </div>
 
           <div class="form-group">

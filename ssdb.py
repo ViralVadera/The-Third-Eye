@@ -164,15 +164,18 @@ security_agency_master = Table(
     Column("landmark",String,index=True,nullable=False),
     Column("road",String,index=True,nullable=True),
     Column( "city_id" ,Integer,index=True,nullable=False),
+    Column( "state_id" ,Integer,index=True,nullable=False),
     Column("contact_no",Integer,index=True,nullable=False),
     Column("email",String,index=True,nullable=False),
+    Column("password",String,index=True,nullable=False),
     Column("agency_type",String,index=True,nullable=True),
     Column( "created_by" ,Integer,index=True,nullable=False),
     Column( "updated_by" ,Integer,index=True,nullable=False),
     Column( "created_date" ,Date,index=True,nullable=False),
     Column( "updated_date" ,Date,index=True,nullable=False),
     Column( "is_active" ,Boolean,index=True,nullable=False),
-    ForeignKeyConstraint(["city_id"], ["City_Master.city_id"], name="fk_security_agency_city_city_id"),  
+    ForeignKeyConstraint(["city_id"], ["City_Master.city_id"], name="fk_security_agency_city_city_id"),
+    ForeignKeyConstraint(["state_id"], ["State_Master.state_id"], name="fk_security_agency_state_state_id"),  
 )
 
 security_master = Table(
