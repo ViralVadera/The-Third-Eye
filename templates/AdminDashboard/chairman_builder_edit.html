@@ -9,32 +9,32 @@
 <body>
   <section>
     <div class="container">
-      <form id="myForm" method="post" action="/chairmaninsert">
+      <form id="myForm" method="post" action="/chairmanedit/{{c.chairman_id}}">
         <div>
            <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
         <div class="pagename">
           <span>
-            <h3 class="pgname">Chairman | Builder Registration</h3>
+            <h3 class="pgname">Chairman | Builder Update</h3>
           </span>
         </div>
         <div class="step step-1 active">
           <div class="form-group">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstname" required minlength="2" maxlength="30"/>
+            <input type="text" id="firstName" name="firstname" required minlength="2" maxlength="30" value="{{ c.f_name }}"/>
             <div class="error-msg"></div>
           </div>
           <div class="form-group">
             <label for="middleName">Middle Name</label>
-            <input type="text" id="middleName" name="middlename"  minlength="2" maxlength="30"/>
+            <input type="text" id="middleName" name="middlename"  minlength="2" maxlength="30" value="{{ c.m_name }}"/>
           </div>
           <div class="form-group">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastname" required minlength="2" maxlength="30"/>
+            <input type="text" id="lastName" name="lastname" required minlength="2" maxlength="30" value="{{ c.l_name }}"/>
           </div>
           <div class="form-group">
             <label for="cityInput">Gender</label>   
-               <input list="genders" id="genderInput" name="gender"  class="drp"/>
+               <input list="genders" id="genderInput" name="gender"  class="drp" value="{{ c.Gender }}"/>
              <datalist id="gender" class="gender">
                <option>M</option>
                <option>F</option>
@@ -43,57 +43,48 @@
          </div>
           <div class="form-group">
             <label for="dob">DOB</label>
-            <input type="date" id="dob" name="dob" required   />
+            <input type="date" id="dob" name="dob" required value="{{ c.dob }}"/>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="emaill" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')"/>
+            <input type="email" id="email" name="emaill" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')" value="{{ c.email }}"/>
             <div class="error-msg" id="email-error-msg"></div>
           </div>
           <div class="form-group">
             <label for="alt-email">Alternate Email</label>
-            <input type="email" id="alt-email" name="altemail" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'alt-email')"/>
+            <input type="email" id="alt-email" name="altemail" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'alt-email')" value="{{ c.alternate_email }}"/>
             <div class="error-msg" id="alt-email-error-msg"></div>
           </div>
           <div class="form-group">
-            <label for="pswd">Password</label>
-            <input type="password" id="pswd" name="pswd" required/>
-          </div>
-          <div class="form-group">
-            <label for="cfmpswd">Confirm Password</label>
-            <input type="password" id="cfmpswd" name="cfmpswd" required/>
-          </div>
-      
-          <div class="form-group">
             <label for="mobile">Mobile</label>
-            <input type="number" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required/>
+            <input type="number" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required value="{{ c.mobile_no }}" maxlength="10"/>
           </div>
           <div class="form-group">
             <label for="alt-mobile">Alternate Mobile</label>
-            <input type="number" id="alt-mobile" name="altmobile" inputmode="numeric" pattern="[0-9]{10}"/>
+            <input type="number" id="alt-mobile" name="altmobile" inputmode="numeric" pattern="[0-9]{10}" value="{{ c.alternate_mobile_no }}" maxlength="10"/>
           </div>
         </div>
 
           <div class="form-group">
             <label for="address-1">Address-1</label>
-            <input type="text" id="address-1" name="address1" required minlength="5" />
+            <input type="text" id="address-1" name="address1" required minlength="5" value="{{ c.address_line1 }}"/>
           </div>
           <div class="form-group">
             <label for="address-2">Address-2</label>
-            <input type="text" id="address-2" name="address2" required minlength="5" />
+            <input type="text" id="address-2" name="address2" required minlength="5" value="{{ c.address_line2 }}"/>
           </div>
           <div class="form-group">
             <label for="landmark">Landmark</label>
-            <input type="text" id="landmark" name="landmarks" />
+            <input type="text" id="landmark" name="landmarks" value="{{ c.landmark }}"/>
           </div>
           <div class="form-group">
             <label for="road">Road</label>
-            <input type="text" id="road" name="Road" />
+            <input type="text" id="road" name="Road" value="{{ c.road }}"/>
           </div>
           
           <div class="form-group">
              <label for="cityInput">City</label>               
-                <input list="cities" id="cityInput" name="citys"  class="drp"/>
+                <input list="cities" id="cityInput" name="citys"  class="drp" value="{{ c.city_name }}"/>
               <datalist id="cities" class="ct-lists">
                 {% for c in city %}
                 <option>{{ c.city_name }}</option>
@@ -106,7 +97,7 @@
 
       <div class="form-group">
              <label for="societyInput">Society Name</label>               
-                <input list="society" id="societyInput" name="societys"  class="drp"/>
+                <input list="society" id="societyInput" name="societys"  class="drp" value="{{ c.society_name }}"/>
               <datalist id="society" class="soc-lists">
                 {% for s in society %}
                   <option>{{ s.society_name }}</option>
@@ -116,17 +107,17 @@
 
           <div class="form-group">
             <label for="assigndt">Assign Date</label>
-            <input type="date" id="assigndt" name="assigndt" required   />
+            <input type="date" id="assigndt" name="assigndt" required  value="{{ c.assign_date }}"/>
           </div>
 
           <div class="form-group">
             <label for="assigtillndt">Assign Till</label>
-            <input type="date" id="assigtillndt" name="assigntilldt"    />
+            <input type="date" id="assigtillndt" name="assigntilldt" value="{{ c.assign_till }}"/>
           </div>
 
           <div class="form-group">
             <label for="ischairman">Is Chairman</label>
-            <input list="ischairman" id="ischairmanInput" name="ischairmans" class="drp"/>
+            <input list="ischairman" id="ischairmanInput" name="ischairmans" class="drp" value="{{ c.is_chairman }}"/>
             <datalist id="ischairman">
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
