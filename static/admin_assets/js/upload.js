@@ -1,4 +1,3 @@
-
 const dragDropArea = document.getElementById('dragDropArea');
 const fileNameElement = document.getElementById('fileName');
 const deleteButton = document.getElementById('deleteButton');
@@ -56,3 +55,14 @@ function deleteFile() {
     fileNameElement.textContent = ''; // Clear the displayed file name
     deleteButton.style.display = 'none'; // Hide the delete button
 }
+function displayFileName(fileName) {
+    document.getElementById('fileName').textContent = fileName;
+    document.getElementById('deleteButton').style.display = 'inline-block';
+}
+
+document.getElementById('deleteButton').addEventListener('click', function() {
+var fileInput = document.getElementById('file-upload');
+fileInput.value = ''; // Clear the file input
+document.getElementById('fileName').textContent = ''; // Clear the displayed file name
+document.getElementById('deleteButton').style.display = 'none'; // Hide the delete button
+});

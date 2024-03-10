@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Form, Request, Depends, HTTPException, status,File, UploadFile
+from fastapi import FastAPI,Cookie, Form, Request, Depends, HTTPException, status,File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 import csv
 import io
 import uvicorn
-from typing import Any
+from typing import Any, Optional
 from datetime import datetime, date
 from passlib.context import CryptContext
 from fastapi.templating import Jinja2Templates
@@ -12,7 +12,7 @@ import ssdb
 import secrets
 import get_data
 import auth
-from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table, Boolean, Date, ForeignKey, ForeignKeyConstraint, update
+from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table, Boolean, Date, ForeignKey, ForeignKeyConstraint, update, join, select
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -42,13 +42,25 @@ def read_hm(request: Request):
     return templates.TemplateResponse("home/index.html", {"request": request})
 
 @app.get("/logout/")
-async def logout(request: Request):
-    auth.key='TheThirdEye'
-    return templates.TemplateResponse(
+async def logout(request: Request,session_token: str = Cookie(None)):
+    if session_token in auth.session_storage:
+        del auth.session_storage[session_token]
+        return templates.TemplateResponse(
                 "home/login.html",
-                {"request": request, "pop_up_message": "You are logged out."}
+                {"request": request, "pop_up_message": "Invalid Attempt"}
             )
+    else:
+        raise HTTPException(status_code=400, detail="Invalid session token")
+    
+@app.post("/upload-csv/")
+async def upload_csv(csv_file: UploadFile = File(...), table_name: str = "your_table_name"):
+    # Read the contents of the uploaded CSV file
+    contents = await csv_file.read()
 
+    # Pass the CSV data and table name to append_csv_to_table function to append data to existing table
+    get_data.append_csv_to_table(contents.decode(), table_name)
+
+    return {"filename": csv_file.filename, "status": "appended to table successfully"}
 
 @app.route("/admin", methods=['GET', 'POST'])
 async def admin(request: Request):
@@ -290,7 +302,6 @@ async def asecurityagency(request: Request):
                 "home/login.html",
                 {"request": request, "pop_up_message": "Invalid Attempt"}
             )
-    
     cit=ssdb.city_master.select()
     city=await ssdb.database.fetch_all(cit)
     sit=ssdb.state_master.select()
@@ -429,13 +440,11 @@ async def asocieties_upload(request: Request, csvfile: UploadFile = File(...)):
     csv_data = io.StringIO(contents.decode('utf-8'))
     csv_reader = csv.reader(csv_data)
     current_user = auth.verify_session(request)
-    email = current_user["email"]
     createdby=await get_data.select_tableemail(ssdb.user_master,email)
     next(csv_reader, None) #removing header
     
     for row in csv_reader:
         try:
-            print(row[8])
             hashed_pass=auth.encrypt_password(row[11])
             cit=ssdb.city_master.select().where(ssdb.city_master.c.city_name==row[7])
             cityid=await ssdb.database.fetch_one(cit)
@@ -466,24 +475,288 @@ async def asocieties_upload(request: Request, csvfile: UploadFile = File(...)):
 
 
 @app.route("/admin/asecurityguard", methods=['GET', 'POST'])
-def asecurityguard(request: Request):
+async def asecurityguard(request: Request):
     current_user = auth.verify_session(request)
     if current_user is None:
         return templates.TemplateResponse(
                 "home/login.html",
                 {"request": request, "pop_up_message": "Invalid Attempt"}
             )
-    return templates.TemplateResponse("AdminDashboard/security_guard.html", {"request": request})
+    email=email = current_user["email"]
+    use=await get_data.select_tableuname(ssdb.user_master,email)
+    query = select(
+        ssdb.security_master.c.security_id,
+        ssdb.user_master.c.f_name,
+        ssdb.security_agency_master.c.security_agency_name,
+        ssdb.security_master.c.join_date,
+        ssdb.security_master.c.created_by,
+        ssdb.security_master.c.updated_by,
+        ssdb.security_master.c.created_date,
+        ssdb.security_master.c.updated_date
+    ).select_from(
+    ssdb.security_master.join(
+        ssdb.user_master,
+        ssdb.security_master.c.user_id == ssdb.user_master.c.user_id
+    ).join(
+        ssdb.security_agency_master,
+        ssdb.security_master.c.security_agency_id == ssdb.security_agency_master.c.security_agency_id
+    )
+    )
+
+    gurds=await ssdb.database.fetch_all(query)
+
+    return templates.TemplateResponse("AdminDashboard/security_guard.html", {"request": request, "user": use, "gurd": gurds})
+
+@app.route("/admin/guardinsert", methods=['GET', 'POST'])
+async def asecurityguard(request: Request):
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    query=ssdb.security_agency_master.select()
+    agency_name= await ssdb.database.fetch_all(query)
+    query=ssdb.city_master.select()
+    city=await ssdb.database.fetch_all(query)
+
+    return templates.TemplateResponse("AdminDashboard/security_guard_insert.html", {"request": request, "agency": agency_name, "city": city})
+altmobile: Optional[str] = Form(None)
+@app.post("/guardsinsert")
+async def adminsocinsert(request: Request, firstname : str = Form(...), joindt: date = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: str = Form(...), altemail: Optional[str] = Form(None), pswd: str = Form(...), address_1: str = Form(...), address_2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None), secagencys:str = Form(...)):
+
+    current_user = auth.verify_session(request)
+    email = current_user["email"]
+    createdby=await get_data.select_tableemail(ssdb.user_master,email)
+    cit=ssdb.city_master.select().where(ssdb.city_master.c.city_name==citys)
+    cityid=await ssdb.database.fetch_one(cit)
+    print(cityid)
+    sit=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.security_agency_name==secagencys)
+    agid=await ssdb.database.fetch_one(sit)
+    hashed_pass=auth.encrypt_password(pswd)
+    
+    user = ssdb.user_master.insert().values(
+        f_name=firstname,
+        m_name=middlename,
+        l_name=lastname,
+        dob=dob,
+        Gender=gender,
+        address_line1=address_1,
+        address_line2=address_2,
+        landmark=landmarks,
+        road=Road,
+        city_id=cityid[0],
+        email=emaill,
+        alternate_email=altemail,
+        password=hashed_pass,
+        mobile_no=mobile,
+        alternate_mobile_no=altmobile,
+        user_type='security',
+        created_by=createdby,
+        updated_by=createdby
+    )
+    result =await ssdb.database.fetch_one(user)
+    userid=await get_data.select_tableemail(ssdb.user_master,emaill)
+    seecu = ssdb.security_master.insert().values(
+        user_id=userid,
+        security_agency_id=agid[0],
+        join_date=joindt,
+        created_by=createdby,
+        updated_by=createdby
+    )
+    sresult =await ssdb.database.fetch_one(seecu)
+    
+    return RedirectResponse('/admin/asecurityguard')
+
+@app.get("/admin/guardedit/{gurd_id}")
+async def adminsocedit(request: Request, gurd_id: int):
+ 
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    query=ssdb.security_agency_master.select()
+    agency= await ssdb.database.fetch_all(query)
+    query=ssdb.city_master.select()
+    city=await ssdb.database.fetch_all(query)
+    query=ssdb.security_master.select().where(ssdb.security_master.c.security_id==gurd_id)
+    gurd=await ssdb.database.fetch_one(query)
+    query=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.security_agency_id==gurd[2])
+    agency_name= await ssdb.database.fetch_one(query)
+    query=ssdb.user_master.select().where(ssdb.user_master.c.user_id==gurd[1])
+    user=await ssdb.database.fetch_one(query)
+    query=ssdb.city_master.select().where(ssdb.city_master.c.city_id==user[14])
+    cityy=await ssdb.database.fetch_one(query)
+
+    return templates.TemplateResponse("AdminDashboard/security_guard_edit.html", {"request": request, "agency_name": agency_name, "city": city, "cityy": cityy, "user": user, "agency": agency, "gurd": gurd})
+@app.post("/guardsedit/{gurd_id}")
+async def admingurdedit(request: Request, gurd_id: int, firstname : str = Form(...), joindt: date = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: str = Form(...), altemail: Optional[str] = Form(None), address_1: str = Form(...), address_2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None), secagencys:str = Form(...)):
+
+    current_user = auth.verify_session(request)
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    email = current_user["email"]
+    createdby=await get_data.select_tableemail(ssdb.user_master,email)
+    cit=ssdb.city_master.select().where(ssdb.city_master.c.city_name==citys)
+    cityid=await ssdb.database.fetch_one(cit)
+    print(cityid)
+    sit=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.security_agency_name==secagencys)
+    agid=await ssdb.database.fetch_one(sit)
+    udate=datetime.today().date()
+    userid=await get_data.select_tableemail(ssdb.user_master,emaill)
+    
+    user = ssdb.user_master.update().where(ssdb.user_master.c.user_id==userid).values(
+        f_name=firstname,
+        m_name=middlename,
+        l_name=lastname,
+        dob=dob,
+        Gender=gender,
+        address_line1=address_1,
+        address_line2=address_2,
+        landmark=landmarks,
+        road=Road,
+        city_id=cityid[0],
+        email=emaill,
+        alternate_email=altemail,
+        mobile_no=mobile,
+        alternate_mobile_no=altmobile,
+        updated_by=createdby,
+        updated_date=udate
+    )
+    result =await ssdb.database.fetch_one(user)
+    seecu = ssdb.security_master.update().where(ssdb.security_master.c.security_id==gurd_id).values(
+        user_id=userid,
+        security_agency_id=agid[0],
+        join_date=joindt,
+        updated_by=createdby
+    )
+    sresult =await ssdb.database.fetch_one(seecu)
+    
+    return RedirectResponse('/admin/asecurityguard')
+
+@app.get("/guardsdelte/{gurd_id}")
+async def gurddel(request: Request, gurd_id: int):
+    qyery=ssdb.security_master.select().where(ssdb.security_master.c.security_id==gurd_id)
+    uid=await ssdb.database.fetch_one(qyery)
+    query=ssdb.user_master.delete().where(ssdb.user_master.c.user_id==uid[1])
+    udel=await ssdb.database.fetch_one(query)
+    query=ssdb.security_master.delete().where(ssdb.security_master.c.security_id==gurd_id)
+    sdel=await ssdb.database.fetch_one(query)
+    get_data.delete_sequence_value('Security_Master')
+    get_data.delete_sequence_value('User_Master')
+    if sdel is None:
+        return RedirectResponse(url='/admin/asecurityguard')
+
+@app.route("/admin/gurd_upload", methods=['GET', 'POST'])
+async def gurd_upload(request: Request):
+    current_user = auth.verify_session(request)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    email = current_user["email"]
+    use=await get_data.select_tableuname(ssdb.user_master,email)
+    return templates.TemplateResponse("AdminDashboard/security_guard_upload.html", {"request": request,"user": use})
+@app.post("/gurdupload")
+async def gurdupload(request: Request, csvfile: UploadFile = File()):
+    current_user = auth.verify_session(request)
+    email = current_user["email"]
+    use=await get_data.select_tableuname(ssdb.user_master,email)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Invalid Attempt"}
+            )
+    if csvfile is None:
+        return RedirectResponse('/admin/gurd_upload')
+    createdby=await get_data.select_tableemail(ssdb.user_master,email)
+    if not csvfile.filename.endswith('.csv'):
+        return templates.TemplateResponse(
+                "AdminDashboard/security_guard_upload.html",
+                {"request": request, "pop_up_message": "Please upload .CSV file."}
+            )
+    udate=datetime.today().date()
+    # Read and parse the CSV file
+    contents = await csvfile.read()
+    csv_data = io.StringIO(contents.decode('utf-8'))
+    csv_reader = csv.reader(csv_data)
+    current_user = auth.verify_session(request)
+    createdby=await get_data.select_tableemail(ssdb.user_master,email)
+    next(csv_reader, None) #removing header
+    
+    for row in csv_reader:
+    
+    
+      try:
+        date_str = row[4]
+        date = datetime.strptime(date_str, '%d-%m-%Y').date()
+        date=date.strftime('%Y-%m-%d')
+        ddob=datetime.strptime(date, "%Y-%m-%d").date()
+        date_str = row[17]
+        date = datetime.strptime(date_str, '%d-%m-%Y').date()
+        date=date.strftime('%Y-%m-%d')
+        jdate=datetime.strptime(date, "%Y-%m-%d").date()
+        sit=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.security_agency_name==row[16])
+        agid=await ssdb.database.fetch_one(sit)
+        hashed_pass=auth.encrypt_password(row[8])
+        cit=ssdb.city_master.select().where(ssdb.city_master.c.city_name==row[15])
+        cityid=await ssdb.database.fetch_one(cit)
+        user = ssdb.user_master.insert().values(
+        f_name=row[1],
+        m_name=row[2],
+        l_name=row[3],
+        dob=ddob,
+        Gender=row[5],
+        address_line1=row[11],
+        address_line2=row[12],
+        landmark=row[13],
+        road=row[14],
+        city_id=cityid[0],
+        email=row[6],
+        alternate_email=row[7],
+        password=hashed_pass,
+        mobile_no=row[9],
+        alternate_mobile_no=row[10],
+        user_type='security',
+        created_by=createdby,
+        updated_by=createdby,
+        updated_date=udate
+        )
+        result =await ssdb.database.fetch_one(user)
+        userid=await get_data.select_tableemail(ssdb.user_master,row[6])
+        seecu = ssdb.security_master.insert().values(
+        user_id=userid,
+        security_agency_id=agid[0],
+        join_date=jdate,
+        created_by=createdby,
+        updated_by=createdby
+        )
+        sresult =await ssdb.database.fetch_one(seecu)
+    
+        return RedirectResponse('/admin/asecurityguard')
+
+    
+      except ValueError as e:
+            print(f"Error converting date for row {row}: {e}")
     
 @app.route("/admin/achairmanbuilder", methods=['GET', 'POST'])
-def achairmanbuilder(request: Request):
+async def achairmanbuilder(request: Request):
     current_user = auth.verify_session(request)
     if current_user is None:
         return templates.TemplateResponse(
                 "home/login.html",
                 {"request": request, "pop_up_message": "Invalid Attempt"}
             )
-    return templates.TemplateResponse("AdminDashboard/chairman_builder.html", {"request": request})
+    email=email = current_user["email"]
+    use=await get_data.select_tableuname(ssdb.user_master,email)
+    return templates.TemplateResponse("AdminDashboard/chairman_builder.html", {"request": request, "user": use})
     
 @app.route("/admin/amember", methods=['GET', 'POST'])
 def amember(request: Request):
