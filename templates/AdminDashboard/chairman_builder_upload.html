@@ -36,9 +36,8 @@
   {% if pop_up_message %}
                     <script>
                         alert("{{ pop_up_message }}");
-                        window.location.href = "/admin/agency_upload";
                     </script>
-                    {% endif %}
+  {% endif %}
 
      <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
@@ -130,7 +129,6 @@
         </li><!-- End Messages Nav -->
 
       <li class="nav-item dropdown pe-3">
-            {% if user is defined %}
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
               <span style="margin-right: 0.3cm;">{{ user[0][1] }} {{ user[0][3] }}</span>
             </a><!-- End Profile Iamge Icon -->
@@ -140,7 +138,6 @@
                 <h6>{{ user[0][1] }} {{ user[0][3] }}</h6>
                 <span>{{ user[0][16] }}</span>
               </li>
-              {% endif %}
             <li>
               <hr class="dropdown-divider">
             </li>

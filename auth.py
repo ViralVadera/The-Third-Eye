@@ -14,7 +14,7 @@ def verify_session(request: Request):
     if session_token not in session_storage:
         return None
     user = session_storage[session_token]
-    return {"email": user["username"], "user": user}
+    return {"email": user["username"], "user": user, "user_type": user["user_type"]} 
 
 def encrypt_password(new_password):
     hashed_password = bcrypt_context.hash(new_password)

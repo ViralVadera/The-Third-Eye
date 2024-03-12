@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="assets/css/insert.css">
+  <link rel="stylesheet" href="/static/admin_assets/css/insert.css">
 </head>
 <body>
   <section>
     <div class="container">
-      <form id="myForm" method="post">
+      <form id="myForm" method="post" action="/memberinsert">
         <div>
-           <a href="index.html"><img src="assets/img/TTE.png" alt="" class="logo"></a>
+           <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
         <div class="pagename">
           <span>
@@ -21,29 +21,38 @@
         <div class="step step-1 active">
           <div class="form-group">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="first-name" required minlength="2" maxlength="30"/>
+            <input type="text" id="firstName" name="firstname" required minlength="2" maxlength="30"/>
             <div class="error-msg"></div>
           </div>
           <div class="form-group">
             <label for="middleName">Middle Name</label>
-            <input type="text" id="middleName" name="middle-name"  minlength="2" maxlength="30"/>
+            <input type="text" id="middleName" name="middlename"  minlength="2" maxlength="30"/>
           </div>
           <div class="form-group">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="last-name" required minlength="2" maxlength="30"/>
+            <input type="text" id="lastName" name="lastname" required minlength="2" maxlength="30"/>
           </div>
           <div class="form-group">
             <label for="dob">DOB</label>
             <input type="date" id="dob" name="dob" required   />
           </div>
           <div class="form-group">
+            <label for="cityInput">Gender</label>   
+               <input list="genders" id="genderInput" name="gender"  class="drp"/>
+             <datalist id="gender" class="gender">
+               <option>M</option>
+               <option>F</option>
+               <option>O</option>
+             </datalist>  
+         </div>
+          <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')"/>
+            <input type="email" id="email" name="emaill" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')"/>
             <div class="error-msg" id="email-error-msg"></div>
           </div>
           <div class="form-group">
             <label for="alt-email">Alternate Email</label>
-            <input type="email" id="alt-email" name="alt-email" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'alt-email')"/>
+            <input type="email" id="alt-email" name="altemail" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'alt-email')"/>
             <div class="error-msg" id="alt-email-error-msg"></div>
           </div>
           <div class="form-group">
@@ -61,77 +70,48 @@
           </div>
           <div class="form-group">
             <label for="alt-mobile">Alternate Mobile</label>
-            <input type="number" id="alt-mobile" name="alt-mobile" inputmode="numeric" pattern="[0-9]{10}"/>
+            <input type="number" id="alt-mobile" name="altmobile" inputmode="numeric" pattern="[0-9]{10}"/>
           </div>
      
 
             <div class="form-group">
                 <label for="unitname">Unit Name</label>
                 <input type="text" id="unitname" name="unitname" required />
+                <datalist id="units" class="ct-lists">
+                  {% for u in unit%}
+                    <option>{{ u.unit_name }}</option>
+                    {% endfor %}
+                </datalist>  
               </div>
 
           <div class="form-group">
             <label for="address-1">Address-1</label>
-            <input type="text" id="address-1" name="address-1" required minlength="5" />
+            <input type="text" id="address-1" name="address1" required minlength="5" />
           </div>
           <div class="form-group">
             <label for="address-2">Address-2</label>
-            <input type="text" id="address-2" name="address-2" required minlength="5" />
+            <input type="text" id="address-2" name="address2" required minlength="5" />
           </div>
           <div class="form-group">
             <label for="landmark">Landmark</label>
-            <input type="text" id="landmark" name="landmark" />
+            <input type="text" id="landmark" name="landmarks" />
           </div>
           <div class="form-group">
             <label for="road">Road</label>
-            <input type="text" id="road" name="road" />
-          </div>
-          <div class="form-group">
-            <label for="postCode">Pin Code</label>
-            <input type="number" id="postCode" name="post-code" required inputmode="numeric" />   
-          </div>
-     
-          <div class="form-group">
-            <label for="countryInput">Country</label>
-       
-              <input list="countries" id="countryInput" name="countrys"   class="drp"/>
-              <datalist id="countries" class="c-lists">
-                  <option value="India">India</option>
-                  <option value="USA">USA</option>
-                  <option value="Pakistan">Pakistan</option>
-                  <option value="Africa">Africa</option>
-                  <option value="China">China</option>
-              </datalist>
-                   
-          </div>
-          
-          <div class="form-group">
-            <label for="stateInput">State</label>
-         
-              <input list="states" id="stateInput" name="statess" class="drp"/>
-              <datalist id="states" class="s-lists">
-                  <option>Gujarat</option>
-                  <option value="delhi">Delhi</option>
-                  <option value="maharashtra">Maharashtra</option>
-                  <option value="punjab">Punjab</option>
-              </datalist>
-             
+            <input type="text" id="road" name="Road" />
           </div>
 
           <div class="form-group">
              <label for="cityInput">City</label>  
-             
                 <input list="cities" id="cityInput" name="citys"  class="drp"/>
               <datalist id="cities" class="ct-lists">
-                  <option >Github</option>
-                  <option >facebook</option>
-                  <option >whatsapp</option>
-                  <option >youtube</option>
-                  <option >instagram</option>
+                {% for c in city%}
+                  <option>{{ c.city_name }}</option>
+                  {% endfor %}
               </datalist>                 
           </div>
           <div class="button-group">           
-            <input type="submit" class="submit-btn" name="Submit" value="submit">
+            <input type="submit" class="submit-btn" name="Submit" value="Submit">
         </div>
       </form>
     </div>
