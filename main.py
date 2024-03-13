@@ -82,6 +82,21 @@ async def auser(request: Request):
     use=await get_data.select_tableuname(ssdb.user_master,email)
     return templates.TemplateResponse("AdminDashboard/users-profile.html", {"request": request, "user": use})
 
+#Admin user profile edit
+@app.get("/editprofile/{user_id}")
+async def pedit(request: Request, user_id: int, fName: Optional[str] = Form(), lName: Optional[str] = Form(), adress1: Optional[str] = Form(), adress2: Optional[str] = Form(), phone: Optional[str] = Form(), email: Optional[str] = Form()):
+    current_user = auth.verify_session(request)
+    query=ssdb.user_master.update().where(ssdb.user_master.c.user_id==user_id).values(
+        f_name=fName,
+        l_name=lName,
+        address_line1=adress1,
+        address_line2=adress2,
+        mobile_no=phone,
+        email=email
+    )
+    user=await ssdb.database.fetch_one(query)
+    if user is None:
+        return RedirectResponse("/admin/ausers-profile")
 
 #Admin Socity 
 @app.route("/admin/asocieties", methods=['GET', 'POST'])

@@ -4,18 +4,6 @@ from sqlalchemy.orm import sessionmaker
 import sqlite3
 import pandas as pd
 
-# Define function to append CSV data to an existing table
-def append_csv_to_table(csv_data, table_name):
-    DATABASE_URL = "sqlite:///the_third_eye.sqlite"
-    connection = sqlite3.connect(DATABASE_URL)
-    cursor = connection.cursor()
-    
-    # Assuming the first row of the CSV contains column names
-    df = pd.read_csv(csv_data)
-    df.to_sql(table_name, connection, if_exists='append', index=False)
-
-    connection.commit()
-    connection.close()
 
 def delete_sequence_value(table_name):
     try:
