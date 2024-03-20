@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/static/admin_assets/css/insert.css">
+</head>
+<body>
+  <section>
+    <div class="container">
+      <form id="myForm" method="post" action="/chmemberedit/{{ m.member_id }}">
+        <div>
+           <a href="/chairman"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
+        </div>
+        <div class="pagename">
+          <span>
+            <h3 class="pgname">Member Update</h3>
+          </span>
+        </div>
+        <div class="step step-1 active">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstname" required minlength="2" maxlength="30" value="{{ user.f_name }}"/>
+                <div class="error-msg"></div>
+              </div>
+              <div class="form-group">
+                <label for="middleName">Middle Name</label>
+                <input type="text" id="middleName" name="middlename"  minlength="2" maxlength="30" value="{{ user.m_name }}"/>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastname" required minlength="2" maxlength="30" value="{{ user.l_name }}"/>
+              </div>
+              <div class="form-group">
+                <label for="dob">DOB</label>
+                <input type="date" id="dob" name="dob" required value="{{ user.dob }}"/>
+              </div>
+              <div class="form-group">
+                <label for="cityInput">Gender</label>   
+                   <input list="genders" id="genderInput" name="gender"  class="drp" value="{{ user.Gender }}"/>
+                 <datalist id="gender" class="gender">
+                   <option>M</option>
+                   <option>F</option>
+                   <option>O</option>
+                 </datalist>  
+             </div>
+      
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="emaill" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')" value="{{ user.email }}"/>
+                <div class="error-msg" id="email-error-msg"></div>
+              </div>
+              <div class="form-group">
+                <label for="alt-email">Alternate Email</label>
+                <input type="email" id="alt-email" name="altemail" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'alt-email')" value="{{ user.alternate_email }}"/>
+                <div class="error-msg" id="alt-email-error-msg"></div>
+              </div>
+              <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input type="number" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required value="{{ user.mobile_no }}"/>
+              </div>
+              <div class="form-group">
+                <label for="alt-mobile">Alternate Mobile</label>
+                <input type="number" id="alt-mobile" name="altmobile" inputmode="numeric" pattern="[0-9]{10}" value="{{ user.alternate_mobile_no }}"/>
+              </div>
+              <div class="form-group">
+                <label for="unitname">Unit Name</label>
+                <input type="text" id="unitname" name="unitname" required value="{{ unit.unit_name }}"/>
+                <datalist id="units" class="ct-lists">
+                  {% for u in unit%}
+                    <option>{{ u.unit_name }}</option>
+                    {% endfor %}
+                </datalist>  
+              </div>
+              <div class="form-group">
+                <label for="address-1">Address-1</label>
+                <input type="text" id="address-1" name="address1" required minlength="5" value="{{ user.address_line1 }}"/>
+              </div>
+              <div class="form-group">
+                <label for="address-2">Address-2</label>
+                <input type="text" id="address-2" name="address2" required minlength="5" value="{{ user.address_line2 }}"/>
+              </div>
+              <div class="form-group">
+                <label for="landmark">Landmark</label>
+                <input type="text" id="landmark" name="landmarks" value="{{ user.landmark }}"/>
+              </div>
+              <div class="form-group">
+                <label for="road">Road</label>
+                <input type="text" id="road" name="Road" value="{{ user.road }}"/>
+              </div>
+              <div class="form-group">
+                 <label for="cityInput">City</label>   
+                    <input list="cities" id="cityInput" name="citys"  class="drp" value="{{ cityy.city_name }}"/>
+                  <datalist id="cities" class="ct-lists">
+                    {% for c in city %}  
+                    <option>{{ c.city_name }}</option>
+                    {% endfor %}
+                  </datalist>  
+              </div>
+          <div class="button-group">           
+            <input type="submit" class="submit-btn" name="Submit" value="Update">
+        </div>
+      </form>
+    </div>
+  </section>  
+</body>
+</html>

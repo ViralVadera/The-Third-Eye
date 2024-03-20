@@ -6,6 +6,7 @@
   <title>Document</title>
   <link rel="stylesheet" href="/static/admin_assets/css/insert.css">
   <style>
+   
     /* dropdown  */
     select {
       padding: 8px;
@@ -35,12 +36,13 @@
       box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
       background-color: white;
     }
+  
   </style>
 </head>
 <body>
   <section>
     <div class="container">
-      <form id="myForm" method="post" action="/memberinsert">
+      <form id="myForm" method="post" action="/amemberinsert">
         <div>
            <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
@@ -74,7 +76,7 @@
              <option value="F">Female</option>
              <option value="O">Other</option>
             </select>
-          </div>  
+          </div> 
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="emaill" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')"/>
@@ -104,15 +106,14 @@
           </div>
      
 
-            <div class="form-group">
-                <label for="unitname">Unit Name</label>
-                <input type="text" id="unitname" name="unitname" required />
-                <datalist id="units" class="ct-lists">
-                  {% for u in unit%}
-                    <option>{{ u.unit_name }}</option>
-                    {% endfor %}
-                </datalist>  
-              </div>
+          <div class="form-group">
+            <label for="unitname">Unit Name</label>                
+              <select name="unitname" id="unitname">
+              {% for u in unit%}
+                <option>{{ u.unit_name }}</option>
+                {% endfor %}
+              </select>
+          </div>
 
           <div class="form-group">
             <label for="address-1">Address-1</label>
@@ -132,14 +133,13 @@
           </div>
 
           <div class="form-group">
-             <label for="cityInput">City</label>  
-                <input list="cities" id="cityInput" name="citys"  class="drp"/>
-              <datalist id="cities" class="ct-lists">
-                {% for c in city%}
-                  <option>{{ c.city_name }}</option>
-                  {% endfor %}
-              </datalist>                 
-          </div>
+            <label for="cityInput">City</label>                  
+             <select name="citys" id="cityInput" >
+               {% for c in cityy %}  
+               <option>{{ c.city_name }}</option>
+               {% endfor %}
+             </select>
+         </div>
           <div class="button-group">           
             <input type="submit" class="submit-btn" name="Submit" value="Submit">
         </div>

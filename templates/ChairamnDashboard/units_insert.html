@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Montserrat";
+    }
+    section {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: aliceblue;
+    }
+    .container {
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      box-shadow: 0px 0px 20px #00000020;
+      border-radius: 8px;
+      background-color: white;
+    }
+    .step:not(.active) {
+      display: none;
+    }
+    .step {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .form-group {
+      flex: 0 0 50%;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    .error-msg{
+      color: red;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      transition: 0.3s ease;
+      box-shadow: 0 0 0 2px rgba(49, 65, 70, 0.1);
+    }
+    .form-group input:hover{
+      border: 2px solid #4A9DEC;
+      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
+      background-color: white;
+    }
+    .button-group {
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .next-btn, .previous-btn, .submit-btn{
+      padding: 10px 50px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition:  0.3s ease;
+    }
+    .next-btn:hover, .previous-btn:hover ,.submit-btn:hover{
+      background-color: #0056b3;
+      border: 2px solid #4A9DEC;
+      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
+
+    }
+    .logo {
+    position: relative;
+    height: 120px; /* Adjust pixel value as needed */
+    width: 120px; /* Adjust pixel value as needed */
+    left: 120px; /* Adjust pixel value as needed */
+}
+
+@media screen and (max-width: 768px) {
+    .logo {
+        height: 100px; /* Adjust pixel value as needed */
+        width: 100px; /* Adjust pixel value as needed */
+        left: 120px; /* Adjust pixel value as needed */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .logo {
+        height: 120px; /* Adjust pixel value as needed */
+        width: 120px; /* Adjust pixel value as needed */
+        left: 100px; /* Adjust pixel value as needed */
+    }
+}
+
+@media screen and (max-width: 768px) {
+  .next-btn ,.previous-btn {
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 3px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .next-btn ,.previous-btn,.submit-btn{
+    left: initial; /* Reset left property */
+    transform: none; /* Reset transform property */
+    width: 100%; /* Make button full width */
+    margin: 3px;
+  }
+}
+.custom-select {
+  position: relative;
+}
+
+.select-menu {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.search-input {
+  width: calc(100% - 16px);
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.select-menu option {
+  display: none;
+}
+
+.select-menu option[selected] {
+  display: block;
+}
+/* for disappear input number up-down arrow */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.pagename{
+  color: #007bff;
+  position: relative;
+  left: 90px;
+  bottom: 20px;
+  font-weight: bolder;
+  font-size: larger;
+  font-family: 'Times New Roman', serif;
+}
+
+/* Full media query for all devices */
+@media screen and (max-width: 576px) {
+  .container {
+    padding: 10px;
+  }
+
+  .logo {
+    height: 80px; /* Adjust pixel value as needed */
+    width: 80px; /* Adjust pixel value as needed */
+    left: 60px; /* Adjust pixel value as needed */
+  }
+
+  .next-btn,
+  .previous-btn,
+  .submit-btn {
+    width: 100%; /* Make button full width */
+    margin: 3px;
+  }
+
+  .pagename {
+    left: 100px; /* Adjust pixel value as needed */
+    bottom: 10px; /* Adjust pixel value as needed */
+    font-size: medium; /* Adjust font size */
+  }
+}
+  </style>
+</head>
+<body>
+  <section>
+    <div class="container">
+      <form id="myForm" method="post" action="/chunitinsert">
+        <div>
+           <a href="index.html"><img src="assets/img/TTE.png" alt="" class="logo"></a>
+        </div>
+        <div class="pagename">
+          <span>
+            <h3 class="pgname">Unit Registration</h3>
+          </span>
+        </div>
+        <div class="step step-1 active">
+         
+            <div class="form-group">
+                <label for="unitname">Unit Name</label>
+                <input type="text" id="unitname" name="unitname" required />
+              </div>
+
+              <div class="form-group">
+                <label for="unittype">Unit Type</label>
+                <input type="text" id="unittype" name="unitype" required />
+              </div>
+              <div class="form-group">
+                <label for="block">BLock</label>
+                <input type="text" id="block" name="block" required />
+              </div>
+
+              <div class="form-group">
+                <label for="floor">Floor Number</label>
+                <input type="number" id="floor" name="floor" required />
+              </div>
+
+              <div class="form-group">
+                <label for="floor">Socity Name</label>
+                <input type="text" id="floor" name="soci" required />
+              </div>
+
+          <div class="button-group">
+           
+            <button type="submit" class="submit-btn">Submit</button>
+          </div>
+       </div>
+      </form>
+    </div>
+  </section>
+  <script>
+    // prev next button js
+    const steps = Array.from(document.querySelectorAll("form .step"));
+    const nextBtn = document.querySelectorAll("form .next-btn");
+    const prevBtn = document.querySelectorAll("form .previous-btn");
+    const form = document.querySelector("form");
+  
+    nextBtn.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+        if (validateFields()) {
+          changeStep("next");
+        } 
+      });
+    });
+  
+    prevBtn.forEach((button) => {
+      button.addEventListener("click", () => {
+        changeStep("prev");
+      });
+    });
+  
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); // Prevent default form submission behavior
+      if (validateFields()) {
+        const inputs = [];
+        form.querySelectorAll("input").forEach((input) => {
+          const { name, value } = input;
+          inputs.push({ name, value });
+        });
+        console.log(inputs);
+        form.reset();
+      } 
+    });
+  
+    function changeStep(btn) {
+      let index = 0;
+      const active = document.querySelector(".active");
+      index = steps.indexOf(active);
+      steps[index].classList.remove("active");
+      if (btn === "next") {
+        index++;
+      } else if (btn === "prev") {
+        index--;
+      }
+      steps[index].classList.add("active");
+    }
+//   //validatations
+    function validateFields() {
+      const activeStep = document.querySelector(".active");
+      const inputs = activeStep.querySelectorAll("input[required]");
+      let isValid = true;
+      const emptyFields = [];
+  
+      inputs.forEach((input) => {
+        if (!input.value.trim()) {
+          isValid = false;
+          const label = document.querySelector(`label[for='${input.id}']`);
+          emptyFields.push(label.textContent);
+        }
+      });
+  
+      if (!isValid) {
+        alert(`Please fill in the following fields: ${emptyFields.join(', ')}`);
+      }
+  
+      return isValid;
+    }
+
+    function checkEmail(event, id) {
+  const errorMsgElement = document.getElementById(`${id}-error-msg`);
+  const emailInput = document.getElementById(id);
+
+  if (!emailInput.validity.valid) {
+    errorMsgElement.textContent = "**Please enter a valid email address";
+  } else {
+    errorMsgElement.textContent = "";
+  }
+}
+    // END prev next button js
+  </script>
+  
+  
+</body>
+</html>

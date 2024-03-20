@@ -5,6 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="/static/admin_assets/css/insert.css">
+  <style>
+    /* dropdown  */
+    select {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      color: #333;
+      width:100%;
+      max-width: 490px;
+      background-color: transparent;
+      transition: 0.3s ease;
+      box-shadow: 0 0 0 2px rgba(49, 65, 70, 0.1);
+    } 
+    /* Style the dropdown arrow */
+    select {  
+      background-position: right center;    
+    } 
+    /* Style the dropdown options */
+    select option {
+      background-color: #ffffff85;
+      color: #333;
+      border-radius: 40px;
+    }
+    select:hover{
+      border: 2px solid #4A9DEC;
+      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
+      background-color: white;
+    }
+  </style>
 </head>
 <body>
   <section>
@@ -26,33 +57,30 @@
           </div>
 
           <div class="form-group">
-            <label for="genderInput">Unit Name</label>      
-            <input list="gender" id="genderInput" name="unitname" class="drp" value="{{ g.unit_name }}"/>
-            <datalist id="gender" class="g-lists">
+            <label for="unitnameInput">Unit Name</label>
+              <select name="unitname" id="unitnameInput">
               {% for u in unit %}
                 <option>{{ u.unit_name }}</option> 
                 {% endfor %}             
-            </datalist>             
+              </select>
         </div>
 
           <div class="form-group">
-            <label for="age">Age</label>
+            <label for="age"style="margin-top: 7px;">Age</label>
             <input type="number" id="age" name="age" required inputmode="numeric" value="{{ g.guest_age }}"/>
           </div>
                 
           <div class="form-group">
-            <label for="genderInput">Gender</label>      
-            <input list="gender" id="genderInput" name="genders" class="drp" value="{{ g.guest_gender }}"/>
-            <datalist id="gender" class="g-lists">
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-                <option>Prefer Not To Answer</option>                 
-            </datalist>             
-        </div>
+            <label for="genderInput">Gender</label>
+            <select name="genders" id="genderInput">
+             <option value="Male">Male</option>
+             <option value="Female">Female</option>
+             <option value="Other">Other</option>
+            </select>
+          </div>
         
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email" style="margin-top: 7px;">Email</label>
             <input type="email" id="email" name="emaill" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')" value="{{ g.guest_email }}"/>
             <div class="error-msg" id="email-error-msg"></div>
           </div>    

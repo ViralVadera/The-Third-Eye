@@ -199,7 +199,6 @@ shift_master = Table(
     "Shift_Master",
     metadata,
     Column("shift_id" ,Integer , primary_key=True,autoincrement=True,index=True),
-    Column( "shift_hours" ,Integer,index=True,nullable=False),
     Column( "shift_time" ,String,index=True,nullable=False),
     Column( "created_by" ,Integer,index=True,nullable=False),
     Column( "updated_by" ,Integer,index=True,nullable=False),

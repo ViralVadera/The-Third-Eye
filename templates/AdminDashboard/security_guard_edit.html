@@ -5,6 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 <link rel="stylesheet" href="/static/admin_assets/css/insert.css">
+<style>
+  /* dropdown  */
+  select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    color: #333;
+    width:100%;
+    max-width: 490px;
+    background-color: transparent;
+    transition: 0.3s ease;
+    box-shadow: 0 0 0 2px rgba(49, 65, 70, 0.1);
+  } 
+  /* Style the dropdown arrow */
+  select {  
+    background-position: right center;    
+  } 
+  /* Style the dropdown options */
+  select option {
+    background-color: #ffffff85;
+    color: #333;
+    border-radius: 40px;
+  }
+  select:hover{
+    border: 2px solid #4A9DEC;
+    box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
+    background-color: white;
+  }
+</style>
 </head>
 <body>
   <section>
@@ -37,14 +68,13 @@
             <input type="date" id="dob" name="dob" required value="{{ user.dob }}"/>
           </div>
           <div class="form-group">
-            <label for="cityInput">Gender</label>   
-               <input list="genders" id="genderInput" name="gender"  class="drp" value="{{ user.Gender }}"/>
-             <datalist id="gender" class="gender">
-               <option>M</option>
-               <option>F</option>
-               <option>O</option>
-             </datalist>  
-         </div>
+            <label for="genderInput">Gender</label>
+            <select name="gender" id="genderInput">
+             <option value="M">Male</option>
+             <option value="F">Female</option>
+             <option value="O">Other</option>
+            </select>
+          </div>
   
           <div class="form-group">
             <label for="email">Email</label>
@@ -85,24 +115,23 @@
           </div>
 
           <div class="form-group">
-             <label for="cityInput">City</label>   
-                <input list="cities" id="cityInput" name="citys"  class="drp" value="{{ cityy.city_name }}"/>
-              <datalist id="cities" class="ct-lists">
+             <label for="cityInput">City</label>                  
+              <select name="citys" id="cityInput" >
                 {% for c in city %}  
                 <option>{{ c.city_name }}</option>
                 {% endfor %}
-              </datalist>  
+              </select>
           </div>
    
 
             <div class="form-group">
-              <label for="secagencies">Security Agency</label>   
-                 <input list="secagency" id="secagencyInput" name="secagencys" class="drp" value="{{ agency_name.security_agency_name }}"/>
-               <datalist id="secagency" class="sa-lists">
+              <label for="secagencyInput">Security Agency</label>   
+               
+                <select name="secagencys" id="secagencyInput">
                 {% for a in agency %}  
                 <option>{{ a.security_agency_name }}</option>
                 {% endfor %}
-               </datalist>  
+              </select>
            </div>
            <div class="form-group">
             <label for="joindt">Join Date</label>
