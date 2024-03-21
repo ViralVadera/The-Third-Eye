@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='hm.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body class="hehe"> 
+    
+    
+    <div class="background">
+        <img  class="bg" src="{{ url_for('static', path='images/pexels-miguel-á-padriñán-1111367.jpg') }}" alt="">
+    </div>
+  
+    <div class="panel"></div>
+    <a href="/hello"><div class="tte">
+            <img class="eye" src="{{ url_for('static', path='images/TTE.png') }}">
+        </div>
+    </a>
+     <a href="/hm.html"><div class="home">Home</div></a>
+
+    <a href="/about.html"><div class="abt">about</div></a>
+
+    <a href="/contact.html"><div class="cont">contact</div></a>
+
+    <a href="/faq.html"><div class="faq">FAQs</div></a>
+
+    <a href="/login" class="login-btn">
+        <div class="login-ovel" >
+            <div class="home-login" >
+                <div class="login-font">login</div>
+                    <img class="avtr" src="{{ url_for('static', path='images/avatar.png') }}">
+            </div>
+        </div>
+    </a>
+</body>
+</html>

@@ -1,0 +1,198 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+.upload-container {
+    background-color: #fff;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(37, 22, 22, 0.918);
+    padding: 20px;
+    width: 95%;
+    
+}
+
+.upload-container h2 {
+    text-align: center;
+}
+
+.upload-form {
+    margin-top: 20px;
+}
+
+.upload-form input[type="file"] {
+    display: none;
+}
+
+.upload-form label, .upload-form input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.upload-form input[type="submit"] {
+    background-color: #008CBA;
+    margin-left: -3px;
+    position: relative;
+    left: 3px;
+}
+
+.upload-form label:hover {
+    background-color: #45a049;
+}
+
+.upload-form input[type="submit"]:hover {
+    background-color: #3189a7;
+}
+/* demo csv */
+ input[type="button"]:hover {
+  background-color: #3189a7;
+}
+ input[type="button"] {
+  background-color: #008CBA;
+  margin-left: -3px;
+  position: relative;
+  left: 3px;
+  top: 0px;
+}
+.upload-form label, .upload-form input[type="button"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+/* demo */
+.drag-drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.drag-drop-area.highlight {
+    border-color: #4CAF50;
+}
+
+#fileName {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.delete-button {
+    background-color: #ff0000;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: none;
+}
+.footer{
+    position: relative;
+    top: 120px;
+}
+.table-container{
+    position: relative;
+}
+@media (max-width: 768px) {
+  /* Make upload container take up full width */
+    .upload-container {
+      width: 100%;
+      left: 0px; /* Remove left positioning */
+      margin: 0 auto;
+      top: 100px;
+    }
+.table-container{
+    top: 2cm;
+}
+    /* Stack form elements vertically on mobiles */
+    .upload-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Adjust label and input styles for better alignment */
+    .upload-form label,
+    .upload-form input[type="file"],
+    .upload-form input[type="submit"] {
+      margin-bottom: 10px;
+      width: 100%; /* Make elements take full width */
+    }
+
+    /* Reduce button size for mobiles */
+    .upload-form input[type="submit"] {
+      padding: 8px 16px;
+    }
+
+    /* Adjust drag-drop area styles */
+    .drag-drop-area {
+      font-size: 0.8rem; /* Reduce font size */
+    }
+  }
+  
+@media (max-width: 1024px) {
+ 
+    /* Make upload container take up full width */
+    .upload-container {
+      width: 100%;
+      left: 0; /* Remove left positioning */
+      margin: 0 auto;
+      top: 100px;
+    }
+
+    /* Stack form elements vertically on mobiles */
+    .upload-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Adjust label and input styles for better alignment */
+    .upload-form label,
+    .upload-form input[type="file"],
+    .upload-form input[type="submit"] {
+      margin-bottom: 10px;
+      width: 100%; /* Make elements take full width */
+    }
+
+    /* Reduce button size for mobiles */
+    .upload-form input[type="submit"] {
+      padding: 8px 16px;
+    }
+
+    /* Adjust drag-drop area styles */
+    .drag-drop-area {
+      font-size: 0.8rem; /* Reduce font size */
+    }
+  }
+  /* download example button */
+  .csvbtn{
+    background-color: #4CAF50;
+    color: white;
+    position: relative;
+    top: 12px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  left: 120px;
+  }

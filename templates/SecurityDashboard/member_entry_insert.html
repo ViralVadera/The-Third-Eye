@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="assets/css/insert.css">
+</head>
+<body>
+  <section>
+    <div class="container">
+      <form id="myForm" method="post">
+        <div>
+           <a href="index.html"><img src="assets/img/TTE.png" alt="" class="logo"></a>
+        </div>
+        <div class="pagename">
+       <span class="pgname" >
+           Member Entry
+          </span>
+        </div>
+        <div class="step step-1 active">
+          <div class="form-group">
+            <label for="gname">First Name</label>
+            <input type="text" id="gname" name="gname" required />
+            <div class="error-msg"></div>
+          </div>
+         
+            
+          <div class="form-group">
+            <label for="unitName">Unit Name</label>      
+            <input list="unitname" id="unitName" name="uName" class="drp"/>
+            <datalist id="unitname" class="un-lists">
+                <option value="C-102">C-102</option>
+                <option value="C-103">C-103</option>
+                <option value="C-104">C-104</option>
+                <option value="C-105">C-105</option>                 
+            </datalist>             
+        </div>
+            
+          <div class="button-group">
+            <input type="submit" class="submit-btn" name="Submit" value="Entry">
+          </div>
+        </div>
+       
+      </form>
+    </div>
+  </section> 
+</body>
+
+
+</html>
+

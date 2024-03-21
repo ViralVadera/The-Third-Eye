@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>THE THIRD EYE</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/static/admin_assets/img/tech.png" rel="icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/admin_assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/admin_assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/static/admin_assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/static/admin_assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="/static/admin_assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="/static/admin_assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/static/admin_assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/static/admin_assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .drp{
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+    .lists{
+    width: 500px;
+    background-color: #0056b3;
+    }</style>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/admin" class="logo d-flex align-items-center">
+        <img src="/static/admin_assets/img/TTE.png" alt="">
+        <span class="d-none d-lg-block">THE THIRD EYE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+      </form>
+    </div><!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+        </li><!-- End Search Icon-->
+
+        <li class="nav-item dropdown">
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+            <li class="dropdown-header">
+              You have 4 new notifications
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                <h4>Lorem Ipsum</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>30 min. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+            
+              <i class="bi bi-x-circle text-danger"></i>
+              <div>
+                <h4>Atque rerum nesciunt</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>1 hr. ago</p>
+              </div>
+            </li>
+
+                         <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                <h4>Sit rerum fuga</h4>
+                <p>Quae dolorem earum veritatis oditseno</p>
+                <p>2 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-info-circle text-primary"></i>
+              <div>
+                <h4>Dicta reprehenderit</h4>
+               1q  <p>Quae dolorem earum veritatis oditseno</p>
+                <p>4 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="dropdown-footer">
+              <a href="#">Show all notifications</a>
+            </li>
+
+          </ul><!-- End Notification Dropdown Items -->
+
+        </li><!-- End Notification Nav -->
+
+         
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <span style="margin-right: 0.3cm;">{{ user[0][1] }} {{ user[0][3] }}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ user[0][1] }} {{ user[0][3] }}</h6>
+              <span>{{ user[0][16] }}</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/admin/ausers-profile">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/logout/">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item active">
+        <a class="nav-link " data-bs-target="#components-nav" href="/admin/asocieties">
+          <img src="/static/admin_assets/img/society.png" class="nicon"><span class="ntext nspan">Societies</span>
+        </a>
+      </li><!-- End Family Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/asecurityagency">
+          <img src="/static/admin_assets/img/agancy.png" class="caricon"><span class="ntext vspan">Security Agancy</span>
+        </a>
+      </li><!-- End security agancy Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/asecurityguard">
+          <img src="/static/admin_assets/img/guard.png" class="caricon"><span class="ntext vspan">Security Guard</span>
+        </a>
+      </li><!-- End security guard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/achairmanbuilder">
+          <img src="/static/admin_assets/img/chairman.png" class="caricon"><span class="ntext vspan">Chairman | Builder</span>
+        </a>
+      </li><!-- End security guard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/amember">
+          <img src="/static/admin_assets/img/member.png" class="caricon"><span class="ntext vspan">Members</span>
+        </a>
+      </li><!-- End security guard Nav -->
+
+      <li class="nav-item" style="background: #f6f9ff;">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/acaretaker">
+          <img src="/static/admin_assets/img/nanny.png" class="caricon"><span class="ntext vspan" style="color: #4154f1;">Caretaker</span>
+        </a>
+      </li><!-- End security guard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/aguest">
+          <img src="/static/admin_assets/img/guest.png" class="caricon"><span class="ntext vspan">Guests</span>
+        </a>
+      </li><!-- End security guard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#forms-nav" href="/admin/ausers-profile">
+          <img src="/static/admin_assets/img/user.png" class="caricon"><span class="ntext vspan">Profile</span>
+        </a>
+      </li><!-- End profile Nav -->
+
+
+  </aside><!-- End Sidebar-->
+  
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Security Guard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+          <li class="breadcrumb-item active">Security Guard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+      <section class="section">
+        <div class="table-container"> 
+					
+          <div class="search-container select-btnnn select-menu">
+            <input type="text" id="searchInput" placeholder="Search..." class="search">       
+          </div>
+					<table id="myTable">
+            
+						<thead>
+							<tr>
+								<th>Action</th>
+								<th>Id</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Service Type</th>
+                <th>Created By</th>
+                <th>Updated By </th>
+								<th>Created Date</th>
+                <th>Updated Date</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+                {% for c in caretaker %}
+                <tr>
+								<td><!--Update Button -->
+                  <button class="dlbtn"><a href="/admin/acaretakeredit/{{ c.c_id }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    </svg></a>
+                </button>
+                
+                  <!-- Delete Button -->
+                  <button class="dlbtn"><a href="/acaretakerdel/{{ c.c_id }}">    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg></a>
+                </button></td>
+								<td>{{ loop.index }}</td>
+								<td>{{ c.f_name }}</td>
+                <td>{{ c.l_name }}</td>
+                <td>{{ c.service_type }}</td>
+                <td>{{ c.created_by }}</td>
+                <td>{{ c.updated_by }}</td>
+                <td>{{ c.created_date }}</td>
+                <td>{{ c.updated_date }}</td>
+              </tr>
+                {% endfor %}
+							<!-- Add more rows as needed -->
+						</tbody>
+					</table>
+				
+				</div>
+				<div class="pagination">
+          <button onclick="prevPage()" class="pbtn">Prev</button>
+          <button onclick="nextPage()" class="pbtn">Next</button>
+        </div>
+        <div class="download-buttons">
+          <button id="csv-download">Download CSV</button>
+          <button id="pdf-download" onclick="printTable();">Download PDF</button>
+      </div>
+        <div class="insert-btn-containerins">
+          <a href="/admin/car_upload"><button class="buplod">Upload</button></a>
+        </div>
+        <div class="insert-btn-containerins">
+          <a href="/admin/acaretakerinsert"><button class="insert-btn">Insert</button></a>
+        </div>
+
+		    </div>
+	     </div>
+      </section>      
+
+    </main><!-- End #main -->
+ 
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>The Third Eye</span></strong>. All Rights Reserved
+    </div>
+     
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="/static/admin_assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="/static/admin_assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/admin_assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="/static/admin_assets/vendor/echarts/echarts.min.js"></script>
+  <script src="/static/admin_assets/vendor/quill/quill.min.js"></script>
+  <script src="/static/admin_assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/static/admin_assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="/static/admin_assets/vendor/php-email-form/validate.js"></script>
+
+  <script>
+
+
+
+  </script>
+
+  <!-- Template Main JS File -->
+  <script src="/static/admin_assets/js/main.js"></script>
+
+
+</body>
+
+</html>
