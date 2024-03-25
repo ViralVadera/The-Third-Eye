@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="assets/css/insert.css">
+</head>
+<body>
+  <section>
+    <div class="container">
+      <form id="myForm" method="post">
+        <div>
+           <a href="index.html"><img src="assets/img/TTE.png" alt="" class="logo"></a>
+        </div>
+        <div class="pagename">
+          <span class="pgname">
+             Adding Frequently Visitor's Details 
+          </span>
+        </div>
+        <div class="step step-1 active">
+          <div class="form-group">
+            <label for="gname"> Name</label>
+            <input type="text" id="gname" name="gname" required />
+            <div class="error-msg"></div>
+          </div>
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" required inputmode="numeric"/>
+          </div>
+                
+          <div class="form-group">
+            <label for="genderInput">Gender</label>      
+            <input list="gender" id="genderInput" name="genders" class="drp"/>
+            <datalist id="gender" class="g-lists">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                <option value="Prefer Not To Answer">Prefer Not To Answer</option>                 
+            </datalist>             
+        </div>
+        
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')"/>
+            <div class="error-msg" id="email-error-msg"></div>
+          </div>    
+          <div class="form-group">
+            <label for="mobile">Mobile</label>
+            <input type="number" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required/>
+          </div>
+          <div class="form-group">
+            <label for="uname">Unit Name</label>
+            <input type="text" id="uname" name="uname" required />
+          </div>
+          <div class="button-group">
+            <input type="submit" class="submit-btn" name="Submit" value="submit">
+          </div>
+        </div>
+       
+      </form>
+    </div>
+  </section> 
+</body>
+</html>
+
