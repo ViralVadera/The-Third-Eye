@@ -83,8 +83,8 @@ async def auser(request: Request):
     return templates.TemplateResponse("AdminDashboard/users-profile.html", {"request": request, "user": use})
 
 #Admin user profile edit
-@app.get("/editprofile/{user_id}")
-async def pedit(request: Request, user_id: int, fName: Optional[str] = Form(), lName: Optional[str] = Form(), adress1: Optional[str] = Form(), adress2: Optional[str] = Form(), phone: Optional[str] = Form(), email: Optional[str] = Form()):
+@app.post("/editprofile/{user_id}")
+async def pedit(request: Request, user_id: int, fName : str = Form(...), lName: Optional[str] = Form(), adress1: Optional[str] = Form(), adress2: Optional[str] = Form(), phone: Optional[str] = Form(), email: Optional[str] = Form()):
     current_user = auth.verify_session(request)
     query=ssdb.user_master.update().where(ssdb.user_master.c.user_id==user_id).values(
         f_name=fName,
@@ -2863,7 +2863,7 @@ async def membermebinsert(request: Request, firstname : str = Form(...), middlen
     return RedirectResponse('/member/member')
 
 #member Member Edit
-@app.get("/member/chmember_edit/{member_id}")
+@app.get("/member/member_edit/{member_id}")
 async def amember(request: Request, member_id : int):
     current_user = auth.verify_session(request)
     if current_user is None or current_user["user_type"] != 'member':
@@ -2881,29 +2881,20 @@ async def amember(request: Request, member_id : int):
     uin=await ssdb.database.fetch_one(query)
     query=ssdb.user_master.select().where(ssdb.user_master.c.user_id==mem[1])
     use= await ssdb.database.fetch_one(query)
-    return templates.TemplateResponse("ChairamnDashboard/owner_edit.html", {"request": request, "unit": un,"m" : mem, "cityy": cit, "user": use})
+    return templates.TemplateResponse("MemberDashboard/family_edit.html", {"request": request, "unit": un,"m" : mem, "cityy": cit, "user": use})
 
-@app.post("/chmemberedit/{meber_id}")
-async def membermembinsert(request: Request, meber_id : int, firstname : str = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: str = Form(...), altemail: Optional[str] = Form(None), address1: str = Form(...), address2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None), unitname: str = Form(...)):
+@app.post("/memberedit/{meber_id}")
+async def membermembinsert(request: Request, meber_id : int, firstname : str = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: str = Form(...), altemail: Optional[str] = Form(None), mobile:str = Form(...), altmobile: Optional[str] = Form(None)):
     current_user = auth.verify_session(request)
     email = current_user["email"]
     userid=await get_data.select_tableemail(ssdb.user_master,emaill)
     createdby=await get_data.select_tableemail(ssdb.user_master,email)
-    quer = ssdb.city_master.select().where(ssdb.city_master.c.city_name==citys)
-    citid= await ssdb.database.fetch_one(quer)
-    query=ssdb.unit_master.select().where(ssdb.unit_master.c.unit_name==unitname)
-    unitn= await ssdb.database.fetch_one(query)
     user = ssdb.user_master.update().values(
         f_name=firstname,
         m_name=middlename,
         l_name=lastname,
         dob=dob,
         Gender=gender,
-        address_line1=address1,
-        address_line2=address2,
-        landmark=landmarks,
-        road=Road,
-        city_id=citid[0],
         email=emaill,
         alternate_email=altemail,
         mobile_no=mobile,
@@ -2915,7 +2906,6 @@ async def membermembinsert(request: Request, meber_id : int, firstname : str = F
     userid=await get_data.select_tableemail(ssdb.user_master,emaill)
     mamber=ssdb.member_master.update().values(
         member_userid=userid,
-        unit_id=unitn[1],
         updated_by=createdby,
         updated_date=todaydate
     ).where(ssdb.member_master.c.member_id==meber_id)
@@ -2923,7 +2913,7 @@ async def membermembinsert(request: Request, meber_id : int, firstname : str = F
     return RedirectResponse('/member/member')
 
 #member Member Delete
-@app.get("/chmemberdel/{member_id}")
+@app.get("/memberdel/{member_id}")
 async def charidel(request: Request, member_id: int):
     query=ssdb.member_master.select().where(ssdb.member_master.c.member_id==member_id)
     uid=await ssdb.database.fetch_one(query)
@@ -2935,6 +2925,7 @@ async def charidel(request: Request, member_id: int):
     get_data.delete_sequence_value('User_Master')
     if cdel is None:
         return RedirectResponse(url='/member/member')
+
 
 #member Member Upload  
 @app.route("/member/memberupload", methods=['GET', 'POST'])
@@ -3067,7 +3058,7 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
             else:
                  return templates.TemplateResponse(
                 "home/login.html",
-                {"request": request, "pop_up_message": "Login failed. Invalid Password."}
+                {"request": request, "pop_up_message": "Login failed. Invalid Id or Password."}
             ) 
 
         else:
@@ -3086,7 +3077,7 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
                 # Failed login
                 return templates.TemplateResponse(
                     "home/login.html",
-                    {"request": request, "pop_up_message": "Login failed. User Not Found."}
+                    {"request": request, "pop_up_message": "Login failed. Invalid Id or Password."}
                     )       
     # Handle GET request (render login form)
 
