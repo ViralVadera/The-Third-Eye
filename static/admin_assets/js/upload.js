@@ -1,3 +1,5 @@
+
+
 const dragDropArea = document.getElementById('dragDropArea');
 const fileNameElement = document.getElementById('fileName');
 const deleteButton = document.getElementById('deleteButton');
@@ -66,3 +68,4 @@ fileInput.value = ''; // Clear the file input
 document.getElementById('fileName').textContent = ''; // Clear the displayed file name
 document.getElementById('deleteButton').style.display = 'none'; // Hide the delete button
 });
+

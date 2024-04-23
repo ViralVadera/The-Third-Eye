@@ -4,14 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="assets/css/insert.css">
+  <link rel="stylesheet" href="/static/security_assets/css/insert.css">
+  <style>
+    /* dropdown  */
+    select {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      color: #333;
+      width:100%;
+      max-width: 490px;
+      background-color: transparent;
+      transition: 0.3s ease;
+      box-shadow: 0 0 0 2px rgba(49, 65, 70, 0.1);
+    } 
+    /* Style the dropdown arrow */
+    select {  
+      background-position: right center;    
+    } 
+    /* Style the dropdown options */
+    select option {
+      background-color: #ffffff85;
+      color: #333;
+      border-radius: 40px;
+    }
+    select:hover{
+      border: 2px solid #4A9DEC;
+      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
+      background-color: white;
+    }
+  </style>
 </head>
 <body>
   <section>
     <div class="container">
-      <form id="myForm" method="post">
+      <form id="myForm" method="post" action="/smemeninsert">
         <div>
-           <a href="index.html"><img src="assets/img/TTE.png" alt="" class="logo"></a>
+           <a href="index.html"><img src="/static/security_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
         <div class="pagename">
        <span class="pgname" >
@@ -20,21 +51,22 @@
         </div>
         <div class="step step-1 active">
           <div class="form-group">
-            <label for="gname">First Name</label>
-            <input type="text" id="gname" name="gname" required />
-            <div class="error-msg"></div>
-          </div>
+            <label for="unitnameInput">Name</label>
+            <select name="namemberme" id="unitnameInput">
+              {% for m in member %}
+              <option value="{{ m.user_id }}">{{ m.f_name }} {{ m.l_name }}</option>
+              {% endfor %}             
+              </select>            
+        </div>
          
             
           <div class="form-group">
-            <label for="unitName">Unit Name</label>      
-            <input list="unitname" id="unitName" name="uName" class="drp"/>
-            <datalist id="unitname" class="un-lists">
-                <option value="C-102">C-102</option>
-                <option value="C-103">C-103</option>
-                <option value="C-104">C-104</option>
-                <option value="C-105">C-105</option>                 
-            </datalist>             
+            <label for="unitnameInput">Unit Name</label>
+            <select name="unitname" id="unitnameInput">
+              {% for u in unit %}
+                <option vlaue="{{ u.unit_id }}">{{ u.unit_name }}</option> 
+                {% endfor %}             
+              </select>            
         </div>
             
           <div class="button-group">

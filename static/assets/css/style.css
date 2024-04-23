@@ -130,7 +130,7 @@ nav.navbar.bootsnav {
     background-color: transparent;
     border-bottom: transparent;
 }
-.wrap-sticky nav.navbar.bootsnav.sticked {background-color: #548dbb;box-shadow: 0 2px 5px rgba(0,0,0,.2);}
+.wrap-sticky nav.navbar.bootsnav.sticked {background-color: #5e8db3;box-shadow: 0 2px 5px rgba(0,0,0,.2);}
 
 /*.navbar-agency*/
 .navbar-header a.navbar-agency,.navbar-header a.navbar-agency:hover,.navbar-header a.navbar-agency:focus{
@@ -168,8 +168,8 @@ nav.navbar.bootsnav ul.nav > li > a {
     font-weight: bold;
 }
 nav.navbar.bootsnav ul.nav > li > a {padding: 48px 21px;}
-nav.navbar.bootsnav ul.nav > li > a:hover,nav.navbar.bootsnav ul.nav > li > a:focus{color:#4ed2fa; }
-nav.navbar.bootsnav ul.nav > li.active>a {color: #4ed2fa;}
+nav.navbar.bootsnav ul.nav > li > a:hover,nav.navbar.bootsnav ul.nav > li > a:focus{color:#57a2ca; }
+nav.navbar.bootsnav ul.nav > li.active>a {color: #4ab0cf;}
 
 nav.navbar.bootsnav ul.nav > li.dropdown > a.dropdown-toggle:after {
     content: "";
@@ -197,8 +197,8 @@ nav.navbar.bootsnav ul.nav > li.dropdown span {
 /*.navbar-toggle */
 nav.navbar.bootsnav .navbar-toggle {
     position: relative;
-    background-color: #000000;
-    border: 1px solid #3232d8;
+    background-color: transparent;
+    border: 1px solid #4e4ffa;
     padding: 10px;
     top: 0;
 }
@@ -225,10 +225,10 @@ nav.navbar.bootsnav .navbar-toggle i{color: #4e4ffa;}
     top: 0;
     left: 0;
     width: 100%;
-    height: 652px;
+    height: 53%;
     background: #434859;
     background: url('../images/welcome-hero/siarhei-horbach-xJc--frJbuw-unsplash.jpg');
-
+    
 }
 .header-area{position: absolute;top:0;left:0;width: 100%;z-index: 99;}
 
@@ -277,7 +277,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #4e4ffa;}
         5. about
 --------------------------------------*/
 .about { 
-    padding: 100px 0 143px;
+    padding: 100px 0 180px;
 }
 
 .single-about-item{
@@ -377,6 +377,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #4e4ffa;}
       }
       .accordion-title {
         padding: 1em 1.5em 1em 0;
+        font-size: large;
       }
       .icon {
         display: inline-block;
@@ -431,7 +432,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #4e4ffa;}
       transition: opacity 200ms linear, max-height 200ms linear;
       will-change: opacity, max-height;
       p {
-        font-size: 1rem;
+        font-size: 1.7rem;
         font-weight: 300;
         margin: 2em 0;
         color: #000;
@@ -621,6 +622,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #4e4ffa;}
 
 }
 
+
 #scroll-Top  .return-to-top i{
     position: relative;
     animation-name: example;
@@ -632,4 +634,26 @@ nav.navbar.bootsnav .navbar-toggle i{color: #4e4ffa;}
     0%   {bottom:0px;}
     100%  {bottom:7px;}
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(38, 136, 165, 0.7); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background:rgba(38, 135, 165, 0.955); 
+  }
 /*========================Thank you=================

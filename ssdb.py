@@ -59,7 +59,7 @@ user_master = Table(
     Column( "m_name" ,String,index=True,nullable=False),
     Column( "l_name" ,String,index=True,nullable=False),
     Column("dob",Date,index=True,nullable=False),
-    Column("Gender",String(length=1),index=True,nullable=False),
+    Column("gender",String(length=1),index=True,nullable=False),
     Column("email",String,index=True,nullable=False),
     Column("alternate_email",String,index=True,nullable=True),
     Column("mobile_no",Integer,index=True,nullable=False),
@@ -229,7 +229,6 @@ security_allotment_master = Table(
     Column( "security_id" ,Integer,index=True,nullable=False),
     Column( "shift_id" ,Integer,index=True,nullable=False),
     Column( "society_id" ,Integer,index=True,nullable=False),
-    Column( "security_agency_id" ,Integer,index=True,nullable=False),
     Column( "created_by" ,Integer,index=True,nullable=False),
     Column( "updated_by" ,Integer,index=True,nullable=False),
     Column( "created_date" ,Date,index=True,nullable=False),
@@ -238,7 +237,6 @@ security_allotment_master = Table(
     ForeignKeyConstraint(["security_id"], ["Security_Master.security_id"], name="fk_security_allot_security_security_id"),  
     ForeignKeyConstraint(["shift_id"], ["Shift_Master.shift_id"], name="fk_security_allot_shift_shift_id"),  
     ForeignKeyConstraint(["society_id"], ["Society_Master.society_id"], name="fk_security_allot_society_society_id"),  
-    ForeignKeyConstraint(["security_agency_id"], ["Security_Agency_Master.security_agency_id"], name="fk_security_allot_security_agency_security_agency_id"),
 )
 
 guest_master = Table(
@@ -266,16 +264,19 @@ frequently_visiting_master = Table(
     metadata,
     Column("f_id" ,Integer , primary_key=True,autoincrement=True,index=True),
     Column( "f_name" ,String,index=True,nullable=True),
-    Column( "f_number" ,Integer,index=True,nullable=False),
-    Column( "f_gender" ,String(length=1),index=True,nullable=False),
+    Column( "f_number" ,Integer,index=True,nullable=True),
+    Column( "f_gender" ,String(length=1),index=True,nullable=True),
     Column( "unit_id" ,Integer,index=True,nullable=False),
+    Column( "society_id" ,Integer,index=True,nullable=False),
     Column( "f_service_type" ,String,index=True,nullable=True),
+    Column( "entry_time" ,String,index=True,nullable=False),
     Column( "created_by" ,Integer,index=True,nullable=False),
     Column( "updated_by" ,Integer,index=True,nullable=False),
     Column( "created_date" ,Date,index=True,nullable=False),
     Column( "updated_date" ,Date,index=True,nullable=False),
     Column( "is_active" ,Boolean,index=True,nullable=False), 
     ForeignKeyConstraint(["unit_id"], ["Unit_Master.unit_id"], name="fk_frequently_visiting_unit_unit_id"),
+    ForeignKeyConstraint(["society_id"], ["Society_Master.society_id"], name="fk_frequently_visiting_society_society_id"),
 )
 
 caretaker_master = Table(
@@ -307,4 +308,49 @@ caretaker_schedule_master = Table(
     ForeignKeyConstraint(["shift_id"], ["Shift_Master.shift_id"], name="fk_caretaker_schedule_shift_shift_id"),
     ForeignKeyConstraint(["ct_id"], ["Caretaker_Master.c_id"], name="fk_caretaker_schedule_caretaker_c_id"),
     ForeignKeyConstraint(["unit_id"], ["Unit_Master.unit_id"], name="fk_caretaker_schedule_unit_unit_id"), 
+)
+
+vehicle_master = Table(
+    "Vehicle_Master",
+    metadata,
+    Column("vehicle_id" ,Integer , primary_key=True,autoincrement=True,index=True),
+    Column( "vehicle_type" ,Integer,index=True,nullable=False),
+    Column( "vehicle_number" ,String,index=True,nullable=False),
+    Column( "unit_id" ,Integer,index=True,nullable=False),
+    Column( "created_by" ,Integer,index=True,nullable=False),
+    Column( "updated_by" ,Integer,index=True,nullable=False),
+    Column( "created_date" ,Date,index=True,nullable=False),
+    Column( "updated_date" ,Date,index=True,nullable=False),
+    Column( "is_active" ,Boolean,index=True,nullable=False), 
+    ForeignKeyConstraint(["unit_id"], ["Unit_Master.unit_id"], name="fk_vehicle_unit_unit_id"),
+)
+
+entry_master = Table(
+    "Caretaker/Member_entry",
+    metadata,
+    Column("entry_id" ,Integer , primary_key=True,autoincrement=True,index=True),
+    Column( "user_id" ,Integer,index=True,nullable=False),
+    Column( "society_id" ,Integer,index=True,nullable=False),
+    Column( "entry_date" ,String,index=True,nullable=False),
+    Column( "created_by" ,Integer,index=True,nullable=False),
+    Column( "updated_by" ,Integer,index=True,nullable=False),
+    Column( "created_date" ,Date,index=True,nullable=False),
+    Column( "updated_date" ,Date,index=True,nullable=False),
+    Column( "is_active" ,Boolean,index=True,nullable=False), 
+    ForeignKeyConstraint(["user_id"], ["User_Master.user_id"], name="fk_entry_user_user_id"),
+    ForeignKeyConstraint(["society_id"], ["Society_Master.society_id"], name="fk_entry_society_society_id"),
+)
+
+notification_master = Table(
+    "Notification_Master",
+    metadata,
+    Column("n_id" ,Integer , primary_key=True,autoincrement=True,index=True),
+    Column( "sender_id" ,Integer,index=True,nullable=False),
+    Column( "reciver_id" ,Integer,index=True,nullable=False),
+    Column( "unit_id" ,Integer,index=True,nullable=False),
+    Column( "massage" ,String,index=True,nullable=False),
+     Column( "g_name" ,String,index=True,nullable=False),
+    ForeignKeyConstraint(["sender_id"], ["User_Master.user_id"], name="fk_notification_user_user_id"),
+    ForeignKeyConstraint(["reciver_id"], ["User_Master.user_id"], name="fk_notification_user_user_id"),
+    ForeignKeyConstraint(["unit_id"], ["Unit_Master.unit_id"], name="fk_notification_unit_unit_id"),
 )

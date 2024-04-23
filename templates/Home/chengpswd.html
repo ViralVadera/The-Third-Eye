@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', path='login.css') }}">
+    <script src="{{ url_for('static', path='login.js') }}"></script> -->
+    <link rel="stylesheet" href="/static/assets/css/frgpswd.css">
+    <script src="/static/assets/js/login.js"></script>
+    <link rel="shortcut icon" type="image/icon" href="/static/assets/logo/tech.png"/>
+    <title>Forgot Password</title>
+</head>
+<body>
+                   {% if pop_up_message %}
+                    <script>
+                        alert("{{ pop_up_message }}");
+                    </script>
+                    {% endif %}
+    <center>
+        <form method="post" action="/changpass/{{email}}">
+            <div class="container">
+                <div class="login">
+                    <img src="/static/assets/images/loginimg/The Third eye.png" class="logo">
+                    <h2>Change Password</h2>
+                    
+                    <!-- Improved email input with validation -->
+                    <input class="user plchldr" placeholder="otp" type="text" name="otp" required id="pswd" value="{{demo}}">
+                    
+                    <!-- Improved otp input with validation -->
+                    <input class="user plchldr" placeholder="Password" type="password" name="pswd" id="pswd2" required style="top:-22px;" pattern="(?=.*\d)(?=.*[a-z])(?=.*[@$#%^&!])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, one special character and at least 8 or more characters">
+                    <span id="confirmMessage" class="error"></span><br>
+                    <button type="submit" class="lgn btn" style="top: 20px;" >Submit</button>
+                   
+                </div>
+            </div>
+        </form>
+    </center>
+    </body>
+
+</html>

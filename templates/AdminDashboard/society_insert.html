@@ -15,7 +15,7 @@ select {
   background-color: #f8f8f8;
   color: #333;
   width:100%;
-  max-width: 490px;
+  max-width: 900px;
   background-color: transparent;
   transition: 0.3s ease;
   box-shadow: 0 0 0 2px rgba(49, 65, 70, 0.1);
@@ -59,16 +59,12 @@ select:hover{
                  
             <div class="form-group">
                 <label for="builderName">Builder Name</label>
-                <input list="builderList" id="builderNameInput" name="builderName" class="drp" />                  
+                <input list="builderList" id="builderNameInput" name="builderName"  required/>                  
             </div>
           </div>
           <div class="form-group">
             <label for="builderfirmName">Builder's Firm Name</label>
-            <select name="builderfirm_name" id="builderfirmName">         
-              {% for u in users %}
-              <option >{{ u.f_name }}</option>
-              {% endfor %}
-         </select> 
+            <input list="builderfirmname" id="builderfirmName" name="builderfirm_name" required />      
             <div class="error-msg"></div>
           </div>
 
@@ -79,7 +75,8 @@ select:hover{
 
           <div class="form-group">
             <label for="regdate">Regestration Date</label>
-            <input type="date" id="regdate" name="regdate"   required/>
+            <input type="date" id="regdate" name="regdate" onchange="checkDOB()" required/>
+            <p id="dateError" style="color: red;"></p>
           </div>
 
        
@@ -126,4 +123,20 @@ select:hover{
  
   
 </body>
+<script type="text/javascript">
+  function checkDOB() {
+      var dateString = document.getElementById('regdate').value;
+      var myDate = new Date(dateString);
+      var today = new Date();
+      if (myDate > today) { 
+          // Display error message
+          document.getElementById('dateError').innerHTML = 'You cannot enter a date in the future!';
+          return false;
+      } else {
+          // Remove error message if exists
+          document.getElementById('dateError').innerHTML = '';
+      }
+      return true;
+  }
+</script>
 </html>

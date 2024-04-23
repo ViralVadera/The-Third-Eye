@@ -71,7 +71,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="/agency/users-profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -79,10 +79,16 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/admin/chgpass">
+                <i class="bi bi-key"></i>
+                <span>Change Password</span>
+              </a>
+            </li>
+            <li>
+            <li>
               <hr class="dropdown-divider">
             </li>
-
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout/">
                 <i class="bi bi-box-arrow-right"></i>
@@ -114,7 +120,7 @@
           </a>
         </li><!-- End security agancy Nav -->
         <li class="nav-item" style="margin-left: 4px;">
-          <a class="nav-link" data-bs-target="#forms-nav" href="users-profile.html">
+          <a class="nav-link" data-bs-target="#forms-nav" href="/agency/users-profile">
             <img src="/static/agency_assets/img/user.png" class="caricon"><span class="ntext vspan">Profile</span>
           </a>
         </li><!-- End profile Nav -->
@@ -141,15 +147,10 @@
           
           <thead>
             <tr>
-              <th>Action</th>
+              <th style="width: 0;">Action</th>
               <th>Id</th>
               <th>UserName</th>
-              <th>Agency Name</th>
               <th>Join Date</th>
-              <th>Created By</th>
-              <th>Updated By </th>
-              <th>Created Date</th>
-              <th>Updated Date</th>
               
             </tr>
           </thead>
@@ -171,11 +172,8 @@
                   </svg></a>
               </button></td>
               <td>{{ loop.index }}</td>
-              <td>{{ g.f_name }}</td>
-              <td>{{ g.security_agency_name }}</td>
+              <td>{{ g.f_name }} {{ g.l_name }}</td>
               <td>{{ g.join_date }}</td>
-              <td>{{ g.created_date }}</td>
-              <td>{{ g.updated_date }}</td>
             </tr>
               {% endfor %}
             
@@ -196,7 +194,7 @@
         <a href="/agency/gurd_upload"><button class="buplod">Upload</button></a>
       </div>
       <div class="insert-btn-containerins">
-        <a href="/agency/guardinsert"><button class="insert-btn">Insert</button></a>
+        <a href="/agency/guardalinsert"><button class="insert-btn">Insert</button></a>
       </div>
 
       </div>

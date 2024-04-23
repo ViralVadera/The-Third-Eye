@@ -55,139 +55,6 @@
         <li class="nav-item d-block d-lg-none">
         </li><!-- End Search Icon-->
 
-        <li class="nav-item dropdown">
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-            
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
-
-                         <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-               1q  <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-
-          </ul><!-- End Notification Dropdown Items -->
-
-        </li><!-- End Notification Nav -->
-
-        <li class="nav-item dropdown">
-
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-chat-left-text"></i>
-            <span class="badge bg-success badge-number">3</span>
-          </a><!-- End Messages Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-            <li class="dropdown-header">
-              You have 3 new messages
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <div>
-                  <h4>Maria Hudson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <div>
-                  <h4>Anna Nelson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>6 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <div>
-                  <h4>David Muldon</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>8 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="dropdown-footer">
-              <a href="#">Show all messages</a>
-            </li>
-
-          </ul><!-- End Messages Dropdown Items -->
-
-        </li><!-- End Messages Nav -->
 
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -199,12 +66,22 @@
               <h6>{{ user[0][1] }} {{ user[0][3] }}</h6>
               <span>{{ user[0][16] }}</span>
             </li>
-          <li>
-
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/chairman/users-profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/chairman/chgpass">
+                <i class="bi bi-key"></i>
+                <span>Change Password</span>
               </a>
             </li>
             <li>
@@ -231,7 +108,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item active">
         <a class="nav-link " data-bs-target="#components-nav" href="/chairman/owner">
-          <img src="/static/chairman_assets/img/owner.png" class="nicon gicon" ><span class="ntext nspan">Owners</span>
+          <img src="/static/chairman_assets/img/owner.png" class="nicon gicon" ><span class="ntext nspan">Owner</span>
         </a>
       </li><!-- End Family Nav -->
 
@@ -248,7 +125,7 @@
           </li><!-- End Services Nav -->
 
         <li class="nav-item" style="margin-left: 4px;">
-          <a class="nav-link" data-bs-target="#forms-nav" href="users-profile.html">
+          <a class="nav-link" data-bs-target="#forms-nav" href="/chairman/users-profile">
             <img src="/static/chairman_assets/img/user.png" class="caricon"><span class="ntext vspan">Profile</span>
           </a>
         </li><!-- End profile Nav -->
@@ -276,9 +153,9 @@
             
             <thead>
 							<tr>
-								<th>Action</th>
+								<th style="width: 0;">Action</th>
 								<th>Id</th>
-								<th>First Name</th>
+								<th >First Name</th>
 								<th>Last Name</th>
 								<th>Service Type</th>
 							</tr>
@@ -317,7 +194,7 @@
         </div>
         <div class="download-buttons">
           <button id="csv-download">Download CSV</button>
-          <button id="pdf-download" >Download PDF</button>
+          <button id="pdf-download" onclick="printTable();">Download PDF</button>
       </div>
         <div class="insert-btn-containerins">
           <a href="/chairman/car_upload"><button class="buplod">Upload</button></a>
@@ -352,7 +229,7 @@
   <script src="/static/chairman_assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="/static/chairman_assets/js/main.js"></script>
+  <script src="/static/admin_assets/js/main.js"></script>
 
 </body>
 

@@ -1,0 +1,72 @@
+/* The Modal (background) */
+  .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 999; /* Sit on top */
+      left: 0%;
+      top: 0%;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: hidden; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+/* Modal Content */
+/* Modal Content */
+.modal-content {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center align items vertically */
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+}
+  /* The Close Button */
+  .close {
+    top: -18px;
+       position: relative;
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      width: fit-content;
+      margin-left  : 100%;
+  }
+  
+  .close:hover,
+  .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+  }
+
+/* Right Tick Arrow */
+.arrow {
+    display: inline-block; /* Display the arrow as an inline-block element */
+    vertical-align: middle; /* Align the arrow vertically with the text */
+    color: transparent; /* Make the arrow transparent initially */
+    font-size: 28px;
+    margin-right: 10px; /* Adjust margin as needed */
+    animation: slideInRight 0.5s forwards; /* Apply animation */
+}
+/* Define the animation */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px); /* Slide the arrow from right to left */
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0); /* Slide the arrow to its original position */
+        color: green; /* Change color to green when fully visible */
+    }
+}
+
+#messageText {
+    margin: 0; /* Remove default margin */
+}
+
+
+

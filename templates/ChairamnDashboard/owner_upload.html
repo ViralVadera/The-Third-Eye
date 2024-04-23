@@ -68,71 +68,6 @@
         </li><!-- End Search Icon-->
 
 
-        <li class="nav-item dropdown">
-
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-chat-left-text"></i>
-            <span class="badge bg-success badge-number">3</span>
-          </a><!-- End Messages Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-            <li class="dropdown-header">
-              You have 3 new messages
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="/static/admin_assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Maria Hudson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="/static/admin_assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Anna Nelson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>6 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="/static/admin_assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>David Muldon</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>8 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="dropdown-footer">
-              <a href="#">Show all messages</a>
-            </li>
-
-          </ul><!-- End Messages Dropdown Items -->
-
-        </li><!-- End Messages Nav -->
 
       <li class="nav-item dropdown pe-3">
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -148,16 +83,23 @@
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/ausers-profile">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
+              <a class="dropdown-item d-flex align-items-center" href="/chairman/users-profile">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
               </a>
             </li>
+            <li>
               <hr class="dropdown-divider">
             </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/chairman/chgpass">
+                <i class="bi bi-key"></i>
+                <span>Change Password</span>
+              </a>
+            </li>
+            <li>
               <hr class="dropdown-divider">
             </li>
-
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout/">
                 <i class="bi bi-box-arrow-right"></i>
@@ -195,7 +137,7 @@
         </li><!-- End security agancy Nav -->
 
         <li class="nav-item" style="margin-left: 4px;">
-          <a class="nav-link" data-bs-target="#forms-nav" href="users-profile.html">
+          <a class="nav-link" data-bs-target="#forms-nav" href="/chairman/users-profile">
             <img src="/static/chairman_assets/img/user.png" class="caricon"><span class="ntext vspan">Profile</span>
           </a>
         </li><!-- End profile Nav -->
@@ -210,27 +152,35 @@
         </div>
         <div id="fileName"></div> <!-- Added to display file name -->
         <button class="delete-button" id="deleteButton">Delete</button> <!-- Added delete button -->
-        <form class="upload-form" id="uploadForm" action="/chmemberupload" method="post" enctype="multipart/form-data">
+        <form class="upload-form" id="uploadForm" action="/societiesupload" method="post" enctype="multipart/form-data">
             <label for="file-upload" id="browseLabel">Browse</label>
             <input type="file" id="file-upload" name="csvfile" onchange="displayFileName(this.files[0].name)">
             <input type="submit" value="Upload">
-        </form>
+            <input type="button" id="download-btn" class="csvbtn" value="Demo CSV">
+          </form>
     </div>
+
+
     <div class="table-container" style="position: relative;left: 1cm;"> 
-      <table id="myTable" style="position: relative; ">   
+      <table id="myTable" style="position: relative; display: none; ">   
         <thead>
           <tr>
             <th>ID</th>       
-            <th>Society Name</th>       
+            <th>First Name</th>       
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Alternante Email</th>
+            <th>Mobile Number</th>
+            <th>Altername Mobile Number</th>
+            <th>Unit Name</th>
             <th>Addresss Line 1</th>
             <th>Addresss Line 2</th>
             <th>Landmark</th>
             <th>Road</th>
             <th>City</th>
-            <th>Builder Name</th>
-            <th>Builder Firm</th>
-            <th>Registration Number</th>       
-            <th>Registration Year</th>
           </tr>
         </thead>
        </table>
@@ -244,13 +194,7 @@
     <div class="copyright">
       &copy; Copyright <strong><span>The Third Eye</span></strong>. All Rights Reserved
     </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
+
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -270,4 +214,5 @@
   
   <!-- upload js -->
   <script src="/static/admin_assets/js/upload.js"></script>
+  <script src="/static/assets/js/demodownload.js"></script>
 </html>

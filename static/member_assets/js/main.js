@@ -1,10 +1,21 @@
-/**
-* Template Name: NiceAdmin
-* Updated: Jan 29 2024 with Bootstrap v5.3.2
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
+// search in table
+function searchTable() {
+  const searchInput = document.getElementById('searchInput');
+  const searchText = searchInput.value.toLowerCase();
+  const tableRows = Array.from(document.querySelectorAll('#myTable tbody tr'));
+
+  tableRows.forEach(row => {
+    row.style.display = 'none';
+
+    const cells = Array.from(row.querySelectorAll('td'));
+    const found = cells.some(cell => cell.textContent.toLowerCase().includes(searchText));
+
+    if (found) {
+      row.style.display = '';
+    }
+  });
+}
+
 
 document.querySelectorAll('.sidebar-nav .nav-link').forEach(function(link) {
   link.addEventListener('click', function() {
@@ -345,9 +356,6 @@ document.querySelectorAll('.sidebar-nav .nav-link').forEach(function(link) {
 })();
 
 
-
-
-
 //download pdf and csv file js
 
 document.getElementById("csv-download").addEventListener("click", function() {
@@ -392,42 +400,9 @@ function downloadCSV() {
   document.body.removeChild(a);
 }
 
-function downloadPDF() {
-  // Select the table
-  var table = document.querySelector("table");
-
-  // Create a clone of the table
-  var tableClone = table.cloneNode(true);
-
-  // Remove the first column from each row in the clone
-  tableClone.querySelectorAll("tr").forEach(function(row) {
-      row.removeChild(row.firstElementChild);
-  });
-
-  // Initialize html2pdf
-  html2pdf()
-      .from(tableClone)
-      .save("table_data.pdf");
-}
 //end of download buttons /
 
-// search in table
-function searchTable() {
-  const searchInput = document.getElementById('searchInput');
-  const searchText = searchInput.value.toLowerCase();
-  const tableRows = Array.from(document.querySelectorAll('#myTable tbody tr'));
 
-  tableRows.forEach(row => {
-    row.style.display = 'none';
-
-    const cells = Array.from(row.querySelectorAll('td'));
-    const found = cells.some(cell => cell.textContent.toLowerCase().includes(searchText));
-
-    if (found) {
-      row.style.display = '';
-    }
-  });
-}
 
 function prevPage() {
   if (currentPage > 1) {
@@ -459,3 +434,31 @@ function paginateTable() {
 }
 searchInput.addEventListener('keyup', searchTable);
 paginateTable();
+
+
+function printTable() {
+  var table = document.getElementById('myTable').cloneNode(true);
+  // Remove the first column (index 0) from each row
+  var rows = table.getElementsByTagName('tr');
+  for (var i = 0; i < rows.length; i++) {
+      rows[i].deleteCell(0);
+  }
+  var newWin = window.open('', '', 'width=800,height=600');
+  newWin.document.open();
+  var htmlToPrint = '' +
+  '<style type="text/css">' +
+    'table{border-collapse:collapse}'+
+  'table th, table td {' +
+  'border:2px solid #000;' +
+  'padding:5px;' +
+  '}' +
+  '</style>';
+  newWin.document.write('<html><head><title>Print Table</title>');
+  newWin.document.write(htmlToPrint);
+  newWin.document.write('</head><body>');
+  newWin.document.write(table.outerHTML);
+  newWin.document.write('</body></html>');
+  newWin.document.close();
+  newWin.print();
+}
+

@@ -192,18 +192,18 @@ input::-webkit-inner-spin-button {
   </style>
 </head>
 <body>
-  <section>
+
     <div class="container">
       <form id="myForm" method="post" action="/chunitinsert">
         <div>
-           <a href="index.html"><img src="assets/img/TTE.png" alt="" class="logo"></a>
+           <a href="index.html"><img src="/static/chairman_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
         <div class="pagename">
           <span>
             <h3 class="pgname">Unit Registration</h3>
           </span>
         </div>
-        <div class="step step-1 active">
+        
          
             <div class="form-group">
                 <label for="unitname">Unit Name</label>
@@ -236,88 +236,7 @@ input::-webkit-inner-spin-button {
        </div>
       </form>
     </div>
-  </section>
-  <script>
-    // prev next button js
-    const steps = Array.from(document.querySelectorAll("form .step"));
-    const nextBtn = document.querySelectorAll("form .next-btn");
-    const prevBtn = document.querySelectorAll("form .previous-btn");
-    const form = document.querySelector("form");
-  
-    nextBtn.forEach((button) => {
-      button.addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent default form submission behavior
-        if (validateFields()) {
-          changeStep("next");
-        } 
-      });
-    });
-  
-    prevBtn.forEach((button) => {
-      button.addEventListener("click", () => {
-        changeStep("prev");
-      });
-    });
-  
-    form.addEventListener("submit", (e) => {
-      e.preventDefault(); // Prevent default form submission behavior
-      if (validateFields()) {
-        const inputs = [];
-        form.querySelectorAll("input").forEach((input) => {
-          const { name, value } = input;
-          inputs.push({ name, value });
-        });
-        console.log(inputs);
-        form.reset();
-      } 
-    });
-  
-    function changeStep(btn) {
-      let index = 0;
-      const active = document.querySelector(".active");
-      index = steps.indexOf(active);
-      steps[index].classList.remove("active");
-      if (btn === "next") {
-        index++;
-      } else if (btn === "prev") {
-        index--;
-      }
-      steps[index].classList.add("active");
-    }
-//   //validatations
-    function validateFields() {
-      const activeStep = document.querySelector(".active");
-      const inputs = activeStep.querySelectorAll("input[required]");
-      let isValid = true;
-      const emptyFields = [];
-  
-      inputs.forEach((input) => {
-        if (!input.value.trim()) {
-          isValid = false;
-          const label = document.querySelector(`label[for='${input.id}']`);
-          emptyFields.push(label.textContent);
-        }
-      });
-  
-      if (!isValid) {
-        alert(`Please fill in the following fields: ${emptyFields.join(', ')}`);
-      }
-  
-      return isValid;
-    }
 
-    function checkEmail(event, id) {
-  const errorMsgElement = document.getElementById(`${id}-error-msg`);
-  const emailInput = document.getElementById(id);
-
-  if (!emailInput.validity.valid) {
-    errorMsgElement.textContent = "**Please enter a valid email address";
-  } else {
-    errorMsgElement.textContent = "";
-  }
-}
-    // END prev next button js
-  </script>
   
   
 </body>

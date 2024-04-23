@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', path='login.css') }}">
+    <script src="{{ url_for('static', path='login.js') }}"></script> -->
+    <link rel="stylesheet" href="/static/assets/css/frgpswd.css">
+    <script src="/static/assets/js/login.js"></script>
+    <link rel="shortcut icon" type="image/icon" href="/static/assets/logo/tech.png"/>
+    <title>Forgot Password</title>
+
+
+
+
+</head>
+
+<body>
+
+<div id="myModal" class="modal">
+ 
+{% if pop_up_message %}
+                    <script>
+                        alert("{{ pop_up_message }}");
+                    </script>
+                    {% endif %}
+    <center>
+           <form method="post" action="/otpsend">
+            <div class="container">
+                <div class="login">
+                    <img src="/static/assets/images/loginimg/The Third eye.png" class="logo">
+                    <h2>Forgot Password</h2>
+                    
+                    <!-- Improved email input with validation -->
+                    <input class="user plchldr" placeholder="Email" type="email" name="emaill" required>
+
+                   
+                    <button type="submit" class="otp">Send OTP</button>
+                   
+                </div>
+            </div>
+        </form>
+    </center>
+</body>
+</html>

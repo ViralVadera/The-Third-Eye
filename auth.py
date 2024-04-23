@@ -2,10 +2,14 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi import Request
 from passlib.context import CryptContext
 
+
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 # Simulated session storage
 session_storage = {}
+
+OTP=0
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 

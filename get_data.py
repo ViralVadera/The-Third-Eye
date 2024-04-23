@@ -1,9 +1,25 @@
 import ssdb
+import threading
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import sqlite3
-import pandas as pd
+import time
 
+async def getcount(table_name):
+    query=table_name.select()
+    co=await ssdb.database.fetch_all(query)
+    count=len(co)
+    return count
+
+async def memuid(unitid):
+    query=ssdb.member_master.select().where(ssdb.member_master.c.unit_id==unitid and ssdb.member_master.c.add_by is None)
+    muid=await ssdb.database.fetch_one(query)
+    return muid[1]
+
+async def notyread(userid):
+    query=ssdb.notification_master.select().where(ssdb.notification_master.c.reciver_id==userid)
+    nodata=await ssdb.database.fetch_all(query)
+    return nodata
 
 def delete_sequence_value(table_name):
     try:
@@ -94,3 +110,31 @@ async def select_tableid(table_name,id):
         return dresult[1]
     else:
         return None
+    
+async def securitysoc(id):
+    await ssdb.database.connect()
+    
+    try:
+        query = ssdb.security_master.select().where(ssdb.security_master.c.user_id==id)
+        dresult=await ssdb.database.fetch_one(query)
+        query = ssdb.security_allotment_master.select().where(ssdb.security_allotment_master.c.security_id==dresult[0])
+        dresult=await ssdb.database.fetch_one(query)
+
+    finally:
+        await ssdb.database.disconnect()
+
+    if dresult:
+        return dresult[3]
+    else:
+        return None
+    
+async def demo():
+        while True:
+            query = ssdb.notification_master.delete()
+            dresult=await ssdb.database.fetch_one(query)
+            time.sleep(60)
+
+async def nsid(uid):
+        query=ssdb.notification_master.select().where(ssdb.notification_master.c.reciver_id==uid)
+        notifi=await ssdb.database.fetch_one(query)
+        return notifi

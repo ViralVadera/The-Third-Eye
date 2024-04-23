@@ -74,7 +74,9 @@
           </div>  
           <div class="form-group">
             <label for="dob">DOB</label>
-            <input type="date" id="dob" name="dob" required   />
+            <input type="date" id="dob" name="dob" required  onchange="checkDOB()" />
+            <p id="dateError" style="color: red;"></p>
+
           </div>
           <div class="form-group">
             <label for="email">Email</label>
@@ -97,11 +99,11 @@
       
           <div class="form-group">
             <label for="mobile">Mobile</label>
-            <input type="number" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required/>
+            <input type="text" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required/>
           </div>
           <div class="form-group">
             <label for="alt-mobile">Alternate Mobile</label>
-            <input type="number" id="alt-mobile" name="altmobile" inputmode="numeric" pattern="[0-9]{10}"/>
+            <input type="text" id="alt-mobile" name="altmobile" inputmode="numeric" pattern="[0-9]{10}"/>
           </div>
         </div>
 
@@ -142,12 +144,16 @@
 
           <div class="form-group">
             <label for="assigndt"style="margin-top: 7px;">Assign Date</label>
-            <input type="date" id="assigndt" name="assigndt" required   />
+            <input type="date" id="assigndt" name="assigndt" required  onchange="checkDOB()" />
+            <p id="dateError" style="color: red;"></p>
+
           </div>
 
           <div class="form-group">
             <label for="assigtillndt">Assign Till</label>
-            <input type="date" id="assigtillndt" name="assigntilldt"    />
+            <input type="date" id="assigtillndt" name="assigntilldt"   onchange="checkDOB()" />
+            <p id="dateError" style="color: red;"></p>
+
           </div>
 
           <div class="form-group">
@@ -163,6 +169,21 @@
       </form>
     </div>
   </section>
-  
+  <script type="text/javascript">
+    function checkDOB() {
+        var dateString = document.getElementById('regdate').value;
+        var myDate = new Date(dateString);
+        var today = new Date();
+        if (myDate > today) { 
+            // Display error message
+            document.getElementById('dateError').innerHTML = 'You cannot enter a date in the future!';
+            return false;
+        } else {
+            // Remove error message if exists
+            document.getElementById('dateError').innerHTML = '';
+        }
+        return true;
+    }
+  </script>
 </body>
 </html>

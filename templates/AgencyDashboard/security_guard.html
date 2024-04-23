@@ -39,15 +39,13 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="/agency" class="logo d-flex align-items-center">
         <img src="/static/agency_assets/img/TTE.png" alt="">
-        <span class="d-none d-lg-block">THE THIRD EYE </span>
+        <span class="d-none d-lg-block">THE THIRD EYE</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
     <div class="search-bar">
       <form class="search-form d-flex align-items-center" method="POST" action="#">
-        
-        <button type="submit" title="Search"><i class=""></i></button>
       </form>
     </div><!-- End Search Bar -->
 
@@ -58,6 +56,8 @@
             <i class=""></i>
           </a>
         </li><!-- End Search Icon-->
+
+      
 
         <li class="nav-item dropdown pe-3">
 
@@ -71,7 +71,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="/agency/users-profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -79,10 +79,15 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="/admin/chgpass">
+                <i class="bi bi-key"></i>
+                <span>Change Password</span>
+              </a>
+            </li>
+            <li>
               <hr class="dropdown-divider">
             </li>
-
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/logout/">
                 <i class="bi bi-box-arrow-right"></i>
@@ -95,7 +100,6 @@
 
       </ul>
     </nav><!-- End Icons Navigation -->
-
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
@@ -109,12 +113,12 @@
         </li><!-- End Family Nav -->
   
         <li class="nav-item">
-          <a class="nav-link" data-bs-target="#forms-nav" href="security allotment.html">
+          <a class="nav-link" data-bs-target="#forms-nav" href="/agency/guardallotment">
             <img src="/static/agency_assets/img/security-agent.png" class="caricon sallo"><span class="ntext vspan sallo">Security Allotment</span>
           </a>
         </li><!-- End security agancy Nav -->
         <li class="nav-item" style="margin-left: 4px;">
-          <a class="nav-link" data-bs-target="#forms-nav" href="users-profile.html">
+          <a class="nav-link" data-bs-target="#forms-nav" href="/agency/users-profile">
             <img src="/static/agency_assets/img/user.png" class="caricon"><span class="ntext vspan">Profile</span>
           </a>
         </li><!-- End profile Nav -->
@@ -141,16 +145,10 @@
           
           <thead>
             <tr>
-              <th>Action</th>
+              <th style="width: 0;">Action</th>
               <th>Id</th>
               <th>UserName</th>
-              <th>Agency Name</th>
-              <th>Join Date</th>
-              <th>Created By</th>
-              <th>Updated By </th>
-              <th>Created Date</th>
-              <th>Updated Date</th>
-              
+              <th>Join Date</th>           
             </tr>
           </thead>
           <tbody>
@@ -171,11 +169,8 @@
                   </svg></a>
               </button></td>
               <td>{{ loop.index }}</td>
-              <td>{{ g.f_name }}</td>
-              <td>{{ g.security_agency_name }}</td>
+              <td>{{ g.f_name }} {{ g.l_name }}</td>
               <td>{{ g.join_date }}</td>
-              <td>{{ g.created_date }}</td>
-              <td>{{ g.updated_date }}</td>
             </tr>
               {% endfor %}
             
@@ -207,7 +202,7 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>The Third Eye</span></strong>. All Rights Reserved
     </div>
 
   </footer><!-- End Footer -->

@@ -59,11 +59,8 @@ select:hover{
           
           <div class="form-group">
             <label for="builderName">Builder's Name</label>
-            <select name="buildername" id="builderName">         
-              {% for u in users %}
-              <option >{{ u.f_name }}</option>
-              {% endfor %}
-         </select>      
+            <input type="text" id="builderName" name="buildername" required value="{{bname}}"/>
+               
             <div class="error-msg"></div>
           </div>
 
@@ -79,7 +76,9 @@ select:hover{
 
           <div class="form-group">
             <label for="regdate">Regestration Date</label>
-            <input type="date" id="regdate" name="regdate"   required value="{{ soc.registration_year }}"/>
+            <input type="date" id="regdate" name="regdate"  onchange="checkDOB()" required value="{{ soc.registration_year }}"/>
+            <p id="dateError" style="color: red;"></p>
+
           </div>
 
        
@@ -125,6 +124,21 @@ select:hover{
     </div>
   </section>
  
-  
+  <script type="text/javascript">
+    function checkDOB() {
+        var dateString = document.getElementById('regdate').value;
+        var myDate = new Date(dateString);
+        var today = new Date();
+        if (myDate > today) { 
+            // Display error message
+            document.getElementById('dateError').innerHTML = 'You cannot enter a date in the future!';
+            return false;
+        } else {
+            // Remove error message if exists
+            document.getElementById('dateError').innerHTML = '';
+        }
+        return true;
+    }
+  </script>
 </body>
 </html>

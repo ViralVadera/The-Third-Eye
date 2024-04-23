@@ -69,82 +69,6 @@
             <i class=""></i>
           </a>
         </li><!-- End Search Icon-->
-
-        <li class="nav-item dropdown">
-
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
-          </a><!-- End Notification Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-
-          </ul><!-- End Notification Dropdown Items -->
-
-        </li><!-- End Notification Nav -->
-
         
 
         <li class="nav-item dropdown pe-3">
@@ -157,12 +81,22 @@
                 <h6>{{ user[0][1] }} {{ user[0][3] }}</h6>
                 <span>{{ user[0][16] }}</span>
               </li>
-            <li>
-  
               <li>
-                <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/chairman/users-profile">
                   <i class="bi bi-person"></i>
                   <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="/chairman/chgpass">
+                  <i class="bi bi-key"></i>
+                  <span>Change Password</span>
                 </a>
               </li>
               <li>
@@ -206,7 +140,7 @@
         </li><!-- End security agancy Nav -->
 
         <li class="nav-item" style="margin-left: 4px;">
-          <a class="nav-link" data-bs-target="#forms-nav" href="users-profile.html">
+          <a class="nav-link" data-bs-target="#forms-nav" href="/chairman/users-profile">
             <img src="/static/chairman_assets/img/user.png" class="caricon"><span class="ntext vspan">Profile</span>
           </a>
         </li><!-- End profile Nav -->
@@ -221,27 +155,26 @@
         </div>
         <div id="fileName"></div> <!-- Added to display file name -->
         <button class="delete-button" id="deleteButton">Delete</button> <!-- Added delete button -->
-        <form class="upload-form" id="uploadForm" action="/chunitupload" method="post" enctype="multipart/form-data">
+        <form class="upload-form" id="uploadForm" action="/societiesupload" method="post" enctype="multipart/form-data">
             <label for="file-upload" id="browseLabel">Browse</label>
             <input type="file" id="file-upload" name="csvfile" onchange="displayFileName(this.files[0].name)">
             <input type="submit" value="Upload">
-        </form>
+            <input type="button" id="download-btn" class="csvbtn" value="Demo CSV">
+          </form>
     </div>
+
+
     <div class="table-container" style="position: relative;left: 1cm;"> 
-      <table id="myTable" style="position: relative; ">   
+      <table id="myTable" style="position: relative; display: none; ">   
         <thead>
           <tr>
             <th>ID</th>       
-            <th>Society Name</th>       
-            <th>Addresss Line 1</th>
-            <th>Addresss Line 2</th>
-            <th>Landmark</th>
-            <th>Road</th>
-            <th>City</th>
-            <th>Builder Name</th>
-            <th>Builder Firm</th>
-            <th>Registration Number</th>       
-            <th>Registration Year</th>
+            <th>Unit Name</th>
+            <th>Unit Type</th>
+            <th>Block</th>
+            <th>Floor Number</th>
+            <th>Society Name</th>
+            
           </tr>
         </thead>
        </table>
@@ -254,13 +187,6 @@
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>The Third Eye</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
   </footer><!-- End Footer -->
 
@@ -281,4 +207,5 @@
   
   <!-- upload js -->
   <script src="/static/admin_assets/js/upload.js"></script>
+  <script src="/static/assets/js/demodownload.js"></script>
 </html>

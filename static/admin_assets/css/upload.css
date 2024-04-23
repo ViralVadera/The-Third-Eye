@@ -53,7 +53,30 @@ body {
 .upload-form input[type="submit"]:hover {
     background-color: #3189a7;
 }
-
+/* demo csv */
+ input[type="button"]:hover {
+  background-color: #3189a7;
+}
+ input[type="button"] {
+  background-color: #008CBA;
+  margin-left: -3px;
+  position: relative;
+  left: 3px;
+  top: 0px;
+}
+.upload-form label, .upload-form input[type="button"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+/* demo */
 .drag-drop-area {
     border: 2px dashed #ccc;
     border-radius: 5px;
@@ -160,4 +183,16 @@ body {
     .drag-drop-area {
       font-size: 0.8rem; /* Reduce font size */
     }
+  }
+  /* download example button */
+  .csvbtn{
+    background-color: #4CAF50;
+    color: white;
+    position: relative;
+    top: 12px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  left: 120px;
   }

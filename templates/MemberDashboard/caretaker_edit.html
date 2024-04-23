@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/static/admin_assets/css/insert.css">
+  <style>
+    /* dropdown  */
+    select {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      color: #333;
+      width:100%;
+      max-width: 490px;
+      background-color: transparent;
+      transition: 0.3s ease;
+      box-shadow: 0 0 0 2px rgba(49, 65, 70, 0.1);
+    } 
+    /* Style the dropdown arrow */
+    select {  
+      background-position: right center;    
+    } 
+    /* Style the dropdown options */
+    select option {
+      background-color: #ffffff85;
+      color: #333;
+      border-radius: 40px;
+    }
+    select:hover{
+      border: 2px solid #4A9DEC;
+      box-shadow: 0px 0px 0px 4px rgb(74, 157, 236, 20%);
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <div class="container">
+      <form id="myForm" method="post" action="/memcaretakeredit/{{ car.c_id }}">
+        <div>
+           <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
+        </div>
+        <div class="pagename">
+          <span>
+            <h3 class="pgname">Caretaker Update</h3>
+          </span>
+        </div>
+        <div class="step step-1 active">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstname" required minlength="2" maxlength="30" value="{{ car.f_name }}"/>
+                <div class="error-msg"></div>
+              </div>
+              <div class="form-group">
+                <label for="middleName">Middle Name</label>
+                <input type="text" id="middleName" name="middlename"  minlength="2" maxlength="30" value="{{ car.m_name }}"/>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastname" required minlength="2" maxlength="30" value="{{ car.l_name }}"/>
+              </div>
+              <div class="form-group">
+                <label for="dob">DOB</label>
+                <input type="date" id="dob" name="dob" required value="{{ car.dob }}" onchange="checkDOB()"/>
+                <p id="dateError" style="color: red;"></p>
+
+              </div>
+              <div class="form-group">
+                <label for="genderInput">Gender</label>
+                <select name="gender" id="genderInput">
+                 <option value="M">Male</option>
+                 <option value="F">Female</option>
+                 <option value="O">Other</option>
+                </select>
+              </div>  
+      
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="emaill" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')" value="{{ car.email }}"/>
+                <div class="error-msg" id="email-error-msg"></div>
+              </div>
+              <div class="form-group">
+                <label for="alt-email">Alternate Email</label>
+                <input type="email" id="alt-email" name="altemail" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'alt-email')" value="{{ car.alternate_email }}"/>
+                <div class="error-msg" id="alt-email-error-msg"></div>
+              </div>
+              <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input type="text" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required value="{{ car.mobile_no }}"/>
+              </div>
+              <div class="form-group">
+                <label for="alt-mobile">Alternate Mobile</label>
+                <input type="text" id="alt-mobile" name="altmobile" inputmode="numeric" pattern="[0-9]{10}" value="{{ car.alternate_mobile_no }}"/>
+              </div>
+              <div class="form-group">
+                <label for="servicetyp">Service Type</label>
+                <input type="text" id="servicetyp" name="servicetyp" required value="{{ car.service_type }}"/>
+              </div>
+              <div class="form-group">
+                <label for="address-1">Address-1</label>
+                <input type="text" id="address-1" name="address1" required minlength="5" value="{{ car.address_line1 }}"/>
+              </div>
+              <div class="form-group">
+                <label for="address-2">Address-2</label>
+                <input type="text" id="address-2" name="address2" required minlength="5" value="{{ car.address_line2 }}"/>
+              </div>
+              <div class="form-group">
+                <label for="landmark">Landmark</label>
+                <input type="text" id="landmark" name="landmarks" value="{{ car.landmark }}"/>
+              </div>
+              <div class="form-group">
+                <label for="road">Road</label>
+                <input type="text" id="road" name="Road" value="{{ car.road }}"/>
+              </div>
+              <div class="form-group">
+                <label for="cityInput" >City</label>
+                <select name="citys" id="cityInput">
+                      {% for c in cit %}
+                      <option>{{ c.city_name }}</option>                
+                    {% endfor %}
+                </select>                
+                </div>
+          <div class="button-group">           
+            <input type="submit" class="submit-btn" name="Submit" value="Update">
+        </div>
+      </form>
+    </div>
+  </section>  
+  <script type="text/javascript">
+    function checkDOB() {
+        var dateString = document.getElementById('regdate').value;
+        var myDate = new Date(dateString);
+        var today = new Date();
+        if (myDate > today) { 
+            // Display error message
+            document.getElementById('dateError').innerHTML = 'You cannot enter a date in the future!';
+            return false;
+        } else {
+            // Remove error message if exists
+            document.getElementById('dateError').innerHTML = '';
+        }
+        return true;
+    }
+  </script>
+</body>
+</html>

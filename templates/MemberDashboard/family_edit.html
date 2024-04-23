@@ -40,7 +40,7 @@
 <body>
   <section>
     <div class="container">
-      <form id="myForm" method="post" action="/memberedit/{{ m.member_id }}">
+      <form id="myForm" method="post" action="/fmemberedit/{{ m.member_id }}">
         <div>
            <a href="/admin"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo"></a>
         </div>
@@ -82,17 +82,8 @@
                 <div class="error-msg" id="email-error-msg"></div>
               </div>
               <div class="form-group">
-                <label for="alt-email">Alternate Email</label>
-                <input type="email" id="alt-email" name="altemail" inputmode="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'alt-email')" value="{{ user.alternate_email }}"/>
-                <div class="error-msg" id="alt-email-error-msg"></div>
-              </div>
-              <div class="form-group">
                 <label for="mobile">Mobile</label>
                 <input type="number" id="mobile" name="mobile" inputmode="numeric"  pattern="[0-9]{10}" required value="{{ user.mobile_no }}"/>
-              </div>
-              <div class="form-group">
-                <label for="alt-mobile">Alternate Mobile</label>
-                <input type="number" id="alt-mobile" name="altmobile" inputmode="numeric" pattern="[0-9]{10}" value="{{ user.alternate_mobile_no }}"/>
               </div>
           <div class="button-group">           
             <input type="submit" class="submit-btn" name="Submit" value="Update">
