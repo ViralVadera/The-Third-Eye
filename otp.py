@@ -1,5 +1,6 @@
 import smtplib
 import random
+import asyncio
 
 def email(toemail):
     # Generate a random OTP
@@ -11,7 +12,7 @@ def email(toemail):
 
     # Email credentials and addresses
     FROM_EMAIL = "your_safe_house@outlook.com"
-    TO_EMAIL = "viralvadera95@gmail.com"
+    TO_EMAIL = toemail
     PASSWORD = "The_third_eye@95"
 
     # Prepare the email message
@@ -20,6 +21,7 @@ def email(toemail):
     Subject: OTP
 
     Your OTP is: {otp}.
+    Only 5 min only.
     """
 
     # Initialize SMTP client and connect to server
@@ -34,3 +36,8 @@ def email(toemail):
    
     smtp.quit()  # Disconnect from the server
     return otp
+
+
+async def reset_otp_after_5_minutes(otp):
+    await asyncio.sleep(300)  # 300 seconds = 5 minutes
+    otp = 0

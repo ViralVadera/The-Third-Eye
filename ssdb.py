@@ -211,15 +211,18 @@ security_shift_master = Table(
     "Security_Shift_Master",
     metadata,
     Column("security_shift_id" ,Integer , primary_key=True,autoincrement=True,index=True),
-    Column( "shift_id" ,Integer,index=True,nullable=False),
+    Column( "security_id" ,Integer,index=True,nullable=False),
+    Column( "society_id" ,Integer,index=True,nullable=False),
     Column( "shift_start_date" ,Date,index=True,nullable=False),
     Column( "shift_end_date" ,Date,index=True,nullable=False),
+    Column( "shift_time" ,String,index=True,nullable=False),
     Column( "created_by" ,Integer,index=True,nullable=False),
     Column( "updated_by" ,Integer,index=True,nullable=False),
     Column( "created_date" ,Date,index=True,nullable=False),
     Column( "updated_date" ,Date,index=True,nullable=False),
     Column( "is_active" ,Boolean,index=True,nullable=False),
-    ForeignKeyConstraint(["shift_id"], ["Shift_Master.shift_id"], name="fk_security_shift_shift_id"), 
+    ForeignKeyConstraint(["security_id"], ["Security_Master.security_id"], name="fk_security_shift_security_security_id"),   
+    ForeignKeyConstraint(["society_id"], ["Society_Master.society_id"], name="fk_security_shift_society_society_id"),  
 )
 
 security_allotment_master = Table(

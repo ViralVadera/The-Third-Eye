@@ -1141,28 +1141,6 @@ th, td {
   white-space: nowrap; /* Prevent text wrapping */
 }
 
- /* Pagination Styles */
- .pagination {
-  display: flex;
-  justify-content: flex-start; /* Align items to the left */
-  align-items: center; /* Center vertically */
-  margin-bottom: 10px; /* Added margin for spacing */
-}
-.pagination .pbtn {
-  position: relative;
-  top: 20px;
-  padding: 8px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 5px; /* Added margin between buttons */
-}
-.pbtn:hover{
-  background-color: #0056b3;
-
-}
 
 /* Styles for the insert button */
 
@@ -1173,7 +1151,7 @@ th, td {
 }
 .insert-btn {
   position: relative;
-  bottom: 84px;
+  bottom: 35px;
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;

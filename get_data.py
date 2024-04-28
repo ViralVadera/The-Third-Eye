@@ -117,14 +117,14 @@ async def securitysoc(id):
     try:
         query = ssdb.security_master.select().where(ssdb.security_master.c.user_id==id)
         dresult=await ssdb.database.fetch_one(query)
-        query = ssdb.security_allotment_master.select().where(ssdb.security_allotment_master.c.security_id==dresult[0])
+        query = ssdb.security_shift_master.select().where(ssdb.security_shift_master.c.security_id==dresult[0])
         dresult=await ssdb.database.fetch_one(query)
 
     finally:
         await ssdb.database.disconnect()
 
     if dresult:
-        return dresult[3]
+        return dresult[1]
     else:
         return None
     

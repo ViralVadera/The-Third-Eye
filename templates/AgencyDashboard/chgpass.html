@@ -96,21 +96,19 @@
             <i class=""></i>
           </a>
         </li><!-- End Search Icon-->
-
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span style="margin-right: 0.3cm;">{{ user[0][1] }} {{ user[0][3] }}</span>
+            <span style="margin-right: 0.3cm;">{{ user[1] }}</span>
           </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>{{ user[0][1] }} {{ user[0][3] }}</h6>
-              <span>{{ user[0][16] }}</span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+          <li class="dropdown-header">
+            <h6>{{ user[1] }}</h6>
+            <span>Agency</span>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/admin/ausers-profile">
                 <i class="bi bi-person"></i>

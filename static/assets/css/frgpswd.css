@@ -62,7 +62,7 @@ h2{
 .user
 {
     position: relative;
-    top: -44px;
+    top: -24px;
     height: 30px;
     width: 250px;
     border: 1px black solid;
@@ -114,7 +114,7 @@ h2{
 }
 .otp{
     position: relative;
-    top: -25px;
+    top: 20px;
     width: 113px;
     border-radius: 79px;
     padding: 7px 20px;

@@ -152,7 +152,7 @@
         </div>
         <div id="fileName"></div> <!-- Added to display file name -->
         <button class="delete-button" id="deleteButton">Delete</button> <!-- Added delete button -->
-        <form class="upload-form" id="uploadForm" action="/societiesupload" method="post" enctype="multipart/form-data">
+        <form class="upload-form" id="uploadForm" action="/chmemberupload" method="post" enctype="multipart/form-data">
             <label for="file-upload" id="browseLabel">Browse</label>
             <input type="file" id="file-upload" name="csvfile" onchange="displayFileName(this.files[0].name)">
             <input type="submit" value="Upload">

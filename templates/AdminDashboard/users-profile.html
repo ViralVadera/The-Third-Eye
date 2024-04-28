@@ -170,11 +170,11 @@
   </aside><!-- End Sidebar-->
   <main id="main" class="main">
  
-      <div class="container">
+      <div class="container" style="width: 100%;">
         <form action="/editprofile/{{ user[0][0] }}" method="post">
                     
-          <div class="step step-1 active">
-            <div class="form-group">
+          <div class="step step-1 active" >
+            <div class="form-group" >
               <label for="firstName">First Name</label>
               <input type="text" id="firstName" name="fName" required minlength="2" maxlength="30" value="{{user[0][1]}}"/>
               <div class="error-msg"></div>
@@ -196,7 +196,7 @@
           </div>
           <div class="form-group">
             <label for="mobile">Mobile</label>
-            <input type="number" id="mobile" name="phone" inputmode="numeric"  minlength="10" maxlength="10" required value="{{user[0][8]}}"/>
+            <input type="number" id="mobile" name="phone" inputmode="numeric"  minlength="10" maxlength="10" required value="{{user[0][8]}}" min="1"/>
           </div>
         
           <div class="form-group">

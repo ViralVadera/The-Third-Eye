@@ -40,13 +40,13 @@
 <body>
   <section>
     <div class="container">
-      <form id="myForm" method="post" action="/agencyallotinsert">
+      <form id="myForm" method="post" action="/agencyallotins/{{gurd.security_shift_id}}">
         <div>
            <a href="/security"><img src="/static/admin_assets/img/TTE.png" alt="" class="logo" style="left: 5.2cm;"></a>
         </div>
         <div class="pagename">
           <span class="pgname">
-          Security Allotment
+           Update Security Allotment
           </span>
         </div>
         
@@ -68,16 +68,16 @@
          </div>
           <div class="form-group">
             <label for="shiftstrt" style="margin-top: 7px;">Shift Start Date</label>
-            <input type="date" id="shiftstrt" name="shiftstrt" required   />
+            <input type="date" id="shiftstrt" name="shiftstrt" required  value="{{gurd.shift_start_date}}" />
           </div>
           <div class="form-group">
             <label for="shiftsend">Shift End Date</label>
-            <input type="date" id="shiftsend" name="shiftsend" required   />
+            <input type="date" id="shiftsend" name="shiftsend" required  value="{{gurd.shift_end_date}}" />
           </div>
        
           <div class="form-group">
             <label for="shifttime">Shift Time</label>
-            <input type="text" id="shifttime" name="shifttime" required minlength="5" />
+            <input type="text" id="shifttime" name="shifttime" required minlength="5" value="{{gurd.shift_time}}"/>
           </div>
              <div class="button-group">
             <button type="submit" class="submit-btn">Submit</button>

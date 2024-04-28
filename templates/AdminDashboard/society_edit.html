@@ -71,7 +71,7 @@ select:hover{
           </div>
           <div class="form-group">
             <label for="regnumber">Regestration Number</label>
-            <input type="number" id="regnumber" name="regnumber" inputmode="numeric"  required value="{{ soc.registration_no }}"/>
+            <input type="number" id="regnumber" name="regnumber" inputmode="numeric"  required value="{{ soc.registration_no }}" min="1"/>
           </div>
 
           <div class="form-group">
@@ -89,7 +89,7 @@ select:hover{
           </div>
           <div class="form-group">
             <label for="address-2">Address-2</label>
-            <input type="text" id="address-2" name="address_2" minlength="5" value="{{ soc.address_line2 }}"/>
+            <input type="text" id="address-2" name="address_2" value="{{ soc.address_line2 }}"/>
           </div>
           <div class="form-group">
             <label for="landmark">Landmark</label>

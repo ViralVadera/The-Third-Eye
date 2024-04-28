@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Cookie, Form, Request, Depends, HTTPException, status,File, UploadFile
+from fastapi import FastAPI,Cookie, Form, Request, Response, Depends, HTTPException, status,File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 import csv
 import io
@@ -19,7 +19,6 @@ from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table, 
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
 
 # Initialize Passlib's CryptContext
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
@@ -173,7 +172,7 @@ async def asocieties_insert(request: Request):
     return templates.TemplateResponse("AdminDashboard/society_insert.html", {"request": request, "users": usern, "cityy": city})
 
 @app.post("/admin/socinsert")
-async def adminsocinsert(request: Request, Society_name : str = Form(...), builderName : str = Form(...), builderfirm_name: str = Form(...), regnumber: str = Form(...), regdate: str = Form(...), address_1: str = Form(...), address_2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...)):
+async def adminsocinsert(request: Request, Society_name : str = Form(...), builderName : str = Form(...), builderfirm_name: str = Form(...), regnumber: str = Form(...), regdate: str = Form(...), address_1: str = Form(...), address_2: Optional[str] = Form(), Road: str = Form(...), landmarks: Optional[str] = Form(), citys:str = Form(...)):
   try:
     current_user = auth.verify_session(request)
     email = current_user["email"]
@@ -293,7 +292,7 @@ async def adminsocedit(request: Request, soc_id: int):
     return templates.TemplateResponse("AdminDashboard/society_edit.html", {"request": request, "soc": socc, "bname": bname, "users": usern, "cityy": city})
 
 @app.post("/admin/socupd/{soc_id}")
-async def adminsocedit(request: Request, soc_id: int, Society_name : str = Form(...), builderName : str = Form(...), builderfirm_name: str = Form(...), regnumber: str = Form(...), regdate: str = Form(...), address_1: str = Form(...), address_2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...)):
+async def adminsocedit(request: Request, soc_id: int, Society_name : str = Form(...), builderName : str = Form(...), builderfirm_name: str = Form(...), regnumber: str = Form(...), regdate: str = Form(...), address_1: str = Form(...), address_2: Optional[str] = Form(), Road: str = Form(...), landmarks: Optional[str] = Form(), citys:str = Form(...)):
     current_user = auth.verify_session(request)
     if current_user is None or current_user["user_type"] != 'admin':
         return templates.TemplateResponse(
@@ -1441,7 +1440,7 @@ async def acaretaker(request: Request, c_id: int):
    return templates.TemplateResponse("AdminDashboard/caretaker_edit.html", {"request": request, "cit": cit, "car": care}) 
 
 @app.post("/acaretakeredit/{c_id}")
-async def admincaredit(request: Request, c_id: int, firstname : str = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: Optional[str] = Form(None), altemail: Optional[str] = Form(None), servicetyp: str = Form(...), address1: str = Form(...), address2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None)):
+async def admincaredit(request: Request, response: Response, c_id: int, firstname : str = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: Optional[str] = Form(None), altemail: Optional[str] = Form(None), servicetyp: str = Form(...), address1: str = Form(...), address2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None)):
     current_user = auth.verify_session(request)
     email = current_user["email"]
     createdby=await get_data.select_tableemail(ssdb.user_master,email)
@@ -1694,7 +1693,7 @@ async def admin(request: Request):
     query=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.email==email)
     use= await ssdb.database.fetch_one(query)
     gcount=await get_data.getcount(ssdb.security_master)
-    acount=5
+    acount=await get_data.getcount(ssdb.security_shift_master)
     return templates.TemplateResponse("AgencyDashboard/index.html", {"request": request, "user": use, "gcount": gcount, "acount": acount})   
 
 #Agency Security Gurd
@@ -1707,7 +1706,8 @@ async def asecurityguard(request: Request):
                 {"request": request, "pop_up_message": "Login Required"}
             )
     email=email = current_user["email"]
-    use=await get_data.select_tableuname(ssdb.security_agency_master,email)
+    query=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.email==email)
+    use= await ssdb.database.fetch_one(query)
     query = select(ssdb.security_master,
                    ssdb.security_agency_master,
                    ssdb.user_master
@@ -1719,7 +1719,7 @@ async def asecurityguard(request: Request):
         ssdb.security_agency_master,
         ssdb.security_master.c.security_agency_id == ssdb.security_agency_master.c.security_agency_id
     )
-    ).where(ssdb.security_agency_master.c.security_agency_name==use[0][1])
+    ).where(ssdb.security_agency_master.c.security_agency_name==use[1])
     gurds=await ssdb.database.fetch_all(query)
 
     return templates.TemplateResponse("AgencyDashboard/security_guard.html", {"request": request, "user": use, "gurd": gurds})
@@ -1964,8 +1964,11 @@ async def asecurityguard(request: Request):
                 {"request": request, "pop_up_message": "Login Required"}
             )
     email=email = current_user["email"]
-    use=await get_data.select_tableuname(ssdb.security_agency_master,email)
+    query=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.email==email)
+    use= await ssdb.database.fetch_one(query)
     query = select(ssdb.security_master,
+                   ssdb.security_shift_master,
+                   ssdb.society_master,
                    ssdb.security_agency_master,
                    ssdb.user_master
                    ).select_from(
@@ -1975,15 +1978,21 @@ async def asecurityguard(request: Request):
     ).join(
         ssdb.security_agency_master,
         ssdb.security_master.c.security_agency_id == ssdb.security_agency_master.c.security_agency_id
+    ).join(
+        ssdb.security_shift_master,
+        ssdb.security_master.c.security_id == ssdb.security_shift_master.c.security_id
+    ).join(
+        ssdb.society_master,
+        ssdb.security_shift_master.c.society_id == ssdb.society_master.c.society_id
     )
-    ).where(ssdb.security_agency_master.c.security_agency_name==use[0][1])
+    ).where(ssdb.security_agency_master.c.security_agency_name==use[1])
     gurds=await ssdb.database.fetch_all(query)
 
     return templates.TemplateResponse("AgencyDashboard/securityallotment.html", {"request": request, "user": use, "gurd": gurds})
 
 
-#Agency Security Gurd Insert
-@app.route("/agency/guardalinsert", methods=['GET', 'POST'])
+#Agency Security Allot Insert
+@app.route("/agency/allotminsert", methods=['GET', 'POST'])
 async def asecurityguard(request: Request):
     current_user = auth.verify_session(request)
     if current_user is None:
@@ -2000,202 +2009,96 @@ async def asecurityguard(request: Request):
 altmobile: Optional[str] = Form(None)
 
 @app.post("/agencyallotinsert")
-async def aagencygurdinsert(request: Request, firstname : str = Form(...), joindt: date = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: str = Form(...), altemail: Optional[str] = Form(None), pswd: str = Form(...), address_1: str = Form(...), address_2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None)):
+async def aagencygurdinsert(request: Request, secname : str = Form(...), shifttime: str = Form(...), shiftstrt: date = Form(...), shiftsend: date = Form(...), sociname : str = Form(...)):
 
     current_user = auth.verify_session(request)
     email = current_user["email"]
+    query=ssdb.security_master.select().where(ssdb.security_master.c.user_id==secname)
+    secid= await ssdb.database.fetch_one(query)
     createdby=await get_data.select_tableuname(ssdb.security_agency_master,email)
-    cit=ssdb.city_master.select().where(ssdb.city_master.c.city_name==citys)
-    cityid=await ssdb.database.fetch_one(cit)
-    hashed_pass=auth.encrypt_password(pswd)
-    use=await get_data.select_tableuname(ssdb.security_agency_master,email)
 
-    ## user = ssdb.security_allotment_master.insert().values(
-    #     security_id=,
-        
-    #     created_by=createdby[0][0],
-    #     updated_by=createdby[0][0]
-    # )
-    ## result =await ssdb.database.fetch_one(user)
-    userid=await get_data.select_tableemail(ssdb.user_master,emaill)
-    seecu = ssdb.security_master.insert().values(
-        user_id=userid,
-        security_agency_id=use[0][0],
-        join_date=joindt,
+    user = ssdb.security_shift_master.insert().values(
+        security_id=secid[0],
+        society_id=sociname,
+        shift_start_date=shiftstrt,
+        shift_end_date=shiftsend,
+        shift_time=shifttime,
         created_by=createdby[0][0],
         updated_by=createdby[0][0]
-    )
-    sresult =await ssdb.database.fetch_one(seecu)
-    
-    return RedirectResponse('/agency/asecurityguard')
-
-#Agency Security Gurd Edit
-@app.get("/agency/guardedit/{gurd_id}")
-async def adminsocedit(request: Request, gurd_id: int):
- 
-    current_user = auth.verify_session(request)
-    if current_user is None or current_user.get("user_type") != "agency":
-        return templates.TemplateResponse(
-                "home/login.html",
-                {"request": request, "pop_up_message": "Login Required"}
-            )
-    query=ssdb.security_agency_master.select()
-    agency= await ssdb.database.fetch_all(query)
-    query=ssdb.city_master.select()
-    city=await ssdb.database.fetch_all(query)
-    query=ssdb.security_master.select().where(ssdb.security_master.c.security_id==gurd_id)
-    gurd=await ssdb.database.fetch_one(query)
-    query=ssdb.user_master.select().where(ssdb.user_master.c.user_id==gurd[1])
-    user=await ssdb.database.fetch_one(query)
-    query=ssdb.city_master.select().where(ssdb.city_master.c.city_id==user[14])
-    cityy=await ssdb.database.fetch_one(query)
-
-    return templates.TemplateResponse("AgencyDashboard/security_guard_edit.html", {"request": request, "city": city, "cityy": cityy, "user": user, "agency": agency, "gurd": gurd})
-
-@app.post("/agencyguardsedit/{gurd_id}")
-async def admingurdedit(request: Request, gurd_id: int, firstname : str = Form(...), joindt: date = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: str = Form(...), altemail: Optional[str] = Form(None), address_1: str = Form(...), address_2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None)):
-    current_user = auth.verify_session(request)
-    if current_user is None or current_user.get("user_type") != "agency":
-        return templates.TemplateResponse(
-                "home/login.html",
-                {"request": request, "pop_up_message": "Login Required"}
-            )
-    email = current_user["email"]
-    createdby=await get_data.select_tableuname(ssdb.security_agency_master,email)
-    cit=ssdb.city_master.select().where(ssdb.city_master.c.city_name==citys)
-    cityid=await ssdb.database.fetch_one(cit)
-    use=await get_data.select_tableuname(ssdb.security_agency_master,email)
-    userid=await get_data.select_tableemail(ssdb.user_master,emaill)
-    
-    user = ssdb.user_master.update().where(ssdb.user_master.c.user_id==userid).values(
-        f_name=firstname,
-        m_name=middlename,
-        l_name=lastname,
-        dob=dob,
-        gender=gender,
-        address_line1=address_1,
-        address_line2=address_2,
-        landmark=landmarks,
-        road=Road,
-        city_id=cityid[0],
-        email=emaill,
-        alternate_email=altemail,
-        mobile_no=mobile,
-        alternate_mobile_no=altmobile,
-        updated_by=createdby[0][0],
-        updated_date=todaydate()
     )
     result =await ssdb.database.fetch_one(user)
-    seecu = ssdb.security_master.update().where(ssdb.security_master.c.security_id==gurd_id).values(
-        user_id=userid,
-        security_agency_id=use[0][0],
-        join_date=joindt,
-        updated_by=createdby[0][0],
-        updated_date=todaydate()
-    )
-    sresult =await ssdb.database.fetch_one(seecu)
     
-    return RedirectResponse('/agency/asecurityguard')
+    return RedirectResponse('/agency/guardallotment')
+
+#Agency Security Gurd Edit
+@app.get("/agency/allotedit/{gurd_id}")
+async def adminsocedit(request: Request, gurd_id: int):
+    current_user = auth.verify_session(request)
+    if current_user is None or current_user.get("user_type") != "agency":
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Login Required"}
+            )
+    email=email = current_user["email"]
+    query=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.email==email)
+    use= await ssdb.database.fetch_one(query)
+    query = select(ssdb.security_master,
+                   ssdb.security_shift_master,
+                   ssdb.society_master,
+                   ssdb.security_agency_master,
+                   ssdb.user_master
+                   ).select_from(
+        ssdb.security_master.join(
+        ssdb.user_master,
+        ssdb.security_master.c.user_id == ssdb.user_master.c.user_id
+    ).join(
+        ssdb.security_agency_master,
+        ssdb.security_master.c.security_agency_id == ssdb.security_agency_master.c.security_agency_id
+    ).join(
+        ssdb.security_shift_master,
+        ssdb.security_master.c.security_id == ssdb.security_shift_master.c.security_id
+    ).join(
+        ssdb.society_master,
+        ssdb.security_shift_master.c.society_id == ssdb.society_master.c.society_id
+    )
+    ).where(ssdb.security_shift_master.c.security_shift_id==gurd_id)
+    gurds=await ssdb.database.fetch_one(query)
+    query=ssdb.user_master.select().where(ssdb.user_master.c.user_type=='security')
+    security_name= await ssdb.database.fetch_all(query)
+    query=ssdb.society_master.select()
+    soci=await ssdb.database.fetch_all(query)
+    return templates.TemplateResponse("AgencyDashboard/securityallotment_edit.html", {"request": request, "user": use, "gurd": gurds, "security": security_name, "soci": soci})
+
+@app.post("/agencyallotins/{gurd_id}")
+async def aagencygurdinsert(request: Request, gurd_id: int, secname : str = Form(...), shifttime: str = Form(...), shiftstrt: date = Form(...), shiftsend: date = Form(...), sociname : str = Form(...)):
+
+    current_user = auth.verify_session(request)
+    email = current_user["email"]
+    query=ssdb.security_master.select().where(ssdb.security_master.c.user_id==secname)
+    secid= await ssdb.database.fetch_one(query)
+    createdby=await get_data.select_tableuname(ssdb.security_agency_master,email)
+
+    user = ssdb.security_shift_master.update().where(ssdb.security_shift_master.c.security_shift_id==gurd_id).values(
+        security_id=secid[0],
+        society_id=sociname,
+        shift_start_date=shiftstrt,
+        shift_end_date=shiftsend,
+        shift_time=shifttime,
+        created_by=createdby[0][0],
+        updated_by=createdby[0][0]
+    )
+    result =await ssdb.database.fetch_one(user)
+    
+    return RedirectResponse('/agency/guardallotment')
 
 #Agency Security Gurd Delte
-@app.get("/agenguardsdelte/{gurd_id}")
+@app.get("/agecyallotdel/{gurd_id}")
 async def gurddel(request: Request, gurd_id: int):
-    qyery=ssdb.security_master.select().where(ssdb.security_master.c.security_id==gurd_id)
-    uid=await ssdb.database.fetch_one(qyery)
-    query=ssdb.user_master.delete().where(ssdb.user_master.c.user_id==uid[1])
+    query=ssdb.security_shift_master.delete().where(ssdb.security_shift_master.c.security_shift_id==gurd_id)
     udel=await ssdb.database.fetch_one(query)
-    query=ssdb.security_master.delete().where(ssdb.security_master.c.security_id==gurd_id)
-    sdel=await ssdb.database.fetch_one(query)
-    get_data.delete_sequence_value('Security_Master')
-    get_data.delete_sequence_value('User_Master')
-    if sdel is None:
-        return RedirectResponse(url='/agency/asecurityguard')
-
-#Agency Security Gurd Upload
-@app.route("/agency/gurd_upload", methods=['GET', 'POST'])
-async def gurd_upload(request: Request):
-    current_user = auth.verify_session(request)
-    if current_user is None or current_user.get("user_type") != "agency":
-        return templates.TemplateResponse(
-                "home/login.html",
-                {"request": request, "pop_up_message": "Login Required"}
-            )
-    email = current_user["email"]
-    use=await get_data.select_tableuname(ssdb.security_agency_master,email)
-    return templates.TemplateResponse("AgencyDashboard/security_guard_upload.html", {"request": request,"user": use})
-
-@app.post("/agngurdupload")
-async def gurdupload(request: Request, csvfile: UploadFile = File(...)):
-    current_user = auth.verify_session(request)
-    email = current_user["email"]
-    use=await get_data.select_tableuname(ssdb.security_agency_master,email)
-    if current_user is None or current_user.get("user_type") != "agency":
-        return templates.TemplateResponse(
-                "home/login.html",
-                {"request": request, "pop_up_message": "Login Required"}
-            )
-    if not csvfile.filename.endswith('.csv'):
-        return templates.TemplateResponse(
-                "AgencyDashboard/security_guard_upload.html",
-                {"request": request, "pop_up_message": "Please upload .CSV file.", "user" : use}
-            )
-    # Read and parse the CSV file
-    contents = await csvfile.read()
-    csv_data = io.StringIO(contents.decode('utf-8'))
-    csv_reader = csv.reader(csv_data)
-    current_user = auth.verify_session(request)
-    createdby=await get_data.select_tableuname(ssdb.security_agency_master,email)
-    next(csv_reader, None) #removing header
-    
-    for row in csv_reader:
-      try:
-        date_str = row[4]
-        date = datetime.strptime(date_str, '%d-%m-%Y').date()
-        date=date.strftime('%Y-%m-%d')
-        ddob=datetime.strptime(date, "%Y-%m-%d").date()
-        date_str = row[16]
-        date = datetime.strptime(date_str, '%d-%m-%Y').date()
-        date=date.strftime('%Y-%m-%d')
-        jdate=datetime.strptime(date, "%Y-%m-%d").date()
-        hashed_pass=auth.encrypt_password(row[8])
-        cit=ssdb.city_master.select().where(ssdb.city_master.c.city_name==row[15])
-        cityid=await ssdb.database.fetch_one(cit)
-        user = ssdb.user_master.insert().values(
-        f_name=row[1],
-        m_name=row[2],
-        l_name=row[3],
-        dob=ddob,
-        gender=row[5],
-        address_line1=row[11],
-        address_line2=row[12],
-        landmark=row[13],
-        road=row[14],
-        city_id=cityid[0],
-        email=row[6],
-        alternate_email=row[7],
-        password=hashed_pass,
-        mobile_no=row[9],
-        alternate_mobile_no=row[10],
-        user_type='security',
-        created_by=createdby[0][0],
-        updated_by=createdby[0][0]
-        )
-        result =await ssdb.database.fetch_one(user)
-        userid=await get_data.select_tableemail(ssdb.user_master,row[6])
-        seecu = ssdb.security_master.insert().values(
-        user_id=userid,
-        security_agency_id=createdby[0][0],
-        join_date=jdate,
-        created_by=createdby[0][0],
-        updated_by=createdby[0][0]
-        )
-        sresult =await ssdb.database.fetch_one(seecu)
-    
-        return RedirectResponse('/agency/asecurityguard')
-
-    
-      except ValueError as e:
-            print(f"Error converting date for row {row}: {e}")
+    get_data.delete_sequence_value('Security_Shift_Master')
+    if udel is None:
+        return RedirectResponse(url='/agency/guardallotment')
 
 #Agency user-profile
 @app.route("/agency/users-profile", methods=['GET', 'POST'])
@@ -2207,7 +2110,8 @@ async def auser(request: Request):
                 {"request": request, "pop_up_message": "Login Required"}
             )
     email = current_user["email"]
-    use=await get_data.select_tableuname(ssdb.security_agency_master,email)
+    query=ssdb.security_agency_master.select().where(ssdb.security_agency_master.c.email==email)
+    use= await ssdb.database.fetch_one(query)
     return templates.TemplateResponse("AgencyDashboard/users-profile.html", {"request": request, "user": use})
 
 #Agency profile edit
@@ -2300,6 +2204,219 @@ async def cmemberowner(request: Request):
     email = current_user["email"]
     use=await get_data.select_tableuname(ssdb.user_master,email)
     return templates.TemplateResponse("ChairamnDashboard/owner.html", {"request": request, "member": member, "user": use})
+
+#Chairman Member Insert
+@app.route("/chairman/member_insert", methods=['GET', 'POST'])
+async def cmember(request: Request):
+    current_user = auth.verify_session(request)
+    if current_user is None or current_user["user_type"] != 'chairman':
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Login Required"}
+            )
+    quey = ssdb.unit_master.select()
+    un= await ssdb.database.fetch_all(quey)
+    query= ssdb.city_master.select()
+    cit= await ssdb.database.fetch_all(query)
+    return templates.TemplateResponse("ChairamnDashboard/owner_insert.html", {"request": request, "unit": un, "city": cit})
+
+@app.post("/chmemberinsert")
+async def chairmanmebinsert(request: Request, firstname : str = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: str = Form(...), altemail: Optional[str] = Form(None), pswd: str = Form(...), address1: str = Form(...), address2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None), unitname: str = Form(...)):
+    current_user = auth.verify_session(request)
+    email = current_user["email"]
+    createdby=await get_data.select_tableemail(ssdb.user_master,email)
+    quer = ssdb.city_master.select().where(ssdb.city_master.c.city_name==citys)
+    citid= await ssdb.database.fetch_one(quer)
+    hashed_pass=auth.encrypt_password(pswd)
+    query=ssdb.unit_master.select().where(ssdb.unit_master.c.unit_name==unitname)
+    unitn= await ssdb.database.fetch_one(query)
+    user = ssdb.user_master.insert().values(
+        f_name=firstname,
+        m_name=middlename,
+        l_name=lastname,
+        dob=dob,
+        gender=gender,
+        address_line1=address1,
+        address_line2=address2,
+        landmark=landmarks,
+        road=Road,
+        city_id=citid[0],
+        email=emaill,
+        alternate_email=altemail,
+        password=hashed_pass,
+        mobile_no=mobile,
+        alternate_mobile_no=altmobile,
+        user_type='member',
+        created_by=createdby,
+        updated_by=createdby
+    )
+    result =await ssdb.database.fetch_one(user)
+    userid=await get_data.select_tableemail(ssdb.user_master,emaill)
+    mamber=ssdb.member_master.insert().values(
+        member_userid=userid,
+        unit_id=unitn[1],
+        created_by=createdby,
+        updated_by=createdby
+    )
+    result =await ssdb.database.fetch_one(mamber)
+    return RedirectResponse('/chairman/owner')
+
+#Chairman Member Edit
+@app.get("/chairman/chmember_edit/{member_id}")
+async def amember(request: Request, member_id : int):
+    current_user = auth.verify_session(request)
+    if current_user is None or current_user["user_type"] != 'chairman':
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Login Required"}
+            )
+    quey = ssdb.unit_master.select()
+    un= await ssdb.database.fetch_all(quey)
+    query= ssdb.city_master.select()
+    cit= await ssdb.database.fetch_all(query)
+    query=ssdb.member_master.select().where(ssdb.member_master.c.member_id==member_id)
+    mem= await ssdb.database.fetch_one(query)
+    query=ssdb.unit_master.select().where(ssdb.unit_master.c.unit_id==mem[4])
+    uin=await ssdb.database.fetch_one(query)
+    query=ssdb.user_master.select().where(ssdb.user_master.c.user_id==mem[1])
+    use= await ssdb.database.fetch_one(query)
+    return templates.TemplateResponse("ChairamnDashboard/owner_edit.html", {"request": request, "unit": un,"m" : mem, "cityy": cit, "user": use})
+
+@app.post("/chmemberedit/{meber_id}")
+async def chairmanmembinsert(request: Request, meber_id : int, firstname : str = Form(...), middlename : str = Form(...), lastname: str = Form(...), gender: str= Form(...), dob: date = Form(),emaill: str = Form(...), altemail: Optional[str] = Form(None), address1: str = Form(...), address2: str = Form(...), Road: str = Form(...), landmarks:str = Form(...), citys:str = Form(...), mobile:str = Form(...), altmobile: Optional[str] = Form(None), unitname: str = Form(...)):
+    current_user = auth.verify_session(request)
+    email = current_user["email"]
+    userid=await get_data.select_tableemail(ssdb.user_master,emaill)
+    createdby=await get_data.select_tableemail(ssdb.user_master,email)
+    quer = ssdb.city_master.select().where(ssdb.city_master.c.city_name==citys)
+    citid= await ssdb.database.fetch_one(quer)
+    query=ssdb.unit_master.select().where(ssdb.unit_master.c.unit_name==unitname)
+    unitn= await ssdb.database.fetch_one(query)
+    user = ssdb.user_master.update().values(
+        f_name=firstname,
+        m_name=middlename,
+        l_name=lastname,
+        dob=dob,
+        gender=gender,
+        address_line1=address1,
+        address_line2=address2,
+        landmark=landmarks,
+        road=Road,
+        city_id=citid[0],
+        email=emaill,
+        alternate_email=altemail,
+        mobile_no=mobile,
+        alternate_mobile_no=altmobile,
+        updated_by=createdby,
+        updated_date=todaydate()
+    ).where(ssdb.user_master.c.user_id==userid)
+    result =await ssdb.database.fetch_one(user)
+    userid=await get_data.select_tableemail(ssdb.user_master,emaill)
+    mamber=ssdb.member_master.update().values(
+        member_userid=userid,
+        unit_id=unitn[1],
+        updated_by=createdby,
+        updated_date=todaydate()
+    ).where(ssdb.member_master.c.member_id==meber_id)
+    result =await ssdb.database.fetch_one(mamber)
+    return RedirectResponse('/chairman/owner')
+
+#Chairman Member Delete
+@app.get("/chmemberdel/{member_id}")
+async def charidel(request: Request, member_id: int):
+    query=ssdb.member_master.select().where(ssdb.member_master.c.member_id==member_id)
+    uid=await ssdb.database.fetch_one(query)
+    query=ssdb.user_master.delete().where(ssdb.user_master.c.user_id==uid[1])
+    udel=await ssdb.database.fetch_one(query)
+    query=ssdb.member_master.delete().where(ssdb.member_master.c.member_id==member_id)
+    cdel=await ssdb.database.fetch_one(query)
+    get_data.delete_sequence_value('Member/Owner_Master')
+    get_data.delete_sequence_value('User_Master')
+    if cdel is None:
+        return RedirectResponse(url='/chairman/owner')
+
+#Chairman Member Upload  
+@app.route("/chairman/memberupload", methods=['GET', 'POST'])
+async def amember(request: Request):
+    current_user = auth.verify_session(request)
+    if current_user is None or current_user["user_type"] != 'chairman':
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Login Required"}
+            )
+    email = current_user["email"]
+    use=await get_data.select_tableuname(ssdb.user_master,email)
+    return templates.TemplateResponse("ChairamnDashboard/owner_upload.html", {"request": request, "user": use})
+
+@app.post("/chmemberupload")
+async def csupload(request: Request, csvfile: UploadFile = File()):
+    current_user = auth.verify_session(request)
+    email = current_user["email"]
+    use=await get_data.select_tableuname(ssdb.user_master,email)
+    if current_user is None:
+        return templates.TemplateResponse(
+                "home/login.html",
+                {"request": request, "pop_up_message": "Login Required"}
+            )
+    if csvfile is None or current_user["user_type"] != 'chairman':
+        return RedirectResponse('/chairman/charmanupload')
+    if not csvfile.filename.endswith('.csv'):
+        return templates.TemplateResponse(
+                "ChairamnDashboard/owner_upload.html",
+                {"request": request, "pop_up_message": "Please upload .CSV file.","user": use}
+            )
+    # Read and parse the CSV file
+    contents = await csvfile.read()
+    csv_data = io.StringIO(contents.decode('utf-8'))
+    csv_reader = csv.reader(csv_data)
+    current_user = auth.verify_session(request)
+    createdby=await get_data.select_tableemail(ssdb.user_master,email)
+    next(csv_reader, None) #removing header
+    
+    for row in csv_reader:
+      try:
+        date_str = row[4]
+        date = datetime.strptime(date_str, '%d-%m-%Y').date()
+        date=date.strftime('%Y-%m-%d')
+        dob=datetime.strptime(date, "%Y-%m-%d").date()
+        quer = ssdb.city_master.select().where(ssdb.city_master.c.city_name==row[16])
+        citid= await ssdb.database.fetch_one(quer)
+        hashed_pass=auth.encrypt_password(row[8])
+        query=ssdb.unit_master.select().where(ssdb.unit_master.c.unit_name==row[11])
+        unitn= await ssdb.database.fetch_one(query)
+    
+        user = ssdb.user_master.insert().values(
+        f_name=row[1],
+        m_name=row[2],
+        l_name=row[3],
+        dob=dob,
+        gender=row[5],
+        address_line1=row[12],
+        address_line2=row[13],
+        landmark=row[14],
+        road=row[15],
+        city_id=citid[0],
+        email=row[6],
+        alternate_email=row[7],
+        password=hashed_pass,
+        mobile_no=row[9],
+        alternate_mobile_no=row[10],
+        user_type='member',
+        created_by=createdby,
+        updated_by=createdby
+        )
+        result =await ssdb.database.fetch_one(user)
+        userid=await get_data.select_tableemail(ssdb.user_master,row[6])
+        mamber=ssdb.member_master.insert().values(
+        member_userid=userid,
+        unit_id=unitn[1],
+        created_by=createdby,
+        updated_by=createdby
+        )
+        result =await ssdb.database.fetch_one(mamber)
+      except ValueError as e:
+            print(f"Error converting date for row {e}: {e}")
+    return RedirectResponse('/chairman/owner')
 
 #Chairman Caretaker   
 @app.route("/chairman/acaretaker", methods=['GET', 'POST'])
@@ -2848,7 +2965,7 @@ async def csupload(request: Request, csvfile: UploadFile = File()):
         query=ssdb.society_master.select().where(ssdb.society_master.c.society_name==row[5])
         socid= await ssdb.database.fetch_one(query)
         unit = ssdb.unit_master.insert().values(
-        society_id=socid[0],
+        society_id='1',
         unit_name=row[1],
         unit_type=row[2],
         unit_block=row[3],
@@ -2857,7 +2974,7 @@ async def csupload(request: Request, csvfile: UploadFile = File()):
         updated_by=createdby
         )
         result =await ssdb.database.fetch_one(unit)
-        return RedirectResponse('/chairman/unit')
+        return RedirectResponse('/chairman/units')
       except ValueError as e:
             print(f"Error converting date for row {e}: {e}")
     return RedirectResponse('/chairman/units')
@@ -2973,14 +3090,6 @@ async def gallow(request: Request):
     get_data.delete_sequence_value('Notification_Master')
     query=ssdb.member_master.select().where(ssdb.member_master.c.member_userid==use[0][0])
     unitid=await ssdb.database.fetch_one(query)
-    guest=await ssdb.database.fetch_one(query)
-    query=ssdb.notification_master.insert().values(
-        sender_id=use[0][0],
-        reciver_id=notifi[2],
-        unit_id=unitid[0],
-        massage=f"{notifi[5]} is allowed to enter the society."
-    )
-    noty=await ssdb.database.fetch_one(query)
     return RedirectResponse('/member')
 
 #Member Allow Guest Entry
@@ -3393,7 +3502,7 @@ async def adminmebinsert(request: Request, firstname : str = Form(...), middlena
     result =await ssdb.database.fetch_one(caretkae)
     return RedirectResponse('/member/caretaker')
 
-#Admin Caretaker edit  
+#Member Caretaker edit  
 @app.get("/member/caretakeredit/{c_id}")
 async def acaretaker(request: Request, c_id: int):
    current_user = auth.verify_session(request)
@@ -3830,16 +3939,14 @@ async def aguest_insert(request: Request):
    return templates.TemplateResponse("SecurityDashboard/guest_entry_insert.html", {"request": request, "unit": unit})
 
 @app.post("/sguestinsert")
-async def aguest_insert(request: Request, gname: str = Form(...), unitname: str = Form(...), age: str = Form(...), genders: str = Form(...), emaill: Optional[str] = Form(None), mobile: str = Form(...), guestnum: str = Form(...)):
+async def aguest_insert(request: Request, gname: str = Form(...), age: str = Form(...), genders: str = Form(...), emaill: Optional[str] = Form(None), mobile: str = Form(...), guestnum: str = Form(...)):
     current_user = auth.verify_session(request)
     email = current_user["email"]
-    que=ssdb.unit_master.select().where(ssdb.unit_master.c.unit_name==unitname)
-    unitid=await ssdb.database.fetch_one(que)
     use=await get_data.select_tableuname(ssdb.user_master,email)
     createdby=await get_data.select_tableemail(ssdb.user_master,email)
     query=ssdb.guest_master.insert().values(
         guest_name=gname,
-        unit_id=unitid[0],
+        unit_id='1',
         guest_age=age,
         guest_gender=genders,
         guest_number=mobile,
@@ -3851,11 +3958,11 @@ async def aguest_insert(request: Request, gname: str = Form(...), unitname: str 
     guest=await ssdb.database.fetch_one(query)
     query=ssdb.guest_master.select().where(ssdb.guest_master.c.guest_email==emaill)
     guest=await ssdb.database.fetch_one(query)
-    ruid=await get_data.memuid(unitid[0])
+    ruid=await get_data.memuid(1)
     query=ssdb.notification_master.insert().values(
         sender_id=createdby,
         reciver_id=ruid,
-        unit_id=unitid[0],
+        unit_id='1',
         massage=f"{gname} is requesting to enter the society.",
         g_name=gname
     )
@@ -3878,9 +3985,9 @@ async def aguest_insert(request: Request, guestid : int):
    query=ssdb.notification_master.select().where(ssdb.notification_master.c.sender_id==use[0][0])
    send=await ssdb.database.fetch_one(query)
    if guest is not None:
-       return RedirectResponse(f"/security/guest?message=Entry+Desapproved", status_code=303)
-   elif send is None:
        return RedirectResponse(f"/security/guest?message=Entry+Approved", status_code=303)
+   elif send is None:
+       return RedirectResponse(f"/security/guest?message=Entry+Desapproved", status_code=303)
    else:
        return templates.TemplateResponse("SecurityDashboard/waiting.html", {"request": request, "user": use, "guest": guest})
 
@@ -4127,7 +4234,7 @@ async def adminmebinsert(request: Request, firstname : str = Form(...), middlena
     result =await ssdb.database.fetch_one(caretkae)
     return RedirectResponse('/security/caretaker')
 
-#Admin Caretaker edit  
+#Security Caretaker edit  
 @app.get("/security/caretakeredit/{c_id}")
 async def acaretaker(request: Request, c_id: int):
    current_user = auth.verify_session(request)
@@ -4518,6 +4625,7 @@ async def forgot(request: Request, emaill: Optional[str] = Form(...)):
      
     if result:
         auth.OTP = otp.email(emaill)
+        otp.reset_otp_after_5_minutes(auth.OTP)
         return templates.TemplateResponse("home/chengpswd.html", {"request": request, "OTP": otp, "email": emaill})
     
     else:

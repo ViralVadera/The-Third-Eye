@@ -1092,28 +1092,7 @@ th, td {
   white-space: nowrap; /* Prevent text wrapping */
 }
 
- /* Pagination Styles */
- .pagination {
-  display: flex;
-  justify-content: flex-start; /* Align items to the left */
-  align-items: center; /* Center vertically */
-  margin-bottom: 10px; /* Added margin for spacing */
-}
-.pagination .pbtn {
-  position: relative;
-  top: 20px;
-  padding: 8px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 5px; /* Added margin between buttons */
-}
-.pbtn:hover{
-  background-color: #0056b3;
 
-}
 
 /* Styles for the insert button */
 
@@ -1138,21 +1117,29 @@ th, td {
   background-color: #0056b3;
 }
 
-@media only screen and (max-width: 600px) {
-  .pagination {
-    margin-top: 20px;
-    margin-right: 0;
-    right: 50px;
-  }
-  .insert-btn-containerins {
-    justify-content: center; /* Center insert button */
-  }
+@media only screen and (min-width: 375px) 
+and (max-width: 812px){ 
+    .demo11{top: 55px}
+}
+
+@media only screen and (min-width: 375px) 
+and (max-width: 812px) and (orientation: portrait) { 
+  .demo11{top: 55px}
+}
+
+@media only screen and (min-width: 375px) 
+and (max-width: 812px) and (orientation: landscape) { 
+  .demo11{top: 55px}
 }
 @media only screen and (max-width: 300px) {
   .pbtn {
     margin-top: 10px;
     margin-right: 0px;
     right: 79px;
+  }
+  .insert-btn{
+    position: relative;
+    top: 60px;
   }
 }
 .buplod{
@@ -1180,6 +1167,7 @@ th, td {
       right: 48px;
   }
   .insert-btn{
+    top: 60px;
     left: 58px;
   }
 }
@@ -1192,6 +1180,7 @@ th, td {
   }
   .insert-btn{
     left: 40px;
+    top: 60px;
   }
 }
 
@@ -1209,11 +1198,20 @@ th, td {
   overflow: hidden;
   transition: .3s;
 }
+.dl:hover{
+  background-color: rgb(255, 21, 4);
+  box-shadow: 0 0 4px #111;
+  transition: .3s;
+}
 .dlbtn:hover {
   background-color: rgb(171, 208, 233);
   box-shadow: 0 0 4px #111;
   transition: .3s;
 }
+
+
+
+
 svg {
   color: rgb(0, 0, 0);
   position: absolute;

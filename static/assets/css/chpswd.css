@@ -78,10 +78,12 @@ h2{
 }
 
 
+
 .toggle-btn
 {
     position: relative;
-    top: -58px;
+    top: 5px;
+    z-index: 999;
     left: 100px;
     cursor: pointer;
     filter: grayscale();

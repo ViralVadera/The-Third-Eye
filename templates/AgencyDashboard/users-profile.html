@@ -66,21 +66,19 @@
             <i class=""></i>
           </a>
         </li><!-- End Search Icon-->
-
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <span style="margin-right: 0.3cm;">{{ user[0][1] }}</span>
+            <span style="margin-right: 0.3cm;">{{ user[1] }}</span>
           </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>{{ user[0][1] }}</h6>
-             
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+          <li class="dropdown-header">
+            <h6>{{ user[1] }}</h6>
+            <span>Agency</span>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
             <li>
               <a class="dropdown-item d-flex align-items-center" href="/agency/users-profile">
                 <i class="bi bi-person"></i>
@@ -138,32 +136,32 @@
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-    <section>
-      <div class="container">
+  
+      <div class="container" style="width: 100%;">
         <form action="/agenprofile/{{ user[0][0] }}" method="post">
                     
           <div class="step step-1 active">
             <div class="form-group">
               <label for="firstName">Agency Name</label>
-              <input type="text" id="firstName" name="fName" required minlength="2" maxlength="30" value="{{user[0][1]}}"/>
+              <input type="text" id="firstName" name="fName" required minlength="2" maxlength="30" value="{{user[1]}}"/>
               <div class="error-msg"></div>
             </div>
           <div class="form-group">
             <label for="address-1" style="margin-top: 3px;">Address-1</label>
-            <input type="text" id="address-1" name="adress1" required minlength="5" value="{{user[0][3]}}" />
+            <input type="text" id="address-1" name="adress1" required minlength="5" value="{{user[3]}}" />
           </div>
           <div class="form-group">
             <label for="address-2">Address-2</label>
-            <input type="text" id="address-2" name="adress2" required minlength="5" value="{{user[0][4]}}"/>
+            <input type="text" id="address-2" name="adress2" required minlength="5" value="{{user[4]}}"/>
           </div>
           <div class="form-group">
             <label for="mobile">Mobile</label>
-            <input type="number" id="mobile" name="phone" inputmode="numeric"  minlength="10" maxlength="10" required value="{{user[0][9]}}"/>
+            <input type="number" id="mobile" name="phone" inputmode="numeric"  minlength="10" maxlength="10" required value="{{user[9]}}"/>
           </div>
         
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')" value="{{user[0][10]}}"/>
+            <input type="email" id="email" name="email" inputmode="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onkeyup="checkEmail(event, 'email')" value="{{user[10]}}"/>
             <div class="error-msg" id="email-error-msg"></div>
           </div>
         
@@ -175,7 +173,7 @@
   
         </div>
       </div>
-    </section>
+
  </main><!-- End #main -->
 </body>
 
