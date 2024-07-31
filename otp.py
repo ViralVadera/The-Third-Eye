@@ -13,7 +13,7 @@ def email(toemail):
     # Email credentials and addresses
     FROM_EMAIL = "your_safe_house@outlook.com"
     TO_EMAIL = toemail
-    PASSWORD = "The_third_eye@95"
+    PASSWORD = "*****""
 
     # Prepare the email message
     MESSAGE = f"""From: {FROM_EMAIL}
